@@ -1,0 +1,47 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="main.master.cs" Inherits="Presentacion.main" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Pagina Principal</title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+    <%--<link href="style/estilos.css" rel="stylesheet"/>--%>
+
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <div id="navbar">
+                <ul>
+                    <li><a href="default.aspx">Inicio</a></li>
+                    <li><a href="alta_empleado.aspx">Alta de Empleado</a></li>
+                    <li><a href="abm_periodistas.aspx">Mantenimiento de Periodistas</a></li>
+                    <li><a href="abm_secciones.aspx">Mantenimiento de Secciones</a></li>
+                    <li><a href="am_nacionales.aspx">Noticias Nacionales</a></li>
+                    <li><a href="am_internacionales.aspx">Noticias Internacionales</a></li>
+                    <li><a href="estadisticas.aspx">Estadisticas</a></li>
+                </ul>
+            </div>
+
+            <div id="perfil">
+                <asp:Button ID="logout" Text="Logout" runat="server" OnClick="logout_Click" />
+                Usuario: <asp:Label ID="lblUsername" runat="server"></asp:Label>
+            </div>
+
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+
+            <div id="footer">
+                <span>Contacto</span>
+                <span>Terminos</span>
+                <span>Creadores</span>
+            </div>
+
+        </div>
+    </form>
+</body>
+</html>
