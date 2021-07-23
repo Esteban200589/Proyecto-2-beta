@@ -48,14 +48,15 @@ namespace EntidadesCompartidas
             get { return importancia; }
             set { importancia = value; }
         }
-        public Periodista Periodista 
+        public List<Periodista> Periodistas 
         {
-            get { return periodista; }
+            get { return periodistas; }
             set {
                 if (value == null)
-                    throw new Exception("La Noticia Nacional debe contener un");
+                    throw new Exception("La Noticia Nacional debe contener al menos" +
+                                        "un periodista");
                 else
-                    periodista = value;
+                    periodistas = value;
             }
         }
         public Usuario Usuario 
@@ -70,14 +71,14 @@ namespace EntidadesCompartidas
         }
 
         public Noticia(string pCode, DateTime pFecha, string pTitle, string pBody, int pImp, 
-            Periodista pPer, Usuario pUser)
+            List<Periodista> pPer, Usuario pUser)
         {
             Codigo = pCode;
             Fecha = pFecha;
             Titulo = pTitle;
             Cuerpo = pBody;
             Importancia = pImp;
-            Periodista = pPer;
+            Periodistas = pPer;
             Usuario = pUser;
         }
 

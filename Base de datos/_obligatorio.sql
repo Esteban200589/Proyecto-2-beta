@@ -12,6 +12,26 @@ go
 use Obligatorio_BIOS_News
 go
 
+
+-----------------------------------------------------------------------------------------------------------
+					/*/*/*/*/*/*/*/*/*/*	 USUARIOS		*/*/*/*/*/*/*/*/*/*/
+-----------------------------------------------------------------------------------------------------------
+USE master
+GO
+
+CREATE LOGIN [IIS APPPOOL\DefaultAppPool] FROM WINDOWS 
+GO
+
+USE Obligatorio_BIOS_News
+GO
+
+CREATE USER [IIS APPPOOL\DefaultAppPool] FOR LOGIN [IIS APPPOOL\DefaultAppPool]
+GO
+
+GRANT Execute to [IIS APPPOOL\DefaultAppPool]
+go
+
+
 -----------------------------------------------------------------------------------------------------------
 					/*/*/*/*/*/*/*/*/*/*	 TABLAS		*/*/*/*/*/*/*/*/*/*/
 -----------------------------------------------------------------------------------------------------------
@@ -19,7 +39,7 @@ create table periodistas (
 	cedula Varchar(8) primary key         
            check(cedula like '[1-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
 	nombre varchar(30) not null,
-	email varchar (30) not null
+	email varchar(30) not null
 		  check(email like '%_@__%.__%'),
 	deleted bit not null default(0) -- 0 activo, 1 borrado
 )
@@ -28,6 +48,14 @@ go
 create table usuarios (
 	username varchar(10) primary key check(len(username) = 10),
 	password varchar(7) check(password like '[A-Z][A-Z][A-Z][A-Z][0-9][0-9][0-9]')
+)
+go
+
+create table secciones(
+	codigo_secc varchar(5) check(len(codigo_secc) = 5),
+	nombre_secc varchar(20) not null,
+	primary key (codigo_secc),
+	deleted bit not null default(0)
 )
 go
 
@@ -43,8 +71,8 @@ create table noticias (
 go
  
 create table nacionales (
-	codigo varchar(6) check(len(codigo) = 5),
-	codigo_secc varchar(20) not null,
+	codigo varchar(6),
+	codigo_secc varchar(5) not null,
 	foreign key (codigo_secc) references secciones(codigo_secc),
 	foreign key (codigo) references noticias(codigo)
 )
@@ -55,14 +83,6 @@ create table internacionales (
 	pais varchar(25) not null,
 	primary key (codigo),
 	foreign key (codigo) references noticias(codigo)
-)
-go
-
-create table secciones(
-	codigo_secc varchar(5),
-	nombre_secc varchar(20) not null,
-	primary key (codigo_secc),
-	deleted bit not null default(0)
 )
 go
 
@@ -88,52 +108,52 @@ insert periodistas (cedula,nombre,email)
 	       ('12564354', 'SOFIA HERNANDEZ', 'S.OHERN_666@GMAIL.COM')
 go
 
-insert noticias (codigo,fecha,titulo,cuerpo,importancia)
-values ('abd123', '21/06/2021', 'COPA AMERICA',
-		'URUGUAY DEBUTO PERDIENDO CON ARGENTINA 1 A 0. PARTIDO JUGADO EN BRASIL', 
-		4),
-	   ('abC456', '15/06/2021', 'COVID',
-	    'MANTENIDA BAJA DE CASOS EN LOS ULTIMOS DIAS A NIVEL NACIONAL', 
-		1),
-	   ('usi432', '11/06/2021', 'REMATE',
-		'NUEVO REMATE A REALIZARSE EL PROXIMO SABADO EN CIUDAD DE LA COSTA. ARTICULOS ANTIGUOS', 
-		5),
-	   ('art456', '08/05/2021', 'HURACAN',
-		'SE APROXIMA HURACAN CATEGORIA 5 A LAS COSTAS DEL CARIBE SE VA A VER AFECTADO LA COSTA MEXICANA, MIAMI. SE EXORTA A LOS VIAJEROS PRECAUCION', 
-		1),
-	   ('acf126', '07/05/2021', 'VUELTA',
-		'DE A POCO SE VAN RETOMANDO LAS ACTIVIDADES A NIVEL NACIONAL A MEDIDA QUE VA MEJORANDO LA SITUACION PANDEMICA', 
-		2),
-	   ('abd125', '02/05/2021', 'ALLANAMIENTO',
-		'IMPORTANTE OPERATIVO DE INTERPOOL DESARTICULARON ORGANIZACION DEDICADA AL NARCOTRAFICO Y TRAFICO DE ARMAS CON OPERACIONES EN VARIOS PAISES DE AMERICA LATINA', 
-		3)
-go
-
 insert usuarios (username,password)
 	values ('dnmm88bios', 'dnmm123'),
 	       ('este89bios', 'este123'),
 	       ('gabi78bios', 'gabi123')
 go
 
+insert secciones (codigo_secc,nombre_secc)
+	values ('secc1', 'DEPORTES'),
+		   ('secc2', 'SALUD'),
+		   ('secc3', 'VARIADOS'),
+		   ('secc4', 'NOTCIAS DEL DIA'),
+		   ('secc7', 'POLICIALES'),
+		   ('secc8', 'CLIMA')
+go
+
+insert noticias (codigo,fecha,titulo,cuerpo,importancia,username)
+values ('abd123', '20220616', 'COPA AMERICA',
+		'URUGUAY DEBUTO PERDIENDO CON ARGENTINA 1 A 0. PARTIDO JUGADO EN BRASIL', 
+		4,'este89bios'),
+	   ('abC456', '20220615', 'COVID',
+	    'MANTENIDA BAJA DE CASOS EN LOS ULTIMOS DIAS A NIVEL NACIONAL', 
+		1,'este89bios'),
+	   ('usi432', '20220611', 'REMATE',
+		'NUEVO REMATE A REALIZARSE EL PROXIMO SABADO EN CIUDAD DE LA COSTA. ARTICULOS ANTIGUOS', 
+		5,'este89bios'),
+	   ('art456', '20220520', 'HURACAN',
+		'SE APROXIMA HURACAN CATEGORIA 5 A LAS COSTAS DEL CARIBE SE VA A VER AFECTADO LA COSTA MEXICANA, MIAMI. SE EXORTA A LOS VIAJEROS PRECAUCION', 
+		1,'gabi78bios'),
+	   ('acf126', '20220809', 'VUELTA',
+		'DE A POCO SE VAN RETOMANDO LAS ACTIVIDADES A NIVEL NACIONAL A MEDIDA QUE VA MEJORANDO LA SITUACION PANDEMICA', 
+		2,'dnmm88bios'),
+	   ('abd125', '20210729', 'ALLANAMIENTO',
+		'IMPORTANTE OPERATIVO DE INTERPOOL DESARTICULARON ORGANIZACION DEDICADA AL NARCOTRAFICO Y TRAFICO DE ARMAS CON OPERACIONES EN VARIOS PAISES DE AMERICA LATINA', 
+		3,'dnmm88bios')
+go
+
 insert nacionales (codigo,codigo_secc)
-	values ('abd123', 'sec1'),
-		   ('abC456', 'sec2'),
-		   ('usi432', 'sec3'),
-		   ('acf126', 'sec4')
+	values ('abd123', 'secc1'),
+		   ('abC456', 'secc2'),
+		   ('usi432', 'secc3'),
+		   ('acf126', 'secc4')
 go
 
 insert internacionales (codigo,pais)
 	values ('art456', 'MEXICO'),
 		   ('abd125', 'BRASIL')
-go
-
-insert secciones (codigo_secc,nombre_secc)
-	values ('sec1', 'DEPORTES'),
-		   ('sec2', 'SALUD'),
-		   ('sec3', 'VARIADOS'),
-		   ('sec4', 'NOTCIAS DEL DIA'),
-		   ('sec7', 'POLICIALES'),
-		   ('sec8', 'CLIMA')
 go
 
 insert escriben (codigo,cedula)
@@ -385,7 +405,7 @@ BEGIN
 	if Not(EXISTS(Select * From secciones Where codigo_secc = @codigo_secc))
 		return -1
 	
-	if (exists(Select * From noticias where codigo_secc = @codigo_secc))
+	if (exists(Select * From nacionales where codigo_secc = @codigo_secc))
 	Begin
 		update secciones Set deleted = 1 where codigo_secc = @codigo_secc
 	end
@@ -403,10 +423,10 @@ go
 		-- NOTICIAS -- Pagina Inicial del sitio (default)
 -----------------------------------------------------------------------------------------------------------
 
-if exists (select * from sysobjects where name = 'ultimas_cinco_noticias_nacionales')
-	drop proc ultimas_cinco_noticias
+if exists (select * from sysobjects where name = 'ultimas_cinco_nacionales')
+	drop proc ultimas_cinco_nacionales
 go
-create proc ultimas_cinco_noticias
+create proc ultimas_cinco_nacionales
 as
 begin
 	select * 
@@ -417,7 +437,18 @@ end
 go
 
 
--- join internacionales i on i.codigo = w.codigo
+if exists (select * from sysobjects where name = 'ultimas_cinco_internacionales')
+	drop proc ultimas_cinco_internacionales
+go
+create proc ultimas_cinco_internacionales
+as
+begin
+	select * 
+	from noticias w
+	join internacionales i on i.codigo = w.codigo
+	where w.fecha between dateadd(day,-5,getdate()) and GETDATE()
+end
+go
 
 
 		-- NOTICIAS -- Consulta Individual de Noticia
@@ -433,9 +464,9 @@ as
 begin
 	if(@tipo = 0)
 	begin 
-		select * from noticias w, nacionales n 
-		where w.codigo = n.codigo -- inner join
-		and w.codigo = @codigo
+		select * from noticias w
+		join nacionales n on n.codigo = w.codigo
+		where w.codigo = @codigo
 	end
 	else
 	begin
@@ -552,53 +583,25 @@ create proc agregar_internacional
 	@username varchar(10)
 as
 begin
-	if (not exists (select * from usuarios where @username = UserName))
-		return -1
-		
 	if (exists (select * from noticias where @codigo = codigo))
-	begin
-		begin try
-		begin transaction
+		return -1
+	
+	if (not exists (select * from usuarios where @username = username))
+		return -2
+		
+	begin try
+		
+		insert into noticias (codigo, fecha, titulo, cuerpo, importancia, username )
+			values (@codigo, @fecha, @titulo, @cuerpo, @importancia, @username)
+		
+		insert into internacionales (codigo, pais)
+			values	(@codigo, @pais)
 			
-			update noticias
-			set codigo = @codigo, fecha = @fecha, titulo = @titulo, cuerpo = @cuerpo,
-				importancia = @importancia, username = @username
-			where codigo = @codigo
-			
-			update internacionales 
-			set codigo = @codigo, pais = @pais
-			where codigo = @codigo
-			
-		commit transaction
 		return 1
-		end try
-		begin catch
-			rollback transaction
-			return @@error
-		end catch
-	end
-	else
-	begin
-		begin try
-		begin transaction
-			
-			insert into noticias (codigo, fecha, titulo, cuerpo, importancia, username )
-				values (@codigo, @fecha, @titulo, @cuerpo, @importancia, @username)
-			
-			insert into internacionales (codigo, pais)
-				values	(@codigo, @pais)
-				
-			insert into escriben (codigo, cedula)
-				values	(@codigo, @cedula)
-				
-		commit transaction
-		return 1
-		end try
-		begin catch
-			rollback transaction
-			return @@error
-		end catch
-	end
+	end try
+	begin catch
+		return @@error
+	end catch
 end
 go	
 		
@@ -621,30 +624,26 @@ create proc modificar_internacional
 	@cedula varchar(8)
 as
 begin
-	if (not exists (select * from usuarios where @username = UserName))
+	if (not exists (select * from internacionales where @codigo = codigo))
 		return -1
+
+	if (not exists (select * from usuarios where @username = username))
+		return -2
 		
 	begin try
-	begin transaction
 		
 		update noticias
-		set codigo = @codigo, fecha = @fecha, titulo = @titulo, cuerpo = @cuerpo,
+		set fecha = @fecha, titulo = @titulo, cuerpo = @cuerpo,
 			importancia = @importancia, username = @username
 		where codigo = @codigo
 		
 		update internacionales 
-		set codigo = @codigo, pais = @pais
+		set pais = pais
 		where codigo = @codigo
-		
-		update escriben
-		set codigo = @codigo, cedula = @cedula
-		where codigo = @codigo
-		
-	commit transaction
-	return 1
+
+		return 1
 	end try
 	begin catch
-		rollback transaction
 		return @@error
 	end catch
 	
@@ -683,7 +682,7 @@ go
 create procedure borrar_ecriben 
 	@ci int , 
 	@codigo varchar(6) 
-AS
+as
 begin
 	begin Try
 	if (not exists (select * from escriben where codigo = @codigo))
@@ -695,8 +694,8 @@ begin
 	begin Catch
 		return @@Error
 	end Catch
-begin
-Go
+end
+go
 
 
 -----------------------------------------------------------------------------------------------------------

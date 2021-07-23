@@ -14,8 +14,11 @@ namespace EntidadesCompartidas
         public string Codigo_secc
         {
             get { return codigo_secc; }
-            set { 
-                codigo_secc = value; 
+            set {
+                if (value.Length != 5)
+                    throw new Exception("El Código debe contener 5 caracteres.");
+                else
+                    nombre_secc = value;
             }
         }
         public string Nombre_secc
@@ -23,7 +26,8 @@ namespace EntidadesCompartidas
             get { return nombre_secc; }
             set {
                 if (value.Length != 5)
-                    throw new Exception("El Nombre debe contener hasta 5 caracteres de largo.");
+                    throw new Exception("El Nombre debe contener hasta 20 caracteres " +
+                                        "de largo.");
                 else
                     nombre_secc = value;
             }

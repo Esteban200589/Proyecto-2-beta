@@ -16,8 +16,8 @@ namespace EntidadesCompartidas
         {
             get { return cedula; }
             set {
-                if (value.Length <= 8)
-                    throw new Exception("La cedula debe contener hasta 8 caracteres maximo.");
+                if (value.Length != 8)
+                    throw new Exception("La cedula es incorrecta.");
                 else
                     cedula = value;
             }
@@ -26,8 +26,11 @@ namespace EntidadesCompartidas
         {
             get { return nombre; }
             set {
-                if (value.Length <= 30)
-                    throw new Exception("El nombre debe contener hasta 30 caracteres maximo.");
+                if (value == null)
+                    throw new Exception("Debe contener un nombre.");
+                if (value.Length >= 30)
+                    throw new Exception("El nombre debe contener hasta 30 caracteres " +
+                                        "maximo.");
                 else
                     nombre = value;
             }
@@ -36,8 +39,11 @@ namespace EntidadesCompartidas
         {
             get { return e_mail; }
             set {
-                if (value.Length <= 30)
-                    throw new Exception("El e-email debe contener hasta 30 caracteres maximo.");
+                if (value == null)
+                    throw new Exception("Debe contener un e-mail.");
+                if (value.Length >= 30)
+                    throw new Exception("El e-mail debe contener hasta 30 caracteres " +
+                                        "maximo.");
                 else
                     e_mail = value;
             }
