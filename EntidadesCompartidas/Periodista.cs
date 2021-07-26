@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Text.RegularExpressions;
+
+
 namespace EntidadesCompartidas
 {
     public class Periodista
@@ -41,9 +44,10 @@ namespace EntidadesCompartidas
             set {
                 if (value == null)
                     throw new Exception("Debe contener un e-mail.");
-                if (value.Length >= 30)
-                    throw new Exception("El e-mail debe contener hasta 30 caracteres " +
-                                        "maximo.");
+                else if (value.Length >= 30)
+                    throw new Exception("El e-mail debe contener hasta 30 caracteres maximo.");
+                else if (Regex.IsMatch(value, "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*") == false)
+                    throw new Exception("El formato es incorrecto.");
                 else
                     e_mail = value;
             }

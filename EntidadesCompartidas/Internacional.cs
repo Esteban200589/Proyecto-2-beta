@@ -21,8 +21,13 @@ namespace EntidadesCompartidas
             }
         }
 
+        public override string TipoNoticia
+        {
+            get { return "Noticia Internacional"; }
+        }
+
         public Internacional(string pPais, string pCode, DateTime pFecha, string pTitle, 
-            string pBody, int pImp, Periodista pPer, Usuario pUser)
+            string pBody, int pImp, List<Periodista> pPer, Usuario pUser)
         : base(pCode, pFecha, pTitle, pBody, pImp, pPer, pUser)
         {
             Pais = pPais;

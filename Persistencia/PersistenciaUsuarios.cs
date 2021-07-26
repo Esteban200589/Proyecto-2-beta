@@ -90,5 +90,35 @@ namespace Persistencia
             return user;
         }
 
+        public Usuario BuscarUsuario(string username)
+        {
+            Usuario u = null;
+            SqlConnection cnn = new SqlConnection(Conexion.Cnn);
+            try
+            {
+                cnn.Open();
+
+                SqlCommand cmd = new SqlCommand("buscar_usuario", cnn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("username", username);
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                if (dr.Read())
+                {
+                    u = new Usuario(username, dr["password"].ToString());
+                }
+                dr.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cnn.Close();
+            }
+            return u;
+        }
+
     }
 }

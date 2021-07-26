@@ -25,9 +25,8 @@ namespace EntidadesCompartidas
         {
             get { return nombre_secc; }
             set {
-                if (value.Length != 5)
-                    throw new Exception("El Nombre debe contener hasta 20 caracteres " +
-                                        "de largo.");
+                if (value.Length > 20)
+                    throw new Exception("El Nombre debe contener hasta 20 caracteres de largo maximo.");
                 else
                     nombre_secc = value;
             }

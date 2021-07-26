@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Text.RegularExpressions;
+
+
 namespace EntidadesCompartidas
 {
     public class Usuario
@@ -28,6 +31,8 @@ namespace EntidadesCompartidas
                 if (value.Length != 7)
                     throw new Exception("El Password debe contener 7 estrictamente en el siguiente formato." +
                         "\nEjemplo: 'abcd123' (4 letras y 3 números)");
+                else if (Regex.IsMatch(value, "[A-Z]{4}[0-9]{3}") == false)
+                    throw new Exception("El formato debe ser: Ejemplo: 'abcd123' (4 letras y 3 números)");  
                 else
                     password = value;
             }

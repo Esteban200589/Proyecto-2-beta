@@ -74,7 +74,7 @@ namespace Persistencia
                 int valor = Convert.ToInt32(ret.Value);
 
                 if (valor == -1)
-                    throw new Exception("Cedula incorrecta.");
+                    throw new Exception("Codigo de sección incorrecto.");
             }
             catch (Exception ex)
             {
@@ -94,9 +94,9 @@ namespace Persistencia
             try
             {
                 cnn.Open();
-                SqlCommand cmd = new SqlCommand("borrar_periodista", cnn);
+                SqlCommand cmd = new SqlCommand("borrar_seccion", cnn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("cedula", p.Cedula);
+                cmd.Parameters.AddWithValue("codigo_secc", s.Codigo_secc);
 
                 SqlParameter ret = new SqlParameter();
                 ret.Direction = ParameterDirection.ReturnValue;
@@ -106,7 +106,7 @@ namespace Persistencia
                 int valor = Convert.ToInt32(ret.Value);
 
                 if (valor == -1)
-                    throw new Exception("El periodista no existe, no puede eliminarse.");
+                    throw new Exception("La sección no existe, no puede eliminarse.");
             }
             catch (Exception ex)
             {

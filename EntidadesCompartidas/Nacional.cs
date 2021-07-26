@@ -21,8 +21,13 @@ namespace EntidadesCompartidas
             }
         }
 
+        public override string TipoNoticia
+        {
+            get { return "Noticia Nacional"; }
+        }
+
         public Nacional(Seccion pSecc, string pCode, DateTime pFecha, string pTitle, string pBody, 
-            int pImp, Periodista pPer, Usuario pUser) 
+            int pImp, List<Periodista> pPer, Usuario pUser) 
         : base(pCode, pFecha, pTitle, pBody, pImp, pPer, pUser)
         {
             Seccion = pSecc;

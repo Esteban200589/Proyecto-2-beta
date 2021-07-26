@@ -44,9 +44,9 @@
     <Compile Include="Conexion.cs" />
     <Compile Include="FabricaPersistencia.cs" />
     <Compile Include="InterfazPersistencia.cs" />
+    <Compile Include="PersistenciaEscriben.cs" />
     <Compile Include="PersistenciaInternacionales.cs" />
     <Compile Include="PersistenciaNacionales.cs" />
-    <Compile Include="PersistenciaNoticias.cs" />
     <Compile Include="PersistenciaPeriodistas.cs" />
     <Compile Include="PersistenciaSecciones.cs" />
     <Compile Include="PersistenciaUsuarios.cs" />

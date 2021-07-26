@@ -187,6 +187,19 @@ begin
 end
 go
 
+if exists (select * from sysobjects where name = 'listar_periodistas_noticia')
+	drop proc listar_periodistas_noticia
+go
+create proc listar_periodistas_noticia
+	@codigo varchar(6)
+as
+begin
+	select * from periodistas p
+	join escriben e on e.cedula = p.cedula
+	where e.codigo = @codigo
+end
+go
+
 if exists (select * from sysobjects where name = 'buscar_periodista')
 	drop proc buscar_periodista
 go
@@ -245,7 +258,7 @@ begin
 		return -2
 	else
 	begin
-		Update periodistas Set nombre=@nombre, email = @email where cedula=@cedula and deleted = 0
+		Update periodistas Set nombre=@nombre, email = @email where cedula=@cedula
 		return 1
 	end
 end
@@ -302,27 +315,27 @@ as
 begin
 	begin try
 		if (exists(Select * From usuarios Where username = @username))
-		Begin
-			update usuarios
-			set username = @username, password = @password
-			where username = @username
-			return 1
-		end
-		
-		if (exists(Select * From usuarios Where username = @username))
 			return -1
 			
 		insert into usuarios(username,password) values(@username,@password)
-		return 1
-		
+			return 1	
 	end try
-	
 	begin catch
 		return @@error
 	end catch
 end
 go
 
+if exists (select * from sysobjects where name = 'buscar_usuario')
+	drop proc buscar_usuario
+go
+create proc buscar_usuario
+	@user varchar(10)
+as
+begin
+	select * from usuarios where username = @user
+end
+go
 
 
 		-- ABM SECCIONES --
@@ -390,8 +403,13 @@ create proc modificar_seccion
 	@nombre_secc varchar(20)
 AS
 BEGIN
-	update secciones set nombre_secc = @nombre_secc where codigo_secc = @codigo_secc and deleted = 0
-	return 1
+	if (not exists(select * from secciones where codigo_secc = @codigo_secc and deleted = 0))
+		return -1
+	else
+	begin
+		update secciones set nombre_secc = @nombre_secc where codigo_secc = @codigo_secc
+		return 1
+	end
 END
 go
 
@@ -470,9 +488,9 @@ begin
 	end
 	else
 	begin
-		select * from noticias w, internacionales i 
-		where w.codigo = i.codigo
-		and w.codigo = @codigo
+		select * from noticias w
+		join internacionales i on i.codigo = w.codigo
+		where w.codigo = @codigo
 	end
 end
 go
@@ -680,16 +698,15 @@ go
 
 
 create procedure borrar_ecriben 
-	@ci int , 
 	@codigo varchar(6) 
 as
 begin
 	begin Try
-	if (not exists (select * from escriben where codigo = @codigo))
-		return -1
-					
-	delete from escriben where @codigo = codigo and @ci = Cedula
-		return 1
+		if (not exists (select * from escriben where codigo = @codigo))
+			return -1
+						
+		delete from escriben where codigo = @codigo
+			return 1
 	end Try
 	begin Catch
 		return @@Error
