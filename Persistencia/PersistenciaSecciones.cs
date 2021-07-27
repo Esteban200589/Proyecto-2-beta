@@ -10,7 +10,7 @@ using System.Data;
 
 namespace Persistencia
 {
-    internal class PersistenciaSecciones
+    internal class PersistenciaSecciones : InterfazPersistenciaSecciones
     {
         private static PersistenciaSecciones instancia = null;
         private PersistenciaSecciones() { }

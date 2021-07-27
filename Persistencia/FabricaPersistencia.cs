@@ -18,16 +18,19 @@ namespace Persistencia
             return PersistenciaUsuarios.GetInstanciaUsuarios();
         }
 
-        //public static InterfazPersistenciaSecciones getPersistenciaNoticia()
-        //{
-        //    return PersistenciaFacturas.GetInstanciaSecciones();
-        //}
+        public static InterfazPersistenciaSecciones getPersistenciaSeccion()
+        {
+            return PersistenciaSecciones.GetInstanciaSecciones();
+        }
 
-        //public static InterfazPersistenciaNoticias getPersistenciaNoticias()
-        //{
-        //    return PersistenciaFacturas.GetInstanciaNoticias();
-        //}
+        public static InterfazPersistenciaNacionales getPersistenciaNacional()
+        {
+            return PersistenciaNacionales.GetInstanciaNacionales();
+        }
 
-
+        public static InterfazPersistenciaInternacionales getPersistenciaInteracional()
+        {
+            return PersistenciaInternacionales.GetInstanciaInternacionales();
+        }
     }
 }

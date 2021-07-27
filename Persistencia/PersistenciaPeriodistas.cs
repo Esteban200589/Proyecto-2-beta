@@ -214,5 +214,39 @@ namespace Persistencia
             return lista;
         }
 
+        public List<Periodista> ListarPeriodistasPorNoticia(Noticia n)
+        {
+            List<Periodista> lista = new List<Periodista>();
+            SqlConnection cnn = new SqlConnection(Conexion.Cnn);
+
+            try
+            {
+                cnn.Open();
+
+                SqlCommand cmd = new SqlCommand("listar_periodistas_noticia", cnn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("codigo", n.Codigo);
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                Periodista p = null;
+
+                while (dr.Read())
+                {
+                    p = new Periodista(dr["cedula"].ToString(), dr["nombre"].ToString(), dr["email"].ToString());
+                    lista.Add(p);
+                }
+                dr.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return lista;
+        }
     }
 }

@@ -20,5 +20,10 @@ namespace Logica
         {
             return LogicaPeriodistas.GetInstanciaPeriodistas();
         }
+
+        public static InterfazLogicaUsuarios getLogicaUsuarios()
+        {
+            return LogicaUsuarios.GetInstanciaUsuarios();
+        }
     }
 }

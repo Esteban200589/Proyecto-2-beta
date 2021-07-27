@@ -10,7 +10,7 @@ using System.Data;
 
 namespace Persistencia
 {
-    internal class PersistenciaInternacionales
+    internal class PersistenciaInternacionales: InterfazPersistenciaInternacionales
     {
         private static PersistenciaInternacionales instancia = null;
         private PersistenciaInternacionales() { }
@@ -22,25 +22,32 @@ namespace Persistencia
             return instancia;
         }
 
-        public void AgregarInternacional(Internacional n)
+        public void AgregarInternacional(Internacional n, Usuario u)
         {
             SqlConnection cnn = new SqlConnection(Conexion.Cnn);
+
+            SqlCommand cmd = new SqlCommand("agregar_internacional", cnn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("codigo", n.Codigo);
+            cmd.Parameters.AddWithValue("fecha", n.Fecha);
+            cmd.Parameters.AddWithValue("titulo", n.Titulo);
+            cmd.Parameters.AddWithValue("cuerpo", n.Cuerpo);
+            cmd.Parameters.AddWithValue("importancia", n.Importancia);
+            cmd.Parameters.AddWithValue("pais", n.Pais);
+            cmd.Parameters.AddWithValue("username", u.Username);
+
+            SqlParameter ret = new SqlParameter();
+            ret.Direction = ParameterDirection.ReturnValue;
+            cmd.Parameters.Add(ret);
+
+            SqlTransaction trn = null;
 
             try
             {
                 cnn.Open();
-                SqlCommand cmd = new SqlCommand("agregar_escriben", cnn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("codigo", n.Codigo);
-                cmd.Parameters.AddWithValue("codigo", n.Fecha);
-                cmd.Parameters.AddWithValue("codigo", n.Titulo);
-                cmd.Parameters.AddWithValue("codigo", n.Importancia);
-                cmd.Parameters.AddWithValue("codigo", n.Pais);
-                cmd.Parameters.AddWithValue("codigo", n.Usuario);
 
-                SqlParameter ret = new SqlParameter();
-                ret.Direction = ParameterDirection.ReturnValue;
-                cmd.Parameters.Add(ret);
+                trn = cnn.BeginTransaction();
+                cmd.Transaction = trn;
                 cmd.ExecuteNonQuery();
 
                 int valor = Convert.ToInt32(ret.Value);
@@ -49,9 +56,17 @@ namespace Persistencia
                     throw new Exception("La Noticia ya existe.");
                 if (valor == -2)
                     throw new Exception("El usuario no existe.");
+
+                foreach (Periodista p in n.Periodistas)
+                {
+                    PersistenciaEscriben.GetInstanciaEscriben().AgregarEscriben(n.Codigo,p,trn);
+                }
+
+                trn.Commit();
             }
             catch (Exception ex)
             {
+                trn.Rollback();
                 throw ex;
             }
             finally
@@ -60,36 +75,51 @@ namespace Persistencia
             }
         }
 
-        public void ModificarInternacional(Internacional n)
+        public void ModificarInternacional(Internacional n, Usuario u)
         {
             SqlConnection cnn = new SqlConnection(Conexion.Cnn);
+
+            SqlCommand cmd = new SqlCommand("modificar_internacional", cnn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("codigo", n.Codigo);
+            cmd.Parameters.AddWithValue("fecha", n.Fecha);
+            cmd.Parameters.AddWithValue("titulo", n.Titulo);
+            cmd.Parameters.AddWithValue("cuerpo", n.Cuerpo);
+            cmd.Parameters.AddWithValue("importancia", n.Importancia);
+            cmd.Parameters.AddWithValue("pais", n.Pais);
+            cmd.Parameters.AddWithValue("username", u.Username);
+
+            SqlParameter ret = new SqlParameter();
+            ret.Direction = ParameterDirection.ReturnValue;
+            cmd.Parameters.Add(ret);
+
+            SqlTransaction trn = null;
 
             try
             {
                 cnn.Open();
-                SqlCommand cmd = new SqlCommand("borrar_ecriben", cnn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("codigo", n.Codigo);
-                cmd.Parameters.AddWithValue("codigo", n.Fecha);
-                cmd.Parameters.AddWithValue("codigo", n.Titulo);
-                cmd.Parameters.AddWithValue("codigo", n.Importancia);
-                cmd.Parameters.AddWithValue("codigo", n.Pais);
-                cmd.Parameters.AddWithValue("codigo", n.Usuario);
 
-                SqlParameter ret = new SqlParameter();
-                ret.Direction = ParameterDirection.ReturnValue;
-                cmd.Parameters.Add(ret);
+                trn = cnn.BeginTransaction();
+                cmd.Transaction = trn;
                 cmd.ExecuteNonQuery();
 
                 int valor = Convert.ToInt32(ret.Value);
 
                 if (valor == -1)
-                    throw new Exception("La noticia no existe.");
-                if (valor == -1)
+                    throw new Exception("La Noticia ya existe.");
+                if (valor == -2)
                     throw new Exception("El usuario no existe.");
+
+                foreach (Periodista p in n.Periodistas)
+                {
+                    PersistenciaEscriben.GetInstanciaEscriben().AgregarEscriben(n.Codigo, p, trn);
+                }
+
+                trn.Commit();
             }
             catch (Exception ex)
             {
+                trn.Rollback();
                 throw ex;
             }
             finally
@@ -97,6 +127,7 @@ namespace Persistencia
                 cnn.Close();
             }
         }
+
 
         public List<Internacional> UltimasCincoInternacioinales(Usuario user, List<Periodista> ptas)
         {
@@ -133,8 +164,6 @@ namespace Persistencia
 
             return lista;
         }
-
-
 
     }
 }

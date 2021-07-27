@@ -38,19 +38,21 @@ namespace Logica
             FabricaPeriodistas.EliminarPeriodista(p);
         }
 
-        public Periodista BuscarPeriodista(string cedula)
+
+        public Periodista BuscarPeriodistaActivo(string cedula)
         {
-            return FabricaPeriodistas.BuscarPeriodista(cedula);
+            return FabricaPeriodistas.BuscarPeriodistaActivo(cedula);
         }
 
-        //public Periodista BuscarPeriodistaActivo(string cedula)
-        //{
-        //    return FabricaPeriodistas.BuscarPeriodista(cedula);
-        //}
+        public List<Periodista> ListarPeriodistas()
+        {
+            return FabricaPeriodistas.ListarPeriodistas();
+        }
 
-        //public List<Periodista> ListarPeriodistas()
-        //{
-        //    return FabricaPeriodistas.ListarPeriodistas();
-        //}
+        public List<Periodista> ListarPeriodistasPorNoticia(Noticia n)
+        {
+            return FabricaPeriodistas.ListarPeriodistasPorNoticia(n);
+        }
     }
+}
 }

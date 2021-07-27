@@ -32,5 +32,10 @@ namespace Logica
         {
             return FabricaUsuarios.Login(username, password);
         }
+
+        public Usuario BuscarUsuario(string username)
+        {
+            return FabricaUsuarios.BuscarUsuario(username);
+        }
     }
 }

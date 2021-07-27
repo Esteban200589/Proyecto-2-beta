@@ -10,7 +10,7 @@ using System.Data;
 
 namespace Persistencia
 {
-    internal class PersistenciaEscriben
+    internal class PersistenciaEscriben : InterfazPersistenciaEscriben
     {
         private static PersistenciaEscriben instancia = null;
         private PersistenciaEscriben() { }
@@ -55,7 +55,7 @@ namespace Persistencia
             }
         }
 
-        public void EliminarEscriben(string codigo_noticia)
+        public void EliminarEscriben(string codigo_noticia, SqlTransaction trn)
         {
             SqlConnection cnn = new SqlConnection(Conexion.Cnn);
 
@@ -85,7 +85,6 @@ namespace Persistencia
                 cnn.Close();
             }
         }
-
 
 
         public Noticia MostrarNoticiaIndividual(int tipo, string codigo, Usuario user, Seccion secc = null, List<Periodista> ptas = null)

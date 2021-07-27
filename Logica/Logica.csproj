@@ -43,7 +43,10 @@
   <ItemGroup>
     <Compile Include="FabricaLogica.cs" />
     <Compile Include="InterfazLogica.cs" />
+    <Compile Include="LogicaInternacionales.cs" />
+    <Compile Include="LogicaNacionales.cs" />
     <Compile Include="LogicaPeriodistas.cs" />
+    <Compile Include="LogicaSecciones.cs" />
     <Compile Include="LogicaUsuarios.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

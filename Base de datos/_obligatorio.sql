@@ -638,8 +638,7 @@ create proc modificar_internacional
 	@cuerpo varchar(max), 
 	@importancia int, 
 	@pais varchar(25),
-	@username varchar(10),
-	@cedula varchar(8)
+	@username varchar(10)
 as
 begin
 	if (not exists (select * from internacionales where @codigo = codigo))

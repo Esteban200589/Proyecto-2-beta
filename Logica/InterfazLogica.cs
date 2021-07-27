@@ -19,19 +19,28 @@ namespace Logica
         void AgregarPeriodista(Periodista p);
         void ModificarPeriodista(Periodista p);
         void EliminarPeriodista(Periodista p);
-        Periodista BuscarPeriodista(string cedula);
-        //Periodista BuscarPeriodistaActivo(string cedula);
-        //List<Periodista> ListarPeriodistas();
-    }
 
-    public interface InterfazLogicaNoticias
-    {
-
+        Periodista BuscarPeriodistaActivo(string cedula);
+        List<Periodista> ListarPeriodistas();
+        List<Periodista> ListarPeriodistasPorNoticia(Noticia n);
     }
 
     public interface InterfazLogicaSecciones
     {
 
     }
+
+
+    public interface InterfazLogicaInternacionales
+    {
+
+    }
+
+    public interface InterfazLogicaNacionales
+    {
+
+    }
+
+    
     
 }
