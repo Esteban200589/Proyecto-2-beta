@@ -714,6 +714,34 @@ end
 go
 
 
+		-- NOTICIAS - ESTADISTICAS
+-----------------------------------------------------------------------------------------------------------
+
+
+if exists (select * from sysobjects where name = 'estadisticas_nacionales')
+	drop proc estadisticas_nacionales
+go
+create proc estadisticas_nacionales
+as
+begin
+	select * from noticias w
+	join internacionales i on i.codigo = w.codigo
+	where w.fecha <= getdate()
+end
+go
+
+if exists (select * from sysobjects where name = 'estadisticas_internacionales')
+	drop proc estadisticas_internacionales
+go
+create proc estadisticas_internacionales
+as
+begin
+	select * from noticias w
+	join internacionales i on i.codigo = w.codigo
+	where w.fecha <= getdate()
+end
+go
+
 -----------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------

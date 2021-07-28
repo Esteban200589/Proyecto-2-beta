@@ -19,7 +19,9 @@ namespace EntidadesCompartidas
         {
             get { return cedula; }
             set {
-                if (value.Length != 8)
+                if (value == "")
+                    throw new Exception("Fala la cedula.");
+                else if (value.Length != 8)
                     throw new Exception("La cedula es incorrecta.");
                 else
                     cedula = value;
@@ -31,9 +33,8 @@ namespace EntidadesCompartidas
             set {
                 if (value == null)
                     throw new Exception("Debe contener un nombre.");
-                if (value.Length >= 30)
-                    throw new Exception("El nombre debe contener hasta 30 caracteres " +
-                                        "maximo.");
+                else if (value.Length >= 30)
+                    throw new Exception("El nombre debe contener hasta 30 caracteres maximo.");
                 else
                     nombre = value;
             }

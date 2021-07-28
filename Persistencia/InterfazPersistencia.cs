@@ -22,10 +22,8 @@ namespace Persistencia
         void AgregarPeriodista(Periodista p);
         void EliminarPeriodista(Periodista p);
         void ModificarPeriodista(Periodista p);
-        Periodista BuscarPeriodista(string cedula);
         Periodista BuscarPeriodistaActivo(string cedula);
         List<Periodista> ListarPeriodistas();
-        List<Periodista> ListarPeriodistasPorNoticia(Noticia n);
     }
 
     public interface InterfazPersistenciaSecciones
@@ -33,6 +31,8 @@ namespace Persistencia
         void AgregarSeccion(Seccion s);
         void ModificarSeccion(Seccion s);
         void EliminarSeccion(Seccion s);
+        Seccion BuscarSeccionActiva(string coodigo);
+        List<Seccion> ListarSecciones();
     }
 
     public interface InterfazPersistenciaInternacionales
@@ -47,12 +47,5 @@ namespace Persistencia
         void AgregarNacional(Nacional n, Usuario u, Seccion s);
         void ModificarNacional(Nacional n, Usuario u, Seccion s);
         List<Nacional> UltimasCincoNacionales(Usuario user, List<Periodista> ptas, Seccion secc);
-    }
-
-    public interface InterfazPersistenciaEscriben
-    {
-        void AgregarEscriben(string codigo_noticia, Periodista periodista, SqlTransaction trn);
-        void EliminarEscriben(string codigo_noticia, SqlTransaction trn);
-        Noticia MostrarNoticiaIndividual(int tipo, string codigo, Usuario user, Seccion secc, List<Periodista> ptas);
     }
 }

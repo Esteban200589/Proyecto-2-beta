@@ -87,53 +87,7 @@ namespace Persistencia
         }
 
 
-        public Noticia MostrarNoticiaIndividual(int tipo, string codigo, Usuario user, Seccion secc = null, List<Periodista> ptas = null)
-        {
-            Noticia noticia = null;
-            SqlConnection cnn = new SqlConnection(Conexion.Cnn);
-
-            try
-            {
-                cnn.Open();
-
-                SqlCommand cmd = new SqlCommand("noticia_individual", cnn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("tipo", tipo);
-                cmd.Parameters.AddWithValue("codigo", codigo);
-                SqlDataReader dr = cmd.ExecuteReader();
-
-                if (dr.Read())
-                {
-                    if (true)
-                    {
-                        if (tipo == 0)
-                        {
-                            noticia = new Nacional(secc, dr["codigo"].ToString(), Convert.ToDateTime(dr["fecha"]), 
-                                                   dr["titulo"].ToString(), dr["cuerpo"].ToString(), Convert.ToInt32(dr["importancia"]),
-                                                   ptas, user);
-                        }
-                        else
-                        {
-                            noticia = new Internacional(dr["pais"].ToString(), dr["codigo"].ToString(), Convert.ToDateTime(dr["fecha"]), 
-                                                   dr["titulo"].ToString(), dr["cuerpo"].ToString(), Convert.ToInt32(dr["importancia"]),
-                                                   ptas, user);
-                        }
-                    }
-                }
-                dr.Close();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                cnn.Close();
-            }
-
-            return noticia;
-        }
-
+        
     }
 
 }

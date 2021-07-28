@@ -15,7 +15,9 @@ namespace EntidadesCompartidas
         {
             get { return codigo_secc; }
             set {
-                if (value.Length != 5)
+                if (value == "")
+                    throw new Exception("Falta el código.");
+                else if (value.Length != 5)
                     throw new Exception("El Código debe contener 5 caracteres.");
                 else
                     nombre_secc = value;
