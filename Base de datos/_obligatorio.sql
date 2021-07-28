@@ -447,7 +447,7 @@ go
 create proc ultimas_cinco_nacionales
 as
 begin
-	select * 
+	select *
 	from noticias w
 	join nacionales n on n.codigo = w.codigo
 	where w.fecha between dateadd(day,-5,getdate()) and GETDATE()
@@ -725,7 +725,7 @@ create proc estadisticas_nacionales
 as
 begin
 	select * from noticias w
-	join internacionales i on i.codigo = w.codigo
+	join nacionales i on i.codigo = w.codigo
 	where w.fecha <= getdate()
 end
 go

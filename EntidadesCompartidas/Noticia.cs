@@ -37,7 +37,9 @@ namespace EntidadesCompartidas
         {
             get { return titulo; }
             set {
-                if (value.Length > 50)
+                if (value == "")
+                    throw new Exception("Falta el titulo");
+                else if (value.Length > 50)
                     throw new Exception("El titulo no puede tener mas de 50 caracteres");
                 else
                     titulo = value; 
@@ -46,8 +48,11 @@ namespace EntidadesCompartidas
         public string Cuerpo 
         {
             get { return cuerpo; }
-            set { 
-                cuerpo = value; 
+            set {
+                if (value == "")
+                    throw new Exception("Falta el cuerpo de la noticia");
+                else
+                    cuerpo = value; 
             }
         }
         public int Importancia 
@@ -64,8 +69,8 @@ namespace EntidadesCompartidas
         {
             get { return periodistas; }
             set {
-                if (value == null && value.Count <= 1)
-                    throw new Exception("La Noticia Nacional debe contener al menos un periodista");
+                if (value == null || value.Count <= 1)
+                    throw new Exception("La Noticia debe contener al menos un periodista");
                 else
                     periodistas = value;
             }

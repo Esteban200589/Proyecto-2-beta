@@ -10,7 +10,7 @@ using System.Data;
 
 namespace Persistencia
 {
-    internal class PersistenciaEscriben : InterfazPersistenciaEscriben
+    internal class PersistenciaEscriben
     {
         private static PersistenciaEscriben instancia = null;
         private PersistenciaEscriben() { }

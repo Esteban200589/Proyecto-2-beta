@@ -39,13 +39,15 @@ namespace Persistencia
     {
         void AgregarInternacional(Internacional n, Usuario u);
         void ModificarInternacional(Internacional n, Usuario u);
-        List<Internacional> UltimasCincoInternacioinales(Usuario user, List<Periodista> ptas);
+        List<Internacional> UltimasCincoInternacioinales();
+        Internacional MostrarInternacional(string codigo);
     }
 
     public interface InterfazPersistenciaNacionales
     {
         void AgregarNacional(Nacional n, Usuario u, Seccion s);
         void ModificarNacional(Nacional n, Usuario u, Seccion s);
-        List<Nacional> UltimasCincoNacionales(Usuario user, List<Periodista> ptas, Seccion secc);
+        List<Nacional> UltimasCincoNacionales();
+        Nacional MostrarNacional(string codigo);
     }
 }

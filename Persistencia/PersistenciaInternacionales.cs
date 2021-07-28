@@ -129,7 +129,7 @@ namespace Persistencia
         }
 
 
-        public List<Internacional> UltimasCincoInternacioinales(Usuario user, List<Periodista> ptas)
+        public List<Internacional> UltimasCincoInternacioinales()
         {
             List<Internacional> lista = new List<Internacional>();
             SqlConnection cnn = new SqlConnection(Conexion.Cnn);
@@ -138,14 +138,20 @@ namespace Persistencia
             {
                 cnn.Open();
 
-                SqlCommand cmd = new SqlCommand("listar_periodistas", cnn);
+                SqlCommand cmd = new SqlCommand("ultimas_cinco_internacionales", cnn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataReader dr = cmd.ExecuteReader();
 
+                Usuario user = null;
                 Internacional noticia = null;
+                List<Periodista> ptas = new List<Periodista>();
 
                 while (dr.Read())
                 {
+                    InterfazPersistenciaPeriodistas IntPtas = FabricaPersistencia.getPersistenciaPeriodista();
+                    ptas = IntPtas.ListarPeriodistas();
+                    InterfazPersistenciaUsuarios IntUser = FabricaPersistencia.getPersistenciaUsuario();
+                    user = IntUser.BuscarUsuario(dr["username"].ToString());
                     noticia = new Internacional(dr["pais"].ToString(), dr["codigo"].ToString(), Convert.ToDateTime(dr["fecha"]),
                                                 dr["titulo"].ToString(), dr["cuerpo"].ToString(), Convert.ToInt32(dr["importancia"]),
                                                 ptas, user);
@@ -163,6 +169,46 @@ namespace Persistencia
             }
 
             return lista;
+        }
+
+        public Internacional MostrarInternacional(string codigo)
+        {
+            Usuario user = null;
+            Internacional noticia = null;
+            List<Periodista> ptas = new List<Periodista>();
+            SqlConnection cnn = new SqlConnection(Conexion.Cnn);
+
+            try
+            {
+                cnn.Open();
+
+                SqlCommand cmd = new SqlCommand("noticia_individual", cnn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("tipo", 0);
+                cmd.Parameters.AddWithValue("codigo", codigo);
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                if (dr.Read())
+                {
+                    InterfazPersistenciaPeriodistas IntPtas = FabricaPersistencia.getPersistenciaPeriodista();
+                    ptas = IntPtas.ListarPeriodistas();
+                    InterfazPersistenciaUsuarios IntUser = FabricaPersistencia.getPersistenciaUsuario();
+                    noticia = new Internacional(dr["pais"].ToString(), dr["codigo"].ToString(), Convert.ToDateTime(dr["fecha"]),
+                                            dr["titulo"].ToString(), dr["cuerpo"].ToString(), Convert.ToInt32(dr["importancia"]),
+                                            ptas, user);
+                }
+                dr.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return noticia;
         }
 
     }
