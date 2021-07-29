@@ -22,6 +22,7 @@ namespace Persistencia
             return instancia;
         }
 
+
         public void AgregarPeriodista(Periodista p)
         {
             SqlConnection cnn = new SqlConnection(Conexion.Cnn);
@@ -120,6 +121,7 @@ namespace Persistencia
             }
         }
         
+
         public Periodista BuscarPeriodista(string cedula)
         {
             Periodista p = null;
@@ -214,7 +216,7 @@ namespace Persistencia
             return lista;
         }
 
-        public List<Periodista> ListarPeriodistasPorNoticia(Noticia n)
+        public List<Periodista> ListarPeriodistasPorNoticia(string codigo)
         {
             List<Periodista> lista = new List<Periodista>();
             SqlConnection cnn = new SqlConnection(Conexion.Cnn);
@@ -225,7 +227,7 @@ namespace Persistencia
 
                 SqlCommand cmd = new SqlCommand("listar_periodistas_noticia", cnn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("codigo", n.Codigo);
+                cmd.Parameters.AddWithValue("codigo", codigo);
                 SqlDataReader dr = cmd.ExecuteReader();
 
                 Periodista p = null;

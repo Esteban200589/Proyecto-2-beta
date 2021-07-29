@@ -13,6 +13,7 @@ namespace Persistencia
     public interface InterfazPersistenciaUsuarios
     {
         void AgregarUsuario(Usuario user);
+        
         Usuario Login(string username, string password);
         Usuario BuscarUsuario(string username);
     }
@@ -22,6 +23,7 @@ namespace Persistencia
         void AgregarPeriodista(Periodista p);
         void EliminarPeriodista(Periodista p);
         void ModificarPeriodista(Periodista p);
+        
         Periodista BuscarPeriodistaActivo(string cedula);
         List<Periodista> ListarPeriodistas();
     }
@@ -31,22 +33,25 @@ namespace Persistencia
         void AgregarSeccion(Seccion s);
         void ModificarSeccion(Seccion s);
         void EliminarSeccion(Seccion s);
+        
         Seccion BuscarSeccionActiva(string coodigo);
         List<Seccion> ListarSecciones();
     }
 
     public interface InterfazPersistenciaInternacionales
     {
-        void AgregarInternacional(Internacional n, Usuario u);
-        void ModificarInternacional(Internacional n, Usuario u);
+        void AgregarInternacional(Internacional n, string user);
+        void ModificarInternacional(Internacional n, string user);
+        
         List<Internacional> UltimasCincoInternacioinales();
         Internacional MostrarInternacional(string codigo);
     }
 
     public interface InterfazPersistenciaNacionales
     {
-        void AgregarNacional(Nacional n, Usuario u, Seccion s);
-        void ModificarNacional(Nacional n, Usuario u, Seccion s);
+        void AgregarNacional(Nacional n, string user, string secc);
+        void ModificarNacional(Nacional n, string user, string secc);
+        
         List<Nacional> UltimasCincoNacionales();
         Nacional MostrarNacional(string codigo);
     }

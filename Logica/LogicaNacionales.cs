@@ -9,11 +9,11 @@ using Persistencia;
 
 namespace Logica
 {
-    internal class LogicaNacionales
+    internal class LogicaNacionales : InterfazLogicaNacionales
     {
         private static LogicaNacionales instancia = null;
         private LogicaNacionales() { }
-        public static LogicaNacionales GetInstanciaInternacionales()
+        public static LogicaNacionales GetInstanciaNacionales()
         {
             if (instancia == null)
                 instancia = new LogicaNacionales();
@@ -24,5 +24,25 @@ namespace Logica
         static InterfazPersistenciaNacionales FabricaNoticias = FabricaPersistencia.getPersistenciaNacional();
 
 
+        public void AgregarNacional(Nacional n, string u, string s)
+        {
+            FabricaNoticias.AgregarNacional(n, u, s);
+        }
+
+        public void ModificarNacional(Nacional n, string u, string s)
+        {
+            FabricaNoticias.ModificarNacional(n, u, s);
+        }
+
+
+        public List<Nacional> UltimasCincoNacionales()
+        {
+            return FabricaNoticias.UltimasCincoNacionales();
+        }
+
+        public Nacional MostrarNacional(string codigo)
+        {
+            return FabricaNoticias.MostrarNacional(codigo);
+        }
     }
 }

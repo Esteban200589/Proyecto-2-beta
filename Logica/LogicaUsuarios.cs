@@ -23,6 +23,7 @@ namespace Logica
 
         static InterfazPersistenciaUsuarios FabricaUsuarios = FabricaPersistencia.getPersistenciaUsuario();
 
+
         public void AgregarUsuario(Usuario user)
         {
             FabricaUsuarios.AgregarUsuario(user);

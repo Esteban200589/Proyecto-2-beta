@@ -20,7 +20,7 @@ namespace EntidadesCompartidas
                 else if (value.Length != 5)
                     throw new Exception("El Código debe contener 5 caracteres.");
                 else
-                    nombre_secc = value;
+                    codigo_secc = value;
             }
         }
         public string Nombre_secc

@@ -22,7 +22,8 @@ namespace Persistencia
             return instancia;
         }
 
-        public void AgregarInternacional(Internacional n, Usuario u)
+
+        public void AgregarInternacional(Internacional n, string user)
         {
             SqlConnection cnn = new SqlConnection(Conexion.Cnn);
 
@@ -34,13 +35,15 @@ namespace Persistencia
             cmd.Parameters.AddWithValue("cuerpo", n.Cuerpo);
             cmd.Parameters.AddWithValue("importancia", n.Importancia);
             cmd.Parameters.AddWithValue("pais", n.Pais);
-            cmd.Parameters.AddWithValue("username", u.Username);
+            cmd.Parameters.AddWithValue("username", user);
 
             SqlParameter ret = new SqlParameter();
             ret.Direction = ParameterDirection.ReturnValue;
             cmd.Parameters.Add(ret);
 
             SqlTransaction trn = null;
+
+            List<Periodista> ptas = PersistenciaPeriodistas.GetInstanciaPeriodistas().ListarPeriodistasPorNoticia(n.Codigo);
 
             try
             {
@@ -57,7 +60,7 @@ namespace Persistencia
                 if (valor == -2)
                     throw new Exception("El usuario no existe.");
 
-                foreach (Periodista p in n.Periodistas)
+                foreach (Periodista p in ptas)
                 {
                     PersistenciaEscriben.GetInstanciaEscriben().AgregarEscriben(n.Codigo,p,trn);
                 }
@@ -75,7 +78,7 @@ namespace Persistencia
             }
         }
 
-        public void ModificarInternacional(Internacional n, Usuario u)
+        public void ModificarInternacional(Internacional n, string user)
         {
             SqlConnection cnn = new SqlConnection(Conexion.Cnn);
 
@@ -87,7 +90,7 @@ namespace Persistencia
             cmd.Parameters.AddWithValue("cuerpo", n.Cuerpo);
             cmd.Parameters.AddWithValue("importancia", n.Importancia);
             cmd.Parameters.AddWithValue("pais", n.Pais);
-            cmd.Parameters.AddWithValue("username", u.Username);
+            cmd.Parameters.AddWithValue("username", user);
 
             SqlParameter ret = new SqlParameter();
             ret.Direction = ParameterDirection.ReturnValue;
@@ -95,12 +98,17 @@ namespace Persistencia
 
             SqlTransaction trn = null;
 
+            List<Periodista> ptas = PersistenciaPeriodistas.GetInstanciaPeriodistas().ListarPeriodistasPorNoticia(n.Codigo);
+
             try
             {
                 cnn.Open();
 
                 trn = cnn.BeginTransaction();
                 cmd.Transaction = trn;
+
+                PersistenciaEscriben.GetInstanciaEscriben().EliminarEscriben(n.Codigo, trn);
+
                 cmd.ExecuteNonQuery();
 
                 int valor = Convert.ToInt32(ret.Value);
@@ -108,9 +116,9 @@ namespace Persistencia
                 if (valor == -1)
                     throw new Exception("La Noticia ya existe.");
                 if (valor == -2)
-                    throw new Exception("El usuario no existe.");
+                    throw new Exception("El Usuario no existe.");
 
-                foreach (Periodista p in n.Periodistas)
+                foreach (Periodista p in ptas)
                 {
                     PersistenciaEscriben.GetInstanciaEscriben().AgregarEscriben(n.Codigo, p, trn);
                 }

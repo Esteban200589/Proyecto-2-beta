@@ -23,6 +23,7 @@ namespace Logica
 
         static InterfazPersistenciaPeriodistas FabricaPeriodistas = FabricaPersistencia.getPersistenciaPeriodista();
 
+
         public void AgregarPeriodista(Periodista p)
         {
             FabricaPeriodistas.AgregarPeriodista(p);
@@ -48,11 +49,5 @@ namespace Logica
         {
             return FabricaPeriodistas.ListarPeriodistas();
         }
-
-        public List<Periodista> ListarPeriodistasPorNoticia(Noticia n)
-        {
-            return FabricaPeriodistas.ListarPeriodistasPorNoticia(n);
-        }
     }
-}
 }

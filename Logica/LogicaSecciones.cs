@@ -9,7 +9,7 @@ using Persistencia;
 
 namespace Logica
 {
-    internal class LogicaSecciones
+    internal class LogicaSecciones : InterfazLogicaSecciones
     {
         private static LogicaSecciones instancia = null;
         private LogicaSecciones() { }
@@ -23,6 +23,32 @@ namespace Logica
 
         static InterfazPersistenciaSecciones FabricaSecciones = FabricaPersistencia.getPersistenciaSeccion();
 
+
+        public void AgregarSeccion(Seccion s)
+        {
+            FabricaSecciones.AgregarSeccion(s);
+        }
+
+        public void ModificarSeccion(Seccion s)
+        {
+            FabricaSecciones.ModificarSeccion(s);
+        }
+
+        public void EliminarSeccion(Seccion s)
+        {
+            FabricaSecciones.EliminarSeccion(s);
+        }
+
+
+        public Seccion BuscarSeccion(string codigo)
+        {
+            return FabricaSecciones.BuscarSeccionActiva(codigo);
+        }
+
+        public List<Seccion> ListarSecciones()
+        {
+            return FabricaSecciones.ListarSecciones();
+        }
 
     }
 }

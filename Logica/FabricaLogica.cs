@@ -21,9 +21,19 @@ namespace Logica
             return LogicaPeriodistas.GetInstanciaPeriodistas();
         }
 
-        public static InterfazLogicaUsuarios getLogicaUsuarios()
+        public static InterfazLogicaSecciones getLogicaSecciones()
         {
-            return LogicaUsuarios.GetInstanciaUsuarios();
+            return LogicaSecciones.GetInstanciaSecciones();
+        }
+
+        public static InterfazLogicaInternacionales getLogicaInternacionales()
+        {
+            return LogicaInternacionales.GetInstanciaInternacionales();
+        }
+
+        public static InterfazLogicaNacionales getLogicaNacionales()
+        {
+            return LogicaNacionales.GetInstanciaNacionales();
         }
     }
 }

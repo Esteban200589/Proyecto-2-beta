@@ -24,11 +24,9 @@ namespace Persistencia
 
         public void AgregarEscriben(string codigo_noticia, Periodista periodista, SqlTransaction trn)
         {
-            SqlConnection cnn = new SqlConnection(Conexion.Cnn);
-
             try
             {
-                SqlCommand cmd = new SqlCommand("agregar_escriben", cnn);
+                SqlCommand cmd = new SqlCommand("agregar_escriben", trn.Connection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("cedula", periodista.Cedula);
                 cmd.Parameters.AddWithValue("codigo", codigo_noticia);
@@ -62,7 +60,7 @@ namespace Persistencia
             try
             {
                 cnn.Open();
-                SqlCommand cmd = new SqlCommand("borrar_ecriben", cnn);
+                SqlCommand cmd = new SqlCommand("borrar_ecriben", trn.Connection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("codigo", codigo_noticia);
 

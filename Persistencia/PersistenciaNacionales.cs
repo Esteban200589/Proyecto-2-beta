@@ -22,7 +22,8 @@ namespace Persistencia
             return instancia;
         }
 
-        public void AgregarNacional(Nacional n, Usuario u, Seccion s)
+
+        public void AgregarNacional(Nacional n, string user, string secc)
         {
             SqlConnection cnn = new SqlConnection(Conexion.Cnn);
 
@@ -33,14 +34,16 @@ namespace Persistencia
             cmd.Parameters.AddWithValue("titulo", n.Titulo);
             cmd.Parameters.AddWithValue("cuerpo", n.Cuerpo);
             cmd.Parameters.AddWithValue("importancia", n.Importancia);
-            cmd.Parameters.AddWithValue("seccion", s.Codigo_secc);
-            cmd.Parameters.AddWithValue("username", u.Username);
+            cmd.Parameters.AddWithValue("seccion", secc);
+            cmd.Parameters.AddWithValue("username", user);
 
             SqlParameter ret = new SqlParameter();
             ret.Direction = ParameterDirection.ReturnValue;
             cmd.Parameters.Add(ret);
 
             SqlTransaction trn = null;
+
+            List<Periodista> ptas = PersistenciaPeriodistas.GetInstanciaPeriodistas().ListarPeriodistasPorNoticia(n.Codigo);
 
             try
             {
@@ -57,7 +60,7 @@ namespace Persistencia
                 if (valor == -2)
                     throw new Exception("El usuario no existe.");
 
-                foreach (Periodista p in n.Periodistas)
+                foreach (Periodista p in ptas)
                 {
                     PersistenciaEscriben.GetInstanciaEscriben().AgregarEscriben(n.Codigo, p, trn);
                 }
@@ -75,7 +78,7 @@ namespace Persistencia
             }
         }
 
-        public void ModificarNacional(Nacional n, Usuario u, Seccion s)
+        public void ModificarNacional(Nacional n, string user, string secc)
         {
             SqlConnection cnn = new SqlConnection(Conexion.Cnn);
 
@@ -86,8 +89,8 @@ namespace Persistencia
             cmd.Parameters.AddWithValue("titulo", n.Titulo);
             cmd.Parameters.AddWithValue("cuerpo", n.Cuerpo);
             cmd.Parameters.AddWithValue("importancia", n.Importancia);
-            cmd.Parameters.AddWithValue("seccion", s.Codigo_secc);
-            cmd.Parameters.AddWithValue("username", u.Username);
+            cmd.Parameters.AddWithValue("seccion", secc);
+            cmd.Parameters.AddWithValue("username", user);
 
             SqlParameter ret = new SqlParameter();
             ret.Direction = ParameterDirection.ReturnValue;
@@ -95,12 +98,17 @@ namespace Persistencia
 
             SqlTransaction trn = null;
 
+            List<Periodista> ptas = PersistenciaPeriodistas.GetInstanciaPeriodistas().ListarPeriodistasPorNoticia(n.Codigo);
+
             try
             {
                 cnn.Open();
 
                 trn = cnn.BeginTransaction();
                 cmd.Transaction = trn;
+
+                PersistenciaEscriben.GetInstanciaEscriben().EliminarEscriben(n.Codigo,trn);
+
                 cmd.ExecuteNonQuery();
 
                 int valor = Convert.ToInt32(ret.Value);
@@ -110,7 +118,7 @@ namespace Persistencia
                 if (valor == -2)
                     throw new Exception("El usuario no existe.");
 
-                foreach (Periodista p in n.Periodistas)
+                foreach (Periodista p in ptas)
                 {
                     PersistenciaEscriben.GetInstanciaEscriben().AgregarEscriben(n.Codigo, p, trn);
                 }
@@ -141,7 +149,6 @@ namespace Persistencia
                 SqlCommand cmd = new SqlCommand("ultimas_cinco_nacionales", cnn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataReader dr = cmd.ExecuteReader();
-
 
                 Usuario user = null;
                 Seccion secc = null;
@@ -175,9 +182,12 @@ namespace Persistencia
             return lista;
         }
 
-        public Noticia MostrarNoticiaIndividual(int tipo, string codigo)
+        public Nacional MostrarNacional(string codigo)
         {
-            Noticia noticia = null;
+            Usuario user = null;
+            Seccion secc = null;
+            Nacional noticia = null;
+            List<Periodista> ptas = new List<Periodista>();
             SqlConnection cnn = new SqlConnection(Conexion.Cnn);
 
             try
@@ -186,27 +196,20 @@ namespace Persistencia
 
                 SqlCommand cmd = new SqlCommand("noticia_individual", cnn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("tipo", tipo);
+                cmd.Parameters.AddWithValue("tipo", 1);
                 cmd.Parameters.AddWithValue("codigo", codigo);
                 SqlDataReader dr = cmd.ExecuteReader();
 
                 if (dr.Read())
                 {
-                    if (true)
-                    {
-                        if (tipo == 0)
-                        {
-                            noticia = new Nacional(secc, dr["codigo"].ToString(), Convert.ToDateTime(dr["fecha"]),
-                                                   dr["titulo"].ToString(), dr["cuerpo"].ToString(), Convert.ToInt32(dr["importancia"]),
-                                                   ptas, user);
-                        }
-                        else
-                        {
-                            noticia = new Internacional(dr["pais"].ToString(), dr["codigo"].ToString(), Convert.ToDateTime(dr["fecha"]),
-                                                   dr["titulo"].ToString(), dr["cuerpo"].ToString(), Convert.ToInt32(dr["importancia"]),
-                                                   ptas, user);
-                        }
-                    }
+                    InterfazPersistenciaSecciones IntSecc = FabricaPersistencia.getPersistenciaSeccion();
+                    secc = IntSecc.BuscarSeccionActiva(dr["codigo_secc"].ToString());
+                    InterfazPersistenciaPeriodistas IntPtas = FabricaPersistencia.getPersistenciaPeriodista();
+                    ptas = IntPtas.ListarPeriodistas();
+                    InterfazPersistenciaUsuarios IntUser = FabricaPersistencia.getPersistenciaUsuario();
+                    noticia = new Nacional(secc, dr["codigo"].ToString(), Convert.ToDateTime(dr["fecha"]),
+                                           dr["titulo"].ToString(), dr["cuerpo"].ToString(), Convert.ToInt32(dr["importancia"]),
+                                           ptas, user);
                 }
                 dr.Close();
             }
