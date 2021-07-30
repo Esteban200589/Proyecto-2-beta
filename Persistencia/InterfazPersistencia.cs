@@ -40,19 +40,21 @@ namespace Persistencia
 
     public interface InterfazPersistenciaInternacionales
     {
-        void AgregarInternacional(Internacional n, string user);
-        void ModificarInternacional(Internacional n, string user);
+        void AgregarInternacional(Internacional n);
+        void ModificarInternacional(Internacional n);
         
-        List<Internacional> UltimasCincoInternacioinales();
+        List<Internacional> UltimasCincoInternacionales();
+        List<Internacional> EstadisticasInternacionales();
         Internacional MostrarInternacional(string codigo);
     }
 
     public interface InterfazPersistenciaNacionales
     {
-        void AgregarNacional(Nacional n, string user, string secc);
-        void ModificarNacional(Nacional n, string user, string secc);
+        void AgregarNacional(Nacional n);
+        void ModificarNacional(Nacional n);
         
         List<Nacional> UltimasCincoNacionales();
+        List<Nacional> EstadisticasNacionales();
         Nacional MostrarNacional(string codigo);
     }
 }

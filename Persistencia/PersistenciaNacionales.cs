@@ -23,7 +23,7 @@ namespace Persistencia
         }
 
 
-        public void AgregarNacional(Nacional n, string user, string secc)
+        public void AgregarNacional(Nacional n)
         {
             SqlConnection cnn = new SqlConnection(Conexion.Cnn);
 
@@ -78,7 +78,7 @@ namespace Persistencia
             }
         }
 
-        public void ModificarNacional(Nacional n, string user, string secc)
+        public void ModificarNacional(Nacional n)
         {
             SqlConnection cnn = new SqlConnection(Conexion.Cnn);
 
@@ -147,6 +147,51 @@ namespace Persistencia
                 cnn.Open();
 
                 SqlCommand cmd = new SqlCommand("ultimas_cinco_nacionales", cnn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                Usuario user = null;
+                Seccion secc = null;
+                Nacional noticia = null;
+                List<Periodista> ptas = new List<Periodista>();
+
+                while (dr.Read())
+                {
+                    InterfazPersistenciaSecciones IntSecc = FabricaPersistencia.getPersistenciaSeccion();
+                    secc = IntSecc.BuscarSeccionActiva(dr["codigo_secc"].ToString());
+                    InterfazPersistenciaPeriodistas IntPtas = FabricaPersistencia.getPersistenciaPeriodista();
+                    ptas = IntPtas.ListarPeriodistas();
+                    InterfazPersistenciaUsuarios IntUser = FabricaPersistencia.getPersistenciaUsuario();
+                    user = IntUser.BuscarUsuario(dr["username"].ToString());
+                    noticia = new Nacional(secc, dr["codigo"].ToString(), Convert.ToDateTime(dr["fecha"]),
+                                           dr["titulo"].ToString(), dr["cuerpo"].ToString(), Convert.ToInt32(dr["importancia"]),
+                                           ptas, user);
+                    lista.Add(noticia);
+                }
+                dr.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return lista;
+        }
+
+        public List<Nacional> EstadisticasNacionales()
+        {
+            List<Nacional> lista = new List<Nacional>();
+            SqlConnection cnn = new SqlConnection(Conexion.Cnn);
+
+            try
+            {
+                cnn.Open();
+
+                SqlCommand cmd = new SqlCommand("estadisticas_nacionales", cnn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataReader dr = cmd.ExecuteReader();
 

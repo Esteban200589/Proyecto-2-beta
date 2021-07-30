@@ -69,7 +69,7 @@ namespace EntidadesCompartidas
         {
             get { return periodistas; }
             set {
-                if (value == null || value.Count <= 1)
+                if (value == null || value.Count <= 0)
                     throw new Exception("La Noticia debe contener al menos un periodista");
                 else
                     periodistas = value;

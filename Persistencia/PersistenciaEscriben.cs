@@ -55,11 +55,8 @@ namespace Persistencia
 
         public void EliminarEscriben(string codigo_noticia, SqlTransaction trn)
         {
-            SqlConnection cnn = new SqlConnection(Conexion.Cnn);
-
             try
             {
-                cnn.Open();
                 SqlCommand cmd = new SqlCommand("borrar_ecriben", trn.Connection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("codigo", codigo_noticia);
@@ -77,10 +74,6 @@ namespace Persistencia
             catch (Exception ex)
             {
                 throw ex;
-            }
-            finally
-            {
-                cnn.Close();
             }
         }
 

@@ -23,7 +23,7 @@ namespace Persistencia
         }
 
 
-        public void AgregarInternacional(Internacional n, string user)
+        public void AgregarInternacional(Internacional n)
         {
             SqlConnection cnn = new SqlConnection(Conexion.Cnn);
 
@@ -35,7 +35,7 @@ namespace Persistencia
             cmd.Parameters.AddWithValue("cuerpo", n.Cuerpo);
             cmd.Parameters.AddWithValue("importancia", n.Importancia);
             cmd.Parameters.AddWithValue("pais", n.Pais);
-            cmd.Parameters.AddWithValue("username", user);
+            cmd.Parameters.AddWithValue("username", n.Usuario);
 
             SqlParameter ret = new SqlParameter();
             ret.Direction = ParameterDirection.ReturnValue;
@@ -43,7 +43,6 @@ namespace Persistencia
 
             SqlTransaction trn = null;
 
-            List<Periodista> ptas = PersistenciaPeriodistas.GetInstanciaPeriodistas().ListarPeriodistasPorNoticia(n.Codigo);
 
             try
             {
@@ -78,7 +77,7 @@ namespace Persistencia
             }
         }
 
-        public void ModificarInternacional(Internacional n, string user)
+        public void ModificarInternacional(Internacional n)
         {
             SqlConnection cnn = new SqlConnection(Conexion.Cnn);
 
@@ -98,7 +97,6 @@ namespace Persistencia
 
             SqlTransaction trn = null;
 
-            List<Periodista> ptas = PersistenciaPeriodistas.GetInstanciaPeriodistas().ListarPeriodistasPorNoticia(n.Codigo);
 
             try
             {
@@ -118,10 +116,10 @@ namespace Persistencia
                 if (valor == -2)
                     throw new Exception("El Usuario no existe.");
 
-                foreach (Periodista p in ptas)
-                {
-                    PersistenciaEscriben.GetInstanciaEscriben().AgregarEscriben(n.Codigo, p, trn);
-                }
+                //foreach (Periodista p in ptas)
+                //{
+                //    PersistenciaEscriben.GetInstanciaEscriben().AgregarEscriben(n.Codigo, p, trn);
+                //}
 
                 trn.Commit();
             }
@@ -137,7 +135,7 @@ namespace Persistencia
         }
 
 
-        public List<Internacional> UltimasCincoInternacioinales()
+        public List<Internacional> UltimasCincoInternacionales()
         {
             List<Internacional> lista = new List<Internacional>();
             SqlConnection cnn = new SqlConnection(Conexion.Cnn);
@@ -147,6 +145,48 @@ namespace Persistencia
                 cnn.Open();
 
                 SqlCommand cmd = new SqlCommand("ultimas_cinco_internacionales", cnn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                Usuario user = null;
+                Internacional noticia = null;
+                List<Periodista> ptas = new List<Periodista>();
+
+                while (dr.Read())
+                {
+                    InterfazPersistenciaPeriodistas IntPtas = FabricaPersistencia.getPersistenciaPeriodista();
+                    ptas = IntPtas.ListarPeriodistas();
+                    InterfazPersistenciaUsuarios IntUser = FabricaPersistencia.getPersistenciaUsuario();
+                    user = IntUser.BuscarUsuario(dr["username"].ToString());
+                    noticia = new Internacional(dr["pais"].ToString(), dr["codigo"].ToString(), Convert.ToDateTime(dr["fecha"]),
+                                                dr["titulo"].ToString(), dr["cuerpo"].ToString(), Convert.ToInt32(dr["importancia"]),
+                                                ptas, user);
+                    lista.Add(noticia);
+                }
+                dr.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return lista;
+        }
+
+        public List<Internacional> EstadisticasInternacionales()
+        {
+            List<Internacional> lista = new List<Internacional>();
+            SqlConnection cnn = new SqlConnection(Conexion.Cnn);
+
+            try
+            {
+                cnn.Open();
+
+                SqlCommand cmd = new SqlCommand("estadisticas_internacionales", cnn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataReader dr = cmd.ExecuteReader();
 

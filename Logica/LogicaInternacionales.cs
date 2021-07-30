@@ -24,20 +24,20 @@ namespace Logica
         static InterfazPersistenciaInternacionales FabricaNoticias = FabricaPersistencia.getPersistenciaInteracional();
 
 
-        public void AgregarInternacional(Internacional n, string u)
+        public void AgregarInternacional(Internacional n)
         {
-            FabricaNoticias.AgregarInternacional(n, u);
+            FabricaNoticias.AgregarInternacional(n);
         }
 
-        public void ModificarInternacional(Internacional n, string u)
+        public void ModificarInternacional(Internacional n)
         {
-            FabricaNoticias.ModificarInternacional(n, u);
+            FabricaNoticias.ModificarInternacional(n);
         }
 
 
         public List<Internacional> UltimasCincoInternacionales()
         {
-            return FabricaNoticias.UltimasCincoInternacioinales();
+            return FabricaNoticias.UltimasCincoInternacionales();
         }
 
         public Internacional MostrarInternacional(string codigo)
