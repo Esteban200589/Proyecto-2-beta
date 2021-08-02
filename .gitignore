@@ -18,4 +18,4 @@ bin-release/
 # information for Eclipse / Flash Builder.
 
 # *.dat
-Persistencia\Conexion.cs
+Persistencia/Conexion.cs
