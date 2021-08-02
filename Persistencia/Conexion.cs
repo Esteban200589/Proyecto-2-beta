@@ -17,5 +17,7 @@ namespace Persistencia
         {
             get { return cnn; }
         }
+
+        // --
     }
 }
