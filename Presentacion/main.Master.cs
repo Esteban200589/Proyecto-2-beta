@@ -11,10 +11,10 @@ namespace Presentacion
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["user"] == null)
-                Response.Redirect("Login.aspx");
-            else
-                lblUsername.Text = Session["user"].ToString();
+            //if (Session["user"] == null)
+            //    Response.Redirect("Login.aspx");
+            //else
+            //    lblUsername.Text = Session["user"].ToString();
         }
 
         protected void logout_Click(object sender, EventArgs e)

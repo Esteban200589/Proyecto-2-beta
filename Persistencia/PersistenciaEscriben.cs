@@ -64,6 +64,8 @@ namespace Persistencia
                 SqlParameter ret = new SqlParameter();
                 ret.Direction = ParameterDirection.ReturnValue;
                 cmd.Parameters.Add(ret);
+
+                cmd.Transaction = trn;
                 cmd.ExecuteNonQuery();
 
                 int valor = Convert.ToInt32(ret.Value);

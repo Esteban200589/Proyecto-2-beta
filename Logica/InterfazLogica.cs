@@ -38,8 +38,8 @@ namespace Logica
 
     public interface InterfazLogicaInternacionales
     {
-        void AgregarInternacional(Internacional n, string u);
-        void ModificarInternacional(Internacional n, string u);
+        void AgregarInternacional(Internacional n);
+        void ModificarInternacional(Internacional n);
 
         List<Internacional> UltimasCincoInternacionales();
         Internacional MostrarInternacional(string codigo);
@@ -47,13 +47,10 @@ namespace Logica
 
     public interface InterfazLogicaNacionales
     {
-        void AgregarNacional(Nacional n, string u, string s);
-        void ModificarNacional(Nacional n, string u, string s);
+        void AgregarNacional(Nacional n);
+        void ModificarNacional(Nacional n);
 
         List<Nacional> UltimasCincoNacionales();
         Nacional MostrarNacional(string codigo);
     }
-
-    
-    
 }

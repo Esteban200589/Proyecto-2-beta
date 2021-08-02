@@ -26,12 +26,14 @@ namespace Logica
 
         public void AgregarInternacional(Internacional n)
         {
-            FabricaNoticias.AgregarInternacional(n);
+            if (n.Fecha < DateTime.Now)
+                FabricaNoticias.AgregarInternacional(n);
         }
 
         public void ModificarInternacional(Internacional n)
         {
-            FabricaNoticias.ModificarInternacional(n);
+            if (n.Fecha < DateTime.Now)
+                FabricaNoticias.ModificarInternacional(n);
         }
 
 

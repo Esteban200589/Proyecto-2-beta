@@ -24,14 +24,16 @@ namespace Logica
         static InterfazPersistenciaNacionales FabricaNoticias = FabricaPersistencia.getPersistenciaNacional();
 
 
-        public void AgregarNacional(Nacional n, string u, string s)
+        public void AgregarNacional(Nacional n)
         {
-            FabricaNoticias.AgregarNacional(n, u, s);
+            if (n.Fecha < DateTime.Now)
+                FabricaNoticias.AgregarNacional(n);
         }
 
-        public void ModificarNacional(Nacional n, string u, string s)
+        public void ModificarNacional(Nacional n)
         {
-            FabricaNoticias.ModificarNacional(n, u, s);
+            if (n.Fecha < DateTime.Now)
+                FabricaNoticias.ModificarNacional(n);
         }
 
 

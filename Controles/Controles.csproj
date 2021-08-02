@@ -47,7 +47,14 @@
     <Compile Include="DesplegableAnios.cs" />
     <Compile Include="DesplegableDias.cs" />
     <Compile Include="DesplegableMeses.cs" />
+    <Compile Include="ListaPeriodistas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EntidadesCompartidas\EntidadesCompartidas.csproj">
+      <Project>{ca8f9cc7-e13b-451a-a852-21a37cb1f19f}</Project>
+      <Name>EntidadesCompartidas</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

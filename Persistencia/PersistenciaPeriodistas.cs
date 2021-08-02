@@ -122,7 +122,7 @@ namespace Persistencia
         }
         
 
-        public Periodista BuscarPeriodista(string cedula)
+        internal Periodista BuscarPeriodista(string cedula)
         {
             Periodista p = null;
             SqlConnection cnn = new SqlConnection(Conexion.Cnn);
@@ -216,7 +216,7 @@ namespace Persistencia
             return lista;
         }
 
-        public List<Periodista> ListarPeriodistasPorNoticia(string codigo)
+        internal List<Periodista> ListarPeriodistasPorNoticia(string codigo)
         {
             List<Periodista> lista = new List<Periodista>();
             SqlConnection cnn = new SqlConnection(Conexion.Cnn);

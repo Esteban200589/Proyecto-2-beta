@@ -14,7 +14,7 @@ namespace EntidadesCompartidas
         {
             get { return pais; }
             set {
-                if (value != "")
+                if (value != null)
                     throw new Exception("Debe tener un pais de origen.");
                 else if (value.Length > 25)
                     throw new Exception("El nombre del pais puede tener hasta 25 caracteres de largo maximo.");

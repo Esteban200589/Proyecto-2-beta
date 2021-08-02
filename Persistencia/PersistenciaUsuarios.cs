@@ -100,7 +100,7 @@ namespace Persistencia
 
                 SqlCommand cmd = new SqlCommand("buscar_usuario", cnn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("username", username);
+                cmd.Parameters.AddWithValue("user", username);
                 SqlDataReader dr = cmd.ExecuteReader();
 
                 if (dr.Read())

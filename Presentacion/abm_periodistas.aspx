@@ -9,34 +9,48 @@
 
         <table id="tabla_periodistas" style="width:800px;margin:auto;" align="center">
             <tr>
-                <td class="style3"> Username:</td>
+                <td class="style3"> Cedula:</td>
                 <td class="style1">
-                     <asp:TextBox ID="txtUsername" class="form-control" runat="server" Width="210px" 
-                         ToolTip="Nombre de Usuario" ></asp:TextBox>
+                     <asp:TextBox ID="txtCedula" class="form-control" runat="server" Width="210px" 
+                         ToolTip="Cedula o documento del periodista" ></asp:TextBox>
                 </td>
                 <td>
+                    <asp:Button ID="btnBuscar" class="btn btn-secondary" runat="server" Text="Buscar" Width="102px"/>
                 </td>
             </tr>
             <tr>
-                <td class="style3"> Password:</td>
+                <td class="style3"> Nombre Completo:</td>
                 <td class="style1">
-                    <asp:TextBox ID="txtPassword" class="form-control" runat="server" Width="210px" 
-                        TextMode="Password" ToolTip="Introduzca su Password" ></asp:TextBox>
+                    <asp:TextBox ID="txtNombre" class="form-control" runat="server" Width="210px" 
+                        ToolTip="Introduzca el nombre completo del periodista" ></asp:TextBox>
                 </td>
                 <td>
-                    <asp:Button ID="btnGuardar" class="btn btn-secondary" runat="server" Text="Guardar" Width="102px" OnClick="btnGuardar_Click"/>
+                    <asp:Button ID="btnModificar" class="btn btn-secondary" runat="server" Text="Modificar" Width="102px"/>
                 </td>
             </tr>
-            
+            <tr>
+                <td class="style3"> Email:</td>
+                <td class="style1">
+                    <asp:TextBox ID="txtEmail" class="form-control" runat="server" Width="210px" 
+                        ToolTip="Introduzca el email del periodista" ></asp:TextBox>
+                </td>
+                <td>
+                    <asp:Button ID="btnGuardar" class="btn btn-secondary" runat="server" Text="Guardar" Width="102px"/>
+                </td>
+            </tr>
             
             <tr>
                 <td class="style3"></td>
+                <td class="style3"></td>
+                <td>
+                    <asp:Button ID="btnEliminar" class="btn btn-secondary" runat="server" Text="Eliminar" Width="102px"/>
+                </td>
             </tr>
             <tr>
                 <td class="style3">
                 </td>
                 <td class="style1">
-                    <asp:Button ID="btnLimpiar" class="btn btn-secondary" runat="server" Text="Limpiar" Width="210px" OnClick="btnLimpiar_Click"/>
+                    <asp:Button ID="btnLimpiar" class="btn btn-secondary" runat="server" Text="Limpiar" Width="210px"/>
                 </td>
                 <td>
                 </td>

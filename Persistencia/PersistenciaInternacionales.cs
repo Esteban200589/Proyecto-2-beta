@@ -35,7 +35,7 @@ namespace Persistencia
             cmd.Parameters.AddWithValue("cuerpo", n.Cuerpo);
             cmd.Parameters.AddWithValue("importancia", n.Importancia);
             cmd.Parameters.AddWithValue("pais", n.Pais);
-            cmd.Parameters.AddWithValue("username", n.Usuario);
+            cmd.Parameters.AddWithValue("username", n.Usuario.Username);
 
             SqlParameter ret = new SqlParameter();
             ret.Direction = ParameterDirection.ReturnValue;
@@ -59,7 +59,7 @@ namespace Persistencia
                 if (valor == -2)
                     throw new Exception("El usuario no existe.");
 
-                foreach (Periodista p in ptas)
+                foreach (Periodista p in n.Periodistas)
                 {
                     PersistenciaEscriben.GetInstanciaEscriben().AgregarEscriben(n.Codigo,p,trn);
                 }
@@ -89,7 +89,7 @@ namespace Persistencia
             cmd.Parameters.AddWithValue("cuerpo", n.Cuerpo);
             cmd.Parameters.AddWithValue("importancia", n.Importancia);
             cmd.Parameters.AddWithValue("pais", n.Pais);
-            cmd.Parameters.AddWithValue("username", user);
+            cmd.Parameters.AddWithValue("username", n.Usuario.Username);
 
             SqlParameter ret = new SqlParameter();
             ret.Direction = ParameterDirection.ReturnValue;
@@ -116,10 +116,10 @@ namespace Persistencia
                 if (valor == -2)
                     throw new Exception("El Usuario no existe.");
 
-                //foreach (Periodista p in ptas)
-                //{
-                //    PersistenciaEscriben.GetInstanciaEscriben().AgregarEscriben(n.Codigo, p, trn);
-                //}
+                foreach (Periodista p in n.Periodistas)
+                {
+                    PersistenciaEscriben.GetInstanciaEscriben().AgregarEscriben(n.Codigo, p, trn);
+                }
 
                 trn.Commit();
             }
@@ -154,10 +154,11 @@ namespace Persistencia
 
                 while (dr.Read())
                 {
-                    InterfazPersistenciaPeriodistas IntPtas = FabricaPersistencia.getPersistenciaPeriodista();
-                    ptas = IntPtas.ListarPeriodistas();
                     InterfazPersistenciaUsuarios IntUser = FabricaPersistencia.getPersistenciaUsuario();
                     user = IntUser.BuscarUsuario(dr["username"].ToString());
+
+                    ptas = PersistenciaPeriodistas.GetInstanciaPeriodistas().ListarPeriodistasPorNoticia(dr["codigo"].ToString());
+
                     noticia = new Internacional(dr["pais"].ToString(), dr["codigo"].ToString(), Convert.ToDateTime(dr["fecha"]),
                                                 dr["titulo"].ToString(), dr["cuerpo"].ToString(), Convert.ToInt32(dr["importancia"]),
                                                 ptas, user);

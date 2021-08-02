@@ -119,7 +119,7 @@ namespace Persistencia
         }
 
 
-        public Seccion BuscarSeccion(string codigo)
+        internal Seccion BuscarSeccion(string codigo)
         {
             Seccion s = null;
             SqlConnection cnn = new SqlConnection(Conexion.Cnn);

@@ -10,16 +10,19 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <p>PAGINA INICIAL (CONSULTA DE NOTICIAS)<b> Default</b> </p>
+            <p>PAGINA INICIAL (CONSULTA DE NOTICIAS)<b> Default</b> <a href="login.aspx" 
+                style="float:right;position:absolute;right:10%;">LOGIN</a></p>
         </div>
 
-        <div>
-
+        <div id="grilla">
+            <asp:GridView ID="gvNoticias" runat="server" Width="400" HorizontalAlign="Center"></asp:GridView>
         </div>
 
-        <div>
-            <a href="login.aspx">Login</a>
-        </div>
+        <%--<div id="lista">
+            <asp:ListBox ID="lbNoticias" runat="server" Width="200"></asp:ListBox>
+        </div>--%>
+
+        
     </form>
 </body>
 </html>

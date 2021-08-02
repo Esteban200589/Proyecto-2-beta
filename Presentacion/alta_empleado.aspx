@@ -10,10 +10,17 @@
 
         <table id="tabla_usuarios" style="width:800px;margin:auto;" align="center">
             <tr>
+                <td class="style3"> </td>
+                <td class="style1"> </td>
+                <%--<td>
+                    <asp:Button ID="btnBuscar" class="btn btn-secondary" runat="server" Text="Buscar" Width="102px" OnClick="btnBuscar_Click/>
+                </td>--%>
+            </tr>
+            <tr>
                 <td class="style3"> Username:</td>
                 <td class="style1">
                      <asp:TextBox ID="txtUsername" class="form-control" runat="server" Width="210px" 
-                         ToolTip="Nombre de Usuario" ></asp:TextBox>
+                         ToolTip="Introduzca el nombre de Usuario" ></asp:TextBox>
                 </td>
                 <td>
                 </td>
