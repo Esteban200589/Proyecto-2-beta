@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 
 using EntidadesCompartidas;
 using Logica;
+using System.Drawing;
 
 namespace Presentacion
 {
@@ -115,7 +116,35 @@ namespace Presentacion
 
         private void guardar()
         {
+            try
+            {
+                Seccion seccion = new Seccion(txtCodigo.Text,txtNombre.Text);
 
+                if (seccion != null)
+                {
+                    FabricaLogica.getLogicaSecciones().AgregarSeccion(seccion);
+
+                    lblMsj.Text = "Sección Registrada";
+                    lblMsj.ForeColor = Color.Green;
+
+                    Limpiar();
+                }
+                else
+                {
+                    Botones_Inicio();
+
+                    lblMsj.Text = "No se pudo registrar la Sección";
+                    lblMsj.ForeColor = Color.DarkOrange;
+
+                    txtCodigo.Focus();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                lblMsj.Text = ex.Message;
+                lblMsj.ForeColor = Color.Red;
+            }
         }
 
         private void eliminar()

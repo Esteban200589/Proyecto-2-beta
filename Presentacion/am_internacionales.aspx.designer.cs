@@ -15,13 +15,22 @@ namespace Presentacion
     {
 
         /// <summary>
-        /// Control Calendar_Inter.
+        /// Control fecha.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Calendar Calendar_Inter;
+        protected global::System.Web.UI.WebControls.Calendar fecha;
+
+        /// <summary>
+        /// Control txtCodigo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCodigo;
 
         /// <summary>
         /// Control btnBuscar.
@@ -78,22 +87,22 @@ namespace Presentacion
         protected global::System.Web.UI.WebControls.DropDownList ddlImportancia;
 
         /// <summary>
-        /// Control gvPeriodistas.
+        /// Control gvPeriodistasSeleccion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvPeriodistas;
+        protected global::System.Web.UI.WebControls.GridView gvPeriodistasSeleccion;
 
         /// <summary>
-        /// Control lbPeriodistas.
+        /// Control GridView1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListBox lbPeriodistas;
+        protected global::System.Web.UI.WebControls.GridView GridView1;
 
         /// <summary>
         /// Control txtPais.

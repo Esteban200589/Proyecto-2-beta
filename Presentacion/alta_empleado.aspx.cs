@@ -15,10 +15,23 @@ namespace Presentacion
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                Session["Usuario"] = null;
 
+                this.Botones_Inicio();
+                this.Limpiar();
+
+                txtUsername.Enabled = true;
+                txtPassword.Enabled = false;
+            }
         }
 
-        // protected void btnBuscar_Click(object sender, EventArgs e) { }
+
+        protected void btnBuscar_Click(object sender, EventArgs e)
+        {
+
+        }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
@@ -30,16 +43,37 @@ namespace Presentacion
             Limpiar();
         }
 
-        private void Botones_Inicio()
-        {
-            btnGuardar.Enabled = false;
-            btnLimpiar.Enabled = true;
-        }
 
-        private void Limpiar()
+        private void Buscar()
         {
-            txtUsername.Text = "";
-            txtPassword.Text = "";
+            try
+            {
+                Usuario usuario = null;
+                usuario = FabricaLogica.getLogicaUsuarios().BuscarUsuario(txtUsername.Text);
+
+                this.Limpiar();
+
+
+                if (usuario == null)
+                {
+                    btnGuardar.Enabled = true;
+                }
+                else
+                {
+                    btnGuardar.Enabled = false;
+
+                    txtUsername.Text = usuario.Username;
+                    txtPassword.Text = usuario.Password;
+
+                    Session["Usuario"] = usuario;
+
+                    lblMsj.Text = "Usuario Encontrado";
+                }
+            }
+            catch (Exception ex)
+            {
+                lblMsj.Text = ex.Message;
+            }
         }
 
         private void Guardar()
@@ -74,5 +108,19 @@ namespace Presentacion
                 lblMsj.ForeColor = Color.Red;
             }
         }
+
+
+        private void Botones_Inicio()
+        {
+            btnGuardar.Enabled = false;
+            btnLimpiar.Enabled = true;
+        }
+
+        private void Limpiar()
+        {
+            txtUsername.Text = "";
+            txtPassword.Text = "";
+        }
+
     }
 }

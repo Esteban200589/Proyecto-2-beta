@@ -745,3 +745,26 @@ go
 -----------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------
+
+--if exists (select * from sysobjects where name = 'buscar_noticia')
+--	drop proc buscar_seccion
+--go
+--create proc buscar_seccion	
+--	@tipo int
+--as
+--begin
+--	if(@tipo = 0)
+--	begin 
+--		select * from noticias w
+--		join nacionales n on n.codigo = w.codigo
+--		where w.codigo = @codigo
+--	end
+--	else
+--	begin
+--		select * from noticias w
+--		join internacionales i on i.codigo = w.codigo
+--		where w.codigo = @codigo
+--	end
+--	select * from secciones where codigo_secc = @codigo_secc
+--end
+--go

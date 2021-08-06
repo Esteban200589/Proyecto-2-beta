@@ -19,27 +19,35 @@ namespace Presentacion
 
         private void CargarDatos()
         {
-            // List<Noticia> todas = 
-
-            // noticias de los ultimos 5 dias
-
-            List<Internacional> internacionales = FabricaLogica.getLogicaInternacionales().UltimasCincoInternacionales();
-
             List<Nacional> nacionales = FabricaLogica.getLogicaNacionales().UltimasCincoNacionales();
+            List<Internacional> internacionales = FabricaLogica.getLogicaInternacionales().UltimasCincoInternacionales();
+           
+            List<object> listado = (from nacio in nacionales
+                                    join inter in internacionales
+                                    on nacio.TipoNoticia equals inter.TipoNoticia into table
+                                    select new{
+                                        Fecha = table.First(),
+                                        Tipo = table.ElementAt(1)
+                                    }).ToList<object>();
 
-            List<object> listado = (from inter in internacionales
-                                    join nacio in nacionales
-                                    on inter.TipoNoticia equals nacio.TipoNoticia
-                                    group inter by inter.TipoNoticia into grupo  
-                                    select new
-                                    {
-                                        Fecha = grupo.Key
-                                        //Tipo = 
-                                    }
-                                    
-                                    ).ToList<object>();
+            foreach (var n in nacionales)
+            {
+                this.Response.Write(n);
+            }
 
-            gvNoticias.DataSource = listado;
+            //try
+            //{
+            //    Session["Noticias"] = listado;
+            //    gvNoticias.DataSource = listado;
+            //    gvNoticias.DataBind();
+            //}
+            //catch (Exception ex)
+            //{
+            //    this.Response.Write("Error al cargar grilla. "+ ex);
+            //}
+
+
+            gvNoticias.DataSource = nacionales;
             gvNoticias.DataBind();
         }
     }

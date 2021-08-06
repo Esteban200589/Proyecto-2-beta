@@ -23,6 +23,7 @@
                          ToolTip="Introduzca el nombre de Usuario" ></asp:TextBox>
                 </td>
                 <td>
+                    <asp:Button ID="btnBuscar" class="btn btn-secondary" runat="server" Text="Buscar" Width="102px" OnClick="btnBuscar_Click"/>
                 </td>
             </tr>
             <tr>

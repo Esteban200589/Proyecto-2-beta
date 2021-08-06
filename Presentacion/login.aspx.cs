@@ -31,7 +31,7 @@ namespace Presentacion
 
                 if (usuario != null)
                 {
-                    Session["user"] = username;
+                    Session["user"] = usuario;
                     Response.Redirect("index.aspx");
                 }
                 else
