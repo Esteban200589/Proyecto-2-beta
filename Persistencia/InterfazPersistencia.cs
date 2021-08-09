@@ -45,7 +45,8 @@ namespace Persistencia
         
         List<Internacional> UltimasCincoInternacionales();
         List<Internacional> EstadisticasInternacionales();
-        Internacional MostrarInternacional(string codigo);
+
+        Internacional BuscarInternacional(string codigo);
     }
 
     public interface InterfazPersistenciaNacionales
@@ -55,6 +56,7 @@ namespace Persistencia
         
         List<Nacional> UltimasCincoNacionales();
         List<Nacional> EstadisticasNacionales();
-        Nacional MostrarNacional(string codigo);
+
+        Nacional BuscarNacional(string codigo);
     }
 }

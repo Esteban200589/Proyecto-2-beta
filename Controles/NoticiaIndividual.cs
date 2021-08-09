@@ -12,20 +12,20 @@ namespace Controles
 {
     public class NoticiaIndividual : WebControl, INamingContainer
     {
-        private Panel panel;
-        private Label fecha;
-        private Label titulo;
-        private TextBox cuerpo;
-        private TextBox importancia;
-        private TextBox periodistas;
-        private TextBox pais;
-        private TextBox seccion;
+        //private Panel panel;
+        //private Label fecha;
+        //private Label titulo;
+        //private TextBox cuerpo;
+        //private TextBox importancia;
+        //private TextBox periodistas;
+        //private TextBox pais;
+        //private TextBox seccion;
 
         protected override void CreateChildControls()
         {
             base.CreateChildControls();
 
-            panel = new Panel();
+            //panel = new Panel();
 
             //// titulo
             //titulo = new Label();
@@ -70,7 +70,7 @@ namespace Controles
             //lblError.Text = "";
 
             //agrego el panel al control costumizado
-            this.Controls.Add(panel);
+            //this.Controls.Add(panel);
 
         }
 

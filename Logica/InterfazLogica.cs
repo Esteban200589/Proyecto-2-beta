@@ -42,7 +42,7 @@ namespace Logica
         void ModificarInternacional(Internacional n);
 
         List<Internacional> UltimasCincoInternacionales();
-        Internacional MostrarInternacional(string codigo);
+        Internacional BuscarInternacional(string codigo);
     }
 
     public interface InterfazLogicaNacionales
@@ -51,6 +51,6 @@ namespace Logica
         void ModificarNacional(Nacional n);
 
         List<Nacional> UltimasCincoNacionales();
-        Nacional MostrarNacional(string codigo);
+        Nacional BuscarNacional(string codigo);
     }
 }

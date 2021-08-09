@@ -59,8 +59,8 @@ namespace EntidadesCompartidas
         {
             get { return importancia; }
             set {
-                if (value <= 1 || value >= 5)
-                    throw new Exception("La Importancia debe tener entre 1 y 5 caracteres de largo");
+                if (value < 1 || value > 5)
+                    throw new Exception("La Importancia debe valer entre 1 y 5 ");
                 else
                     importancia = value; 
             }

@@ -47,7 +47,6 @@
     <Compile Include="DesplegableAnios.cs" />
     <Compile Include="DesplegableDias.cs" />
     <Compile Include="DesplegableMeses.cs" />
-    <Compile Include="ListaPeriodistas.cs" />
     <Compile Include="NoticiaIndividual.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -42,9 +42,9 @@ namespace Logica
             return FabricaNoticias.UltimasCincoInternacionales();
         }
 
-        public Internacional MostrarInternacional(string codigo)
+        public Internacional BuscarInternacional(string codigo)
         {
-            return FabricaNoticias.MostrarInternacional(codigo);
+            return FabricaNoticias.BuscarInternacional(codigo);
         }
     }
 }

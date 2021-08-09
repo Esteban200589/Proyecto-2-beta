@@ -221,7 +221,7 @@ namespace Persistencia
             return lista;
         }
 
-        public Internacional MostrarInternacional(string codigo)
+        public Internacional BuscarInternacional(string codigo)
         {
             Usuario user = null;
             Internacional noticia = null;
@@ -237,6 +237,7 @@ namespace Persistencia
                 cmd.Parameters.AddWithValue("tipo", 0);
                 cmd.Parameters.AddWithValue("codigo", codigo);
                 SqlDataReader dr = cmd.ExecuteReader();
+    
 
                 if (dr.Read())
                 {
@@ -244,6 +245,9 @@ namespace Persistencia
 
                     InterfazPersistenciaUsuarios IntUser = FabricaPersistencia.getPersistenciaUsuario();
                     user = IntUser.BuscarUsuario(dr["username"].ToString());
+
+                    if (dr["pais"] == null)
+                        throw new Exception("Existe la noticia pero pertenece a otra categoria");
 
                     noticia = new Internacional(dr["pais"].ToString(), dr["codigo"].ToString(), Convert.ToDateTime(dr["fecha"]),
                                             dr["titulo"].ToString(), dr["cuerpo"].ToString(), Convert.ToInt32(dr["importancia"]),

@@ -45,7 +45,7 @@ namespace Presentacion
             try
             {
                 Nacional noticia = null;
-                noticia = FabricaLogica.getLogicaNacionales().MostrarNacional(txtCodigo.Text);
+                noticia = FabricaLogica.getLogicaNacionales().BuscarNacional(txtCodigo.Text);
 
                 if (txtCodigo.Text == string.Empty)
                     throw new Exception("Debe ingresar un codigo");
@@ -64,9 +64,10 @@ namespace Presentacion
                     txtTitulo.Text = noticia.Titulo;
                     txtCuerpo.Text = noticia.Cuerpo;
                     ddlImportancia.SelectedItem.Text = noticia.Importancia.ToString();
-                    ddlSecciones.SelectedValue = noticia. 
+                    ddlSecciones.SelectedValue = noticia.Seccion.Codigo_secc;
                     gvPeriodistasSeleccion.DataSource = noticia.Periodistas;
-                    Session["internacional"] = noticia;
+                    gvPeriodistasSeleccion.DataBind();
+                    Session["Nacional"] = noticia;
 
                     lblMsj.Text = "Noticia Encontrada";
                     lblMsj.ForeColor = Color.Green;
@@ -87,7 +88,7 @@ namespace Presentacion
                 string code = txtCodigo.Text;
                 string title = txtTitulo.Text;
                 string body = txtCuerpo.Text;
-                string pais = txtPais.Text;
+                Seccion secc = FabricaLogica.getLogicaSecciones().BuscarSeccion(ddlSecciones.SelectedValue);
                 int imp = Convert.ToInt32(ddlImportancia.SelectedValue);
                 List<Periodista> ptas = null;
                 foreach (DataGridItem item in gvPeriodistasElegidos.Rows)
@@ -96,20 +97,20 @@ namespace Presentacion
                     ptas.Add(p);
                 }
 
-                Internacional noticia = new Internacional(pais, code, date, title, body, imp, ptas, user);
+                Nacional noticia = new Nacional(secc, code, date, title, body, imp, ptas, user);
 
                 if (noticia != null)
                 {
-                    FabricaLogica.getLogicaInternacionales().AgregarInternacional(noticia);
+                    FabricaLogica.getLogicaNacionales().AgregarNacional(noticia);
 
-                    lblMsj.Text = "Noticia Internacional Agregada con Exito";
+                    lblMsj.Text = "Noticia Nacional Agregada con Exito";
                     lblMsj.ForeColor = Color.Green;
 
                     limpiar();
                 }
                 else
                 {
-                    lblMsj.Text = "No se pudo agregar la Noticia Internacional";
+                    lblMsj.Text = "No se pudo agregar la Noticia Nacional";
                     lblMsj.ForeColor = Color.DarkOrange;
                 }
 
@@ -185,74 +186,5 @@ namespace Presentacion
             ddlSecciones.DataValueField = "Codigo_secc";
             ddlSecciones.DataBind();
         }
-
-
-        private void Guardar2()
-        {
-            try
-            {
-                Usuario user = (Usuario)Session["user"];
-
-                if (fecha.SelectedDate.ToString("yyyyMMdd") == "00010101")
-                    throw new Exception("Debe seleccionar una fecha");
-
-                if (txtCodigo.Text == string.Empty)
-                    throw new Exception("Debe ingresar un codigo");
-
-                if (txtTitulo.Text == string.Empty)
-                    throw new Exception("Debe ingresar un titulo");
-
-                if (txtCuerpo.Text == string.Empty)
-                    throw new Exception("Debe escribir algo en el cuerpo de la noticia");
-
-                if (gvPeriodistasElegidos.Rows.Count == 0)
-                    throw new Exception("Debe seleccionar un periodista");
-
-                if (ddlImportancia.SelectedItem.Value == string.Empty)
-                    throw new Exception("Debe seleccionar la importancia.");
-
-                if (ddlSecciones.SelectedItem.Value == string.Empty)
-                    throw new Exception("Debe elegir una seccion.");
-
-
-                DateTime date = fecha.SelectedDate;
-                string code = txtCodigo.Text;
-                string title = txtTitulo.Text;
-                string body = txtCuerpo.Text;
-                List<Periodista> ptas = null;
-                // ptas = gvPeriodistasElegidos.;  <--------------------------------------------------------
-                int imp = Convert.ToInt32(ddlImportancia.SelectedValue);
-
-                Seccion secc = FabricaLogica.getLogicaSecciones().BuscarSeccion(ddlSecciones.SelectedValue);
-
-                Nacional noticia = new Nacional(secc, code, date, title, body, imp, ptas, user);
-
-                if (noticia != null)
-                {
-                    FabricaLogica.getLogicaNacionales().AgregarNacional(noticia);
-
-                    lblMsj.Text = "Noticia Nacional Agregada con Exito";
-                    lblMsj.ForeColor = Color.Green;
-
-                    Limpiar();
-                }
-                else
-                {
-
-
-                    lblMsj.Text = "No se pudo agregar la Noticia Nacional";
-                    lblMsj.ForeColor = Color.DarkOrange;
-                }
-
-                txtCodigo.Focus();
-
-            }
-            catch (Exception ex)
-            {
-                lblMsj.Text = ex.Message;
-                lblMsj.ForeColor = Color.Red;
-            }
-        }
-
     }
 }

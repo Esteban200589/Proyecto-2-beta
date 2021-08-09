@@ -151,7 +151,7 @@ namespace Persistencia
                 Usuario user = null;
                 Seccion secc = null;
                 Nacional noticia = null;
-                List<Periodista> ptas = new List<Periodista>();
+                List<Periodista> ptas = null;
 
                 while (dr.Read())
                 {
@@ -229,7 +229,7 @@ namespace Persistencia
             return lista;
         }
 
-        public Nacional MostrarNacional(string codigo)
+        public Nacional BuscarNacional(string codigo)
         {
             Usuario user = null;
             Seccion secc = null;

@@ -45,7 +45,7 @@ namespace Presentacion
             try
             {
                 Internacional noticia = null;
-                noticia = FabricaLogica.getLogicaInternacionales().MostrarInternacional(txtCodigo.Text);
+                noticia = FabricaLogica.getLogicaInternacionales().BuscarInternacional(txtCodigo.Text);
 
                 if (txtCodigo.Text == string.Empty)
                     throw new Exception("Debe ingresar un codigo");
@@ -66,6 +66,7 @@ namespace Presentacion
                     ddlImportancia.SelectedItem.Text = noticia.Importancia.ToString();
                     txtPais.Text = noticia.Pais;
                     gvPeriodistasSeleccion.DataSource = noticia.Periodistas;
+                    gvPeriodistasSeleccion.DataBind();
                     Session["internacional"] = noticia;
 
                     lblMsj.Text = "Noticia Encontrada";

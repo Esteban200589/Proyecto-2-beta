@@ -227,7 +227,7 @@ if exists (select * from sysobjects where name = 'agregar_periodista')
 go
 create proc agregar_periodista
 	@cedula varchar(8), 
-	@nombre varchar(10),
+	@nombre varchar(30),
 	@email varchar (30) 
 AS	
 Begin
@@ -250,7 +250,7 @@ if exists (select * from sysobjects where name = 'modificar_periodista')
 go
 create proc modificar_periodista
 	@cedula varchar(8), 
-	@nombre varchar(10),
+	@nombre varchar(30),
 	@email varchar (30) 
 as
 begin
@@ -492,6 +492,17 @@ begin
 		join internacionales i on i.codigo = w.codigo
 		where w.codigo = @codigo
 	end
+end
+go
+
+if exists (select * from sysobjects where name = 'buscar_noticia_general')
+	drop proc buscar_noticia_general
+go
+create proc buscar_noticia_general
+	@codigo varchar(6)
+as
+begin
+	select * from noticias where codigo = @codigo
 end
 go
 

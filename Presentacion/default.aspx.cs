@@ -14,26 +14,28 @@ namespace Presentacion
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            CargarDatos();
+            cargar_datos();
         }
 
-        private void CargarDatos()
+        private void cargar_datos()
         {
             List<Nacional> nacionales = FabricaLogica.getLogicaNacionales().UltimasCincoNacionales();
             List<Internacional> internacionales = FabricaLogica.getLogicaInternacionales().UltimasCincoInternacionales();
-           
+            //this.Response.Write(nacionales);
+
             List<object> listado = (from nacio in nacionales
                                     join inter in internacionales
                                     on nacio.TipoNoticia equals inter.TipoNoticia into table
-                                    select new{
-                                        Fecha = table.First(),
-                                        Tipo = table.ElementAt(1)
+                                    select new
+                                    {
+                                        Fecha = table.key
+
                                     }).ToList<object>();
 
-            foreach (var n in nacionales)
-            {
-                this.Response.Write(n);
-            }
+            //foreach (var n in nacionales)
+            //{
+            //    this.Response.Write(n);
+            //}
 
             //try
             //{
@@ -47,7 +49,7 @@ namespace Presentacion
             //}
 
 
-            gvNoticias.DataSource = nacionales;
+            gvNoticias.DataSource = listado;
             gvNoticias.DataBind();
         }
     }
