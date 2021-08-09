@@ -155,12 +155,14 @@ namespace Persistencia
 
                 while (dr.Read())
                 {
+                    ptas = PersistenciaPeriodistas.GetInstanciaPeriodistas().ListarPeriodistasPorNoticia(dr["codigo"].ToString());
+
                     InterfazPersistenciaSecciones IntSecc = FabricaPersistencia.getPersistenciaSeccion();
                     secc = IntSecc.BuscarSeccionActiva(dr["codigo_secc"].ToString());
-                    InterfazPersistenciaPeriodistas IntPtas = FabricaPersistencia.getPersistenciaPeriodista();
-                    ptas = IntPtas.ListarPeriodistas();
+                    
                     InterfazPersistenciaUsuarios IntUser = FabricaPersistencia.getPersistenciaUsuario();
                     user = IntUser.BuscarUsuario(dr["username"].ToString());
+
                     noticia = new Nacional(secc, dr["codigo"].ToString(), Convert.ToDateTime(dr["fecha"]),
                                            dr["titulo"].ToString(), dr["cuerpo"].ToString(), Convert.ToInt32(dr["importancia"]),
                                            ptas, user);
@@ -200,13 +202,13 @@ namespace Persistencia
 
                 while (dr.Read())
                 {
+                    ptas = PersistenciaPeriodistas.GetInstanciaPeriodistas().ListarPeriodistasPorNoticia(dr["codigo"].ToString());
+
                     InterfazPersistenciaSecciones IntSecc = FabricaPersistencia.getPersistenciaSeccion();
                     secc = IntSecc.BuscarSeccionActiva(dr["codigo_secc"].ToString());
 
                     InterfazPersistenciaUsuarios IntUser = FabricaPersistencia.getPersistenciaUsuario();
                     user = IntUser.BuscarUsuario(dr["username"].ToString());
-
-                    ptas = PersistenciaPeriodistas.GetInstanciaPeriodistas().ListarPeriodistasPorNoticia(dr["codigo"].ToString());
 
                     noticia = new Nacional(secc, dr["codigo"].ToString(), Convert.ToDateTime(dr["fecha"]),
                                            dr["titulo"].ToString(), dr["cuerpo"].ToString(), Convert.ToInt32(dr["importancia"]),
@@ -247,10 +249,11 @@ namespace Persistencia
 
                 if (dr.Read())
                 {
+                    ptas = PersistenciaPeriodistas.GetInstanciaPeriodistas().ListarPeriodistasPorNoticia(dr["codigo"].ToString());
+
                     InterfazPersistenciaSecciones IntSecc = FabricaPersistencia.getPersistenciaSeccion();
                     secc = IntSecc.BuscarSeccionActiva(dr["codigo_secc"].ToString());
-                    InterfazPersistenciaPeriodistas IntPtas = FabricaPersistencia.getPersistenciaPeriodista();
-                    ptas = IntPtas.ListarPeriodistas();
+
                     InterfazPersistenciaUsuarios IntUser = FabricaPersistencia.getPersistenciaUsuario();
                     noticia = new Nacional(secc, dr["codigo"].ToString(), Convert.ToDateTime(dr["fecha"]),
                                            dr["titulo"].ToString(), dr["cuerpo"].ToString(), Convert.ToInt32(dr["importancia"]),

@@ -71,8 +71,8 @@
             </tr>
 
             <tr>
-                <td class="style3"> Periodistas: </td>
-                <td class="style1">
+                <td> Periodistas: </td>
+                <td>
                     <div style="width:100%;display:flex;justify-content:space-between;">
                         <asp:GridView ID="gvPeriodistasSeleccion" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" 
                                       CellPadding="1" ForeColor="Black" GridLines="Vertical" Width="40%" AutoGenerateColumns="False">
@@ -94,7 +94,7 @@
                 </td>
                 <td >
                     <div style="width:100%;display:flex;justify-content:space-between;">
-                        <asp:GridView ID="GridView1" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" 
+                        <asp:GridView ID="gvPeriodistasElegidos" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" 
                                       CellPadding="1" ForeColor="Black" GridLines="Vertical" Width="40%" AutoGenerateColumns="False">
                             <AlternatingRowStyle BackColor="#CCCCCC" />
                             <Columns>

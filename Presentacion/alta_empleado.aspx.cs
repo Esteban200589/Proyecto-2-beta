@@ -15,48 +15,43 @@ namespace Presentacion
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            botones_inicio();
             if (!IsPostBack)
             {
                 Session["Usuario"] = null;
-
-                this.Botones_Inicio();
-                this.Limpiar();
-
-                txtUsername.Enabled = true;
-                txtPassword.Enabled = false;
+                limpiar();
             }
         }
 
-
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
-
+            buscar();
         }
-
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
-            Guardar();
+            guardar();
         }
-
         protected void btnLimpiar_Click(object sender, EventArgs e)
         {
-            Limpiar();
+            limpiar();
         }
 
-
-        private void Buscar()
+        private void buscar()
         {
             try
             {
                 Usuario usuario = null;
                 usuario = FabricaLogica.getLogicaUsuarios().BuscarUsuario(txtUsername.Text);
+                limpiar();
 
-                this.Limpiar();
-
+                if (txtUsername.Text == string.Empty)
+                    throw new Exception("Debe ingresar un username");
 
                 if (usuario == null)
                 {
                     btnGuardar.Enabled = true;
+                    lblMsj.Text = "No se encontró el usuario. Puede agregarlo.";
+                    lblMsj.ForeColor = Color.DarkOrange;
                 }
                 else
                 {
@@ -66,8 +61,8 @@ namespace Presentacion
                     txtPassword.Text = usuario.Password;
 
                     Session["Usuario"] = usuario;
-
                     lblMsj.Text = "Usuario Encontrado";
+                    lblMsj.ForeColor = Color.Green;
                 }
             }
             catch (Exception ex)
@@ -75,8 +70,7 @@ namespace Presentacion
                 lblMsj.Text = ex.Message;
             }
         }
-
-        private void Guardar()
+        private void guardar()
         {
             try
             {
@@ -89,11 +83,11 @@ namespace Presentacion
                     lblMsj.Text = "Usuario Registrado";
                     lblMsj.ForeColor = Color.Green;
 
-                    Limpiar();
+                    limpiar();
                 }
                 else
                 {
-                    Botones_Inicio();
+                    botones_inicio();
 
                     lblMsj.Text = "No se pudo registrar el Usuario";
                     lblMsj.ForeColor = Color.DarkOrange;
@@ -109,18 +103,15 @@ namespace Presentacion
             }
         }
 
-
-        private void Botones_Inicio()
-        {
-            btnGuardar.Enabled = false;
-            btnLimpiar.Enabled = true;
-        }
-
-        private void Limpiar()
+        private void limpiar()
         {
             txtUsername.Text = "";
             txtPassword.Text = "";
         }
-
+        private void botones_inicio()
+        {
+            btnGuardar.Enabled = false;
+            btnLimpiar.Enabled = true;
+        }   
     }
 }

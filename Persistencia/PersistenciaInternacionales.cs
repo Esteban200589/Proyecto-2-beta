@@ -154,10 +154,10 @@ namespace Persistencia
 
                 while (dr.Read())
                 {
+                    ptas = PersistenciaPeriodistas.GetInstanciaPeriodistas().ListarPeriodistasPorNoticia(dr["codigo"].ToString());
+
                     InterfazPersistenciaUsuarios IntUser = FabricaPersistencia.getPersistenciaUsuario();
                     user = IntUser.BuscarUsuario(dr["username"].ToString());
-
-                    ptas = PersistenciaPeriodistas.GetInstanciaPeriodistas().ListarPeriodistasPorNoticia(dr["codigo"].ToString());
 
                     noticia = new Internacional(dr["pais"].ToString(), dr["codigo"].ToString(), Convert.ToDateTime(dr["fecha"]),
                                                 dr["titulo"].ToString(), dr["cuerpo"].ToString(), Convert.ToInt32(dr["importancia"]),
@@ -197,10 +197,11 @@ namespace Persistencia
 
                 while (dr.Read())
                 {
-                    InterfazPersistenciaPeriodistas IntPtas = FabricaPersistencia.getPersistenciaPeriodista();
-                    ptas = IntPtas.ListarPeriodistas();
+                    ptas = PersistenciaPeriodistas.GetInstanciaPeriodistas().ListarPeriodistasPorNoticia(dr["codigo"].ToString());
+
                     InterfazPersistenciaUsuarios IntUser = FabricaPersistencia.getPersistenciaUsuario();
                     user = IntUser.BuscarUsuario(dr["username"].ToString());
+
                     noticia = new Internacional(dr["pais"].ToString(), dr["codigo"].ToString(), Convert.ToDateTime(dr["fecha"]),
                                                 dr["titulo"].ToString(), dr["cuerpo"].ToString(), Convert.ToInt32(dr["importancia"]),
                                                 ptas, user);
@@ -239,9 +240,11 @@ namespace Persistencia
 
                 if (dr.Read())
                 {
-                    InterfazPersistenciaPeriodistas IntPtas = FabricaPersistencia.getPersistenciaPeriodista();
-                    ptas = IntPtas.ListarPeriodistas();
+                    ptas = PersistenciaPeriodistas.GetInstanciaPeriodistas().ListarPeriodistasPorNoticia(dr["codigo"].ToString());
+
                     InterfazPersistenciaUsuarios IntUser = FabricaPersistencia.getPersistenciaUsuario();
+                    user = IntUser.BuscarUsuario(dr["username"].ToString());
+
                     noticia = new Internacional(dr["pais"].ToString(), dr["codigo"].ToString(), Convert.ToDateTime(dr["fecha"]),
                                             dr["titulo"].ToString(), dr["cuerpo"].ToString(), Convert.ToInt32(dr["importancia"]),
                                             ptas, user);
