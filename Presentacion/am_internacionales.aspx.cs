@@ -45,7 +45,7 @@ namespace Presentacion
             try
             {
                 Internacional noticia = null;
-                noticia = FabricaLogica.getLogicaInternacionales().BuscarInternacional(txtCodigo.Text);
+                noticia = FabricaLogica.getLogicaNoticias().BuscarInternacional(txtCodigo.Text);
 
                 if (txtCodigo.Text == string.Empty)
                     throw new Exception("Debe ingresar un codigo");
@@ -101,7 +101,7 @@ namespace Presentacion
 
                 if (noticia != null)
                 {
-                    FabricaLogica.getLogicaInternacionales().AgregarInternacional(noticia);
+                    FabricaLogica.getLogicaNoticias().AgregarInternacional(noticia);
 
                     lblMsj.Text = "Noticia Internacional Agregada con Exito";
                     lblMsj.ForeColor = Color.Green;
@@ -140,7 +140,7 @@ namespace Presentacion
                     noticia.Pais = txtPais.Text;
                     noticia.Importancia = Convert.ToInt32(ddlImportancia.SelectedValue);
                    
-                    FabricaLogica.getLogicaInternacionales().ModificarInternacional(noticia);
+                    FabricaLogica.getLogicaNoticias().ModificarInternacional(noticia);
                     lblMsj.Text = "Noticia Internacional Modificada con Exito";
                     lblMsj.ForeColor = Color.Green;
 

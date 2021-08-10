@@ -19,35 +19,18 @@ namespace Presentacion
 
         private void cargar_datos()
         {
-            List<Nacional> nacionales = FabricaLogica.getLogicaNacionales().UltimasCincoNacionales();
-            List<Internacional> internacionales = FabricaLogica.getLogicaInternacionales().UltimasCincoInternacionales();
+            List<Noticia> noticias = null;
+            noticias = FabricaLogica.getLogicaNoticias().noticias_ultimos_cinco_dias();
             //this.Response.Write(nacionales);
 
-            List<object> listado = (from nacio in nacionales
-                                    join inter in internacionales
-                                    on nacio.TipoNoticia equals inter.TipoNoticia into table
+            List<object> listado = (from n in noticias
                                     select new
                                     {
-                                        Fecha = table.key
+                                        Fecha = n.Fecha,
+                                        Titulo = n.Titulo,
+                                        Tipo = n.TipoNoticia
 
                                     }).ToList<object>();
-
-            //foreach (var n in nacionales)
-            //{
-            //    this.Response.Write(n);
-            //}
-
-            //try
-            //{
-            //    Session["Noticias"] = listado;
-            //    gvNoticias.DataSource = listado;
-            //    gvNoticias.DataBind();
-            //}
-            //catch (Exception ex)
-            //{
-            //    this.Response.Write("Error al cargar grilla. "+ ex);
-            //}
-
 
             gvNoticias.DataSource = listado;
             gvNoticias.DataBind();

@@ -36,21 +36,17 @@ namespace Logica
         List<Seccion> ListarSecciones();
     }
 
-    public interface InterfazLogicaInternacionales
+    public interface InterfazLogicaNoticias
     {
+        List<Noticia> noticias_ultimos_cinco_dias();
+        List<Noticia> noticias_para_estadisticas();
+
         void AgregarInternacional(Internacional n);
         void ModificarInternacional(Internacional n);
-
-        List<Internacional> UltimasCincoInternacionales();
         Internacional BuscarInternacional(string codigo);
-    }
 
-    public interface InterfazLogicaNacionales
-    {
         void AgregarNacional(Nacional n);
         void ModificarNacional(Nacional n);
-
-        List<Nacional> UltimasCincoNacionales();
         Nacional BuscarNacional(string codigo);
     }
 }

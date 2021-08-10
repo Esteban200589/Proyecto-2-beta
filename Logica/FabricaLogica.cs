@@ -26,14 +26,9 @@ namespace Logica
             return LogicaSecciones.GetInstanciaSecciones();
         }
 
-        public static InterfazLogicaInternacionales getLogicaInternacionales()
+        public static InterfazLogicaNoticias getLogicaNoticias()
         {
-            return LogicaInternacionales.GetInstanciaInternacionales();
-        }
-
-        public static InterfazLogicaNacionales getLogicaNacionales()
-        {
-            return LogicaNacionales.GetInstanciaNacionales();
+            return LogicaNoticias.GetInstanciaNoticias();
         }
     }
 }
