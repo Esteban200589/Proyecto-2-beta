@@ -27,8 +27,8 @@ namespace Presentacion
                                     select new
                                     {
                                         Fecha = n.Fecha,
-                                        Titulo = n.Titulo,
-                                        Tipo = n.TipoNoticia
+                                        Tipo = n.TipoNoticia,
+                                        Titulo = n.Titulo
 
                                     }).ToList<object>();
 

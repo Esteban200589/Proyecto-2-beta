@@ -101,71 +101,114 @@ go
 -----------------------------------------------------------------------------------------------------------
 
 insert periodistas (cedula,nombre,email)
-	values ('41520770', 'DANIEL MANDALIOS','D.MANDA_123@GMAIL.COM'),
-		   ('47326453', 'ESTEBAN PICCARDO','E.PICCA_321@GMAIL.COM'),
-		   ('35654643', 'GABRIEL GESTA',   'G.GESTA_123@GMAIL.COM'),
-	       ('43243243', 'LAURA CTBLATANGA','L.CTBLA_567@GMAIL.COM'),
-	       ('12564354', 'SOFIA HERNANDEZ', 'S.OHERN_666@GMAIL.COM')
+	values ('41520770', 'DANIEL MANDALIOS','D.MANDA_123@gmail.com'),
+		   ('47326453', 'ESTEBAN PICCARDO','estebanpiccardo1989@gmail.com'),
+		   ('35654643', 'GABRIEL GESTA',   'G.GESTA_123@gmail.com'),
+	       ('43243243', 'LAURA CTBLATANGA','L.CTBLA_567@gmail.com'),
+		   ('12564354', 'SOFIA HERNANDEZ', 'S.OHERN_666@gmail.COM'),
+	       ('30014354', 'RODRIGO ROMANO',  'rodrigoromano@gmail.com'),
+		   ('46664004', 'ROBERTO MOAR',	   'robertomoar@gmail.com'),
+		   ('22884504', 'ALBERTO KESMAN',  'kesmaseskesman@gmail.com')
 go
 
 insert usuarios (username,password)
 	values ('dnmm88bios', 'dnmm123'),
 	       ('este89bios', 'este123'),
-	       ('gabi78bios', 'gabi123')
+	       ('gabi78bios', 'gabi123'),
+		   ('administro', 'abcd123')
 go
 
 insert secciones (codigo_secc,nombre_secc)
-	values ('secc1', 'DEPORTES'),
-		   ('secc2', 'SALUD'),
-		   ('secc3', 'VARIADOS'),
-		   ('secc4', 'NOTCIAS DEL DIA'),
-		   ('secc7', 'POLICIALES'),
-		   ('secc8', 'CLIMA')
+	values ('003c5', 'DEPORTES'),
+		   ('123k6', 'SALUD'),
+		   ('7665d', 'VARIADOS'),
+		   ('87w8q', 'NOTCIAS DEL DIA'),
+		   ('wd45w', 'POLICIALES'),
+		   ('z8789', 'CLIMA'),
+		   ('opwo5', 'MUSICA'),
+		   ('w286j', 'ARTE')
 go
 
 insert noticias (codigo,fecha,titulo,cuerpo,importancia,username)
-values ('abd123', '20220616', 'COPA AMERICA',
+values ('abd123', '20210823', 'COPA AMERICA',
 		'URUGUAY DEBUTO PERDIENDO CON ARGENTINA 1 A 0. PARTIDO JUGADO EN BRASIL', 
 		4,'este89bios'),
-	   ('abC456', '20220615', 'COVID',
+	   ('abC456', '20210823', 'COVID',
 	    'MANTENIDA BAJA DE CASOS EN LOS ULTIMOS DIAS A NIVEL NACIONAL', 
 		1,'este89bios'),
-	   ('usi432', '20220611', 'REMATE',
+	   ('usi432', '20210824', 'REMATE',
 		'NUEVO REMATE A REALIZARSE EL PROXIMO SABADO EN CIUDAD DE LA COSTA. ARTICULOS ANTIGUOS', 
 		5,'este89bios'),
-	   ('art456', '20220520', 'HURACAN',
+	   ('art456', '20210825', 'HURACAN',
 		'SE APROXIMA HURACAN CATEGORIA 5 A LAS COSTAS DEL CARIBE SE VA A VER AFECTADO LA COSTA MEXICANA, MIAMI. SE EXORTA A LOS VIAJEROS PRECAUCION', 
 		1,'gabi78bios'),
-	   ('acf126', '20220809', 'VUELTA',
+	   ('acf126', '20210826', 'VUELTA',
 		'DE A POCO SE VAN RETOMANDO LAS ACTIVIDADES A NIVEL NACIONAL A MEDIDA QUE VA MEJORANDO LA SITUACION PANDEMICA', 
 		2,'dnmm88bios'),
-	   ('abd125', '20210729', 'ALLANAMIENTO',
+	   ('abd125', '20210827', 'ALLANAMIENTO',
 		'IMPORTANTE OPERATIVO DE INTERPOOL DESARTICULARON ORGANIZACION DEDICADA AL NARCOTRAFICO Y TRAFICO DE ARMAS CON OPERACIONES EN VARIOS PAISES DE AMERICA LATINA', 
-		3,'dnmm88bios')
+		3,'dnmm88bios'),
+
+
+	   ('ppp666', '20210809', 'TEMA 1',
+		'CONTENIDO DE LA NOTICIA 763WEW', 
+		4,'este89bios'),
+	   ('ggg000', '20210809', 'TEMA 2',
+	    'CONTENIDO DE LA NOTICIA 763WEW', 
+		5,'este89bios'),
+	   ('jhg456', '20210810', 'TEMA 3',
+		'CONTENIDO DE LA NOTICIA 763WEW', 
+		5,'este89bios'),
+	   ('kkk232', '20210810', 'TEMA 4',
+		'CONTENIDO DE LA NOTICIA 763WEW', 
+		1,'este89bios'),
+	   ('rpo987', '20210811', 'TEMA 5',
+		'CONTENIDO DE LA NOTICIA 763WEW', 
+		5,'este89bios'),
+	   ('763wew', '20210811', 'TEMA 6',
+		'CONTENIDO DE LA NOTICIA 763WEW', 
+		3,'este89bios')
 go
 
 insert nacionales (codigo,codigo_secc)
-	values ('abd123', 'secc1'),
-		   ('abC456', 'secc2'),
-		   ('usi432', 'secc3'),
-		   ('acf126', 'secc4')
+	values ('abd123', '003c5'),
+		   ('abC456', '123k6'),
+		   ('usi432', '7665d'),
+		   ('acf126', '87w8q'),
+		   ('kkk232', 'wd45w'),
+		   ('rpo987', '7665d'),
+		   ('763wew', 'z8789')
 go
 
 insert internacionales (codigo,pais)
 	values ('art456', 'MEXICO'),
-		   ('abd125', 'BRASIL')
+		   ('abd125', 'BRASIL'),
+		   ('ppp666', 'ARGENTINA'),
+		   ('ggg000', 'BRASIL'),
+		   ('jhg456', 'ESPAÑA')
 go
 
 insert escriben (codigo,cedula)
-	values ('abd123', '41520770'),
+	values ('abd123', '22884504'),
 		   ('abd123', '47326453'),
-		   ('abC456', '47326453'),
-		   ('usi432', '35654643'),
-		   ('art456', '43243243'),
-		   ('art456', '12564354'),
-		   ('art456', '35654643'),
 		   ('acf126', '47326453'),
-		   ('abd125', '12564354')
+		   ('abC456', '47326453'),
+		   ('ppp666', '30014354'),
+		   ('ggg000', '12564354'),
+		   ('kkk232', '41520770'),
+		   ('abd125', '12564354'),
+		   ('rpo987', '41520770'),
+		   ('art456', '35654643'),
+		   ('art456', '46664004'),
+		   ('art456', '12564354'),
+		   ('art456', '43243243'),
+		   ('usi432', '35654643'),
+		   ('usi432', '22884504'),	   
+		   ('jhg456', '35654643'),
+		   ('jhg456', '46664004'),
+		   ('jhg456', '43243243'),
+		   ('763wew', '35654643'),
+		   ('763wew', '47326453')   
 go
 
 
