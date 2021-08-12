@@ -13,9 +13,48 @@
             <p>PAGINA INICIAL (CONSULTA DE NOTICIAS)<b> Default</b> <a href="login.aspx" 
                 style="float:right;position:absolute;right:10%;">LOGIN</a></p>
         </div>
+        <br />
+
+        Filtros de Busqueda:
+        <table style="width: 100%;">
+            <tr>
+                <td>
+                    <div id="tipos" class="col-3">
+                        <asp:RadioButtonList ID="rblNoticias" runat="server" OnSelectedIndexChanged="rblNoticias_SelectedIndexChanged">
+                            <asp:ListItem Value="nacionales">Nacionales</asp:ListItem>
+                            <asp:ListItem Value="internacionales">Internacionales</asp:ListItem>
+                        </asp:RadioButtonList>
+                    </div>
+                </td>
+                <td style="text-align:center;">
+                    <div id="select" class="col-3">
+                        <asp:Button ID="btnSelect" runat="server" Text="Seleccionar" Width="100px" OnClick="btnSelect_Click" />
+                    </div>
+                </td>
+                <td style="text-align:center;">
+                    <div id="seccion" class="col-3">
+                        <asp:DropDownList ID="ddlSeccion" runat="server" Width="150px">
+                            <asp:ListItem></asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+                    <div id="pais" class="col-3">
+                        <asp:TextBox ID="txtPais" runat="server" Width="150px"></asp:TextBox>
+                    </div>
+                </td>
+                <td>
+                    <div id="limpiar" class="col-3">
+                        <asp:Button ID="btnLimpiarfiltros" runat="server" Text="Limpiar Filtros"  Width="150px" OnClick="btnLimpiarfiltros_Click"/>
+                    </div>
+                    <div id="buscar" class="col-3">
+                        <asp:Button ID="btnBuscar" runat="server" Text="Buscar" Width="150px" OnClick="btnBuscar_Click" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <br />
 
         <div id="grilla">
-            <asp:GridView ID="gvNoticias" runat="server" Width="400px" HorizontalAlign="Center" BackColor="White" BorderColor="#CCCCCC"
+            <asp:GridView ID="gvNoticias" runat="server" Width="85%" HorizontalAlign="Center" BackColor="White" BorderColor="#CCCCCC"
                           BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black" GridLines="Horizontal">
                 <FooterStyle BackColor="#CCCC99" ForeColor="Black" />
                 <HeaderStyle BackColor="#333333" Font-Bold="True" ForeColor="White" />
@@ -26,7 +65,11 @@
                 <SortedDescendingCellStyle BackColor="#E5E5E5" />
                 <SortedDescendingHeaderStyle BackColor="#242121" />
             </asp:GridView>
-        </div>
+        </div><br/>
+        
+        <div style="text-align:center;">                   
+            <asp:Label id="lblMsj" for="exampleFormControlInput1" runat="server"></asp:Label>                  
+        </div><br/>
 
         <%--<div id="lista">
             <asp:ListBox ID="lbNoticias" runat="server" Width="200"></asp:ListBox>

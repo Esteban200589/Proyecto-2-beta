@@ -179,9 +179,7 @@ namespace Presentacion
 
         protected void cargar_secciones()
         {
-            List<Seccion> secciones = FabricaLogica.getLogicaSecciones().ListarSecciones();
-            Session["secciones"] = secciones;
-            ddlSecciones.DataSource = secciones;
+            ddlSecciones.DataSource = Session["secciones"];
             ddlSecciones.DataTextField = "Nombre_secc";
             ddlSecciones.DataValueField = "Codigo_secc";
             ddlSecciones.DataBind();

@@ -92,6 +92,15 @@ namespace EntidadesCompartidas
             get { return "No tienen"; }
         }
 
+        public string _fecha
+        {
+            get
+            {
+                string fecha = "";
+                fecha = Fecha.ToString("dd/MM/yyyy");
+                return fecha;
+            }
+        }
 
         public Noticia(string pCode, DateTime pFecha, string pTitle, string pBody, int pImp, 
             List<Periodista> pPer, Usuario pUser)

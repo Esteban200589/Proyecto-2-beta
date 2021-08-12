@@ -42,7 +42,6 @@ namespace Presentacion
             {
                 Usuario usuario = null;
                 usuario = FabricaLogica.getLogicaUsuarios().BuscarUsuario(txtUsername.Text);
-                limpiar();
 
                 if (txtUsername.Text == string.Empty)
                     throw new Exception("Debe ingresar un username");

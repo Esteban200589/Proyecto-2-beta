@@ -5,16 +5,21 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
+using EntidadesCompartidas;
+
 namespace Presentacion
 {
     public partial class main : System.Web.UI.MasterPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //if (Session["user"] == null)
-            //    Response.Redirect("Login.aspx");
-            //else
-            //    lblUsername.Text = Session["user"].ToString();
+            if (Session["user"] == null)
+                Response.Redirect("Login.aspx");
+            else {
+                Usuario user = (Usuario)Session["user"];
+                lblUsername.Text = user.Username;
+            }
+                
         }
 
         protected void logout_Click(object sender, EventArgs e)
