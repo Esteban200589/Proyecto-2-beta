@@ -119,9 +119,8 @@ namespace Presentacion
 
                 if (periodista != null)
                 {
-                    periodista.Cedula = txtCedula.Text;
-                    periodista.Nombre = txtNombre.Text;
-                    periodista.E_mail = txtEmail.Text;
+                    periodista.Nombre = txtNombre.Text.Trim();
+                    periodista.E_mail = txtEmail.Text.Trim();
 
                     FabricaLogica.getLogicaPeriodistas().ModificarPeriodista(periodista);
                     lblMsj.Text = "Periodista Modificado";

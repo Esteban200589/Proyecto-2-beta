@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 
 using EntidadesCompartidas;
 using Logica;
+using System.Drawing;
 
 namespace Presentacion
 {
@@ -21,54 +22,72 @@ namespace Presentacion
 
             txtPais.Enabled = false;
             ddlSeccion.Enabled = false;
+            btnBuscar.Enabled = false;
+            ddlSeccion.SelectedItem.Text = "";
         }
 
        
         protected void btnLimpiarfiltros_Click(object sender, EventArgs e)
         {
+            lblMsj.Text = "";
             txtPais.Text = "";
             txtPais.Enabled = false;
-
-            ddlSeccion.SelectedItem.Text = "";
             ddlSeccion.Enabled = false;
-
-            rblNoticias.ClearSelection();
-
+            ddlSeccion.SelectedItem.Text = ""; 
             tipo = "todas";
             cargar_datos(tipo);
+            rblNoticias.ClearSelection();
         }
 
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
             try
             {
-                cargar_datos(tipo);
+                //this.Response.Write(tipo);
+                //this.Response.Write(rblNoticias.SelectedValue);
+                cargar_datos(rblNoticias.SelectedValue);
             }
             catch (Exception ex)
             {
                 lblMsj.Text = ex.Message;
+                lblMsj.ForeColor = Color.Red;
             }
         }
 
         protected void btnSelect_Click(object sender, EventArgs e)
         {
-            if (tipo == "nacionales")
+            //this.Response.Write(rblNoticias.SelectedValue);
+
+            if (rblNoticias.SelectedValue == "")
             {
-                txtPais.Enabled = false;
-                ddlSeccion.Enabled = true;
-            }
-            else if (tipo == "internacionales")
-            {
-                txtPais.Enabled = true;
-                ddlSeccion.SelectedItem.Text = "";
-                ddlSeccion.Enabled = false;
+                lblMsj.Text = "Debe seleciconar un tipo de noticia primero";
+                lblMsj.ForeColor = Color.DarkOrange;
             }
             else
             {
-                txtPais.Enabled = false;
-                ddlSeccion.SelectedItem.Text = "";
-                ddlSeccion.Enabled = false;
-                
+                btnBuscar.Enabled = true;
+
+                if (tipo == "nacionales")
+                {
+                    txtPais.Enabled = false;
+                    txtPais.Text = "";
+                    ddlSeccion.Enabled = true;
+                    lblMsj.Text = "Puede elegir una seccion";
+                }
+                else if (tipo == "internacionales")
+                {
+                    txtPais.Enabled = true;
+                    ddlSeccion.SelectedItem.Text = "";
+                    ddlSeccion.Enabled = false;
+                    lblMsj.Text = "Puede elegir un pais";
+                }
+                else
+                {
+                    txtPais.Enabled = false;
+                    ddlSeccion.SelectedItem.Text = "";
+                    ddlSeccion.Enabled = false;
+                    lblMsj.Text = "";
+                }
             }
         }
 
@@ -76,25 +95,6 @@ namespace Presentacion
         {
             string valor = rblNoticias.SelectedItem.Value.ToString();
             tipo = valor;
-
-            //if (rblNoticias.SelectedItem.Value == "nacionales")
-            //{
-            //    txtPais.Enabled = false;
-            //    ddlSeccion.Enabled = true;
-            //}
-            //else if (rblNoticias.SelectedItem.Value == "internacionales")
-            //{
-            //    txtPais.Enabled = true;
-            //    ddlSeccion.SelectedItem.Text = "";
-            //    ddlSeccion.Enabled = false;
-            //}
-            //else
-            //{
-            //    txtPais.Enabled = false;
-            //    ddlSeccion.SelectedItem.Text = "";
-            //    ddlSeccion.Enabled = false;
-            //}
-            //this.Response.Write(valor);
         }
 
 
@@ -119,8 +119,7 @@ namespace Presentacion
                 {
                     List<object> listado = (from n in noticias
                                             select new
-                                            {
-                                                Fecha = n._fecha,
+                                            {   Fecha = n._fecha,
                                                 Tipo = n.TipoNoticia,
                                                 Titulo = n.Titulo
                                             }).ToList<object>();
@@ -129,42 +128,55 @@ namespace Presentacion
                     gvNoticias.DataSource = listado;
                     gvNoticias.DataBind();
                 }
-
-                if (tipo == "nacionales" && secc != "")
+                else
                 {
-                    List<object> listado = (from n in noticias
-                                            where (n.TipoNoticia == "Noticia Nacional")
-                                            select new
-                                            {
-                                                Fecha = n._fecha,
-                                                Tipo = n.TipoNoticia,
-                                                Titulo = n.Titulo
-                                            }).ToList<object>();
+                    if (tipo == "nacionales" && secc != "")
+                    {
+                        List<object> listado = (from n in noticias
+                                                where (n.TipoNoticia == "Noticia Nacional")
+                                                select new
+                                                {   Fecha = n._fecha,
+                                                    Tipo = n.TipoNoticia,
+                                                    Titulo = n.Titulo
+                                                }).ToList<object>();
 
-                    Session[tipo] = listado;
-                    gvNoticias.DataSource = listado;
-                    gvNoticias.DataBind();
+                        Session[tipo] = listado;
+                        gvNoticias.DataSource = listado;
+                        gvNoticias.DataBind();
+                    }
+                    else
+                    {
+                        lblMsj.Text = "Debe elegir una seccion";
+                        lblMsj.ForeColor = Color.DarkOrange;
+                    }
+
+                    if (tipo == "internacionales" && pais != "")
+                    {
+                        List<object> listado = (from n in noticias
+                                                where (n.TipoNoticia == "Noticia Internacional")
+                                                select new
+                                                {   Fecha = n._fecha,
+                                                    Tipo = n.TipoNoticia,
+                                                    Titulo = n.Titulo
+                                                }).ToList<object>();
+
+                        Session[tipo] = listado;
+                        gvNoticias.DataSource = listado;
+                        gvNoticias.DataBind();
+                    }
+                    else
+                    {
+                        lblMsj.Text = "Debe elegir un pais";
+                        lblMsj.ForeColor = Color.DarkOrange;
+                    }
                 }
-
-                if (tipo == "internacionales")
-                {
-                    List<object> listado = (from n in noticias
-                                            where n.TipoNoticia == "Noticia Internacional"
-                                            select new
-                                            {
-                                                Fecha = n._fecha,
-                                                Tipo = n.TipoNoticia,
-                                                Titulo = n.Titulo
-                                            }).ToList<object>();
-
-                    Session[tipo] = listado;
-                    gvNoticias.DataSource = listado;
-                    gvNoticias.DataBind();
-                }
+                
             }
             catch (Exception ex)
             {
                 lblMsj.Text = ex.Message;
+                lblMsj.ForeColor = Color.Red;
+
             }
             
         }

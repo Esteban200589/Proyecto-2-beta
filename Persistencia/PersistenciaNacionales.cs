@@ -157,8 +157,7 @@ namespace Persistencia
                 {
                     ptas = PersistenciaPeriodistas.GetInstanciaPeriodistas().ListarPeriodistasPorNoticia(dr["codigo"].ToString());
 
-                    InterfazPersistenciaSecciones IntSecc = FabricaPersistencia.getPersistenciaSeccion();
-                    secc = IntSecc.BuscarSeccionActiva(dr["codigo_secc"].ToString());
+                    secc = PersistenciaSecciones.GetInstanciaSecciones().BuscarSeccion(dr["codigo_secc"].ToString());
                     
                     InterfazPersistenciaUsuarios IntUser = FabricaPersistencia.getPersistenciaUsuario();
                     user = IntUser.BuscarUsuario(dr["username"].ToString());

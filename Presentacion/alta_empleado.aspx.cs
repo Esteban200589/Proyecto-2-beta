@@ -67,6 +67,7 @@ namespace Presentacion
             catch (Exception ex)
             {
                 lblMsj.Text = ex.Message;
+                lblMsj.ForeColor = Color.Red;
             }
         }
         private void guardar()

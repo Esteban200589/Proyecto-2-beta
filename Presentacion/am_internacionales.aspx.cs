@@ -134,8 +134,7 @@ namespace Presentacion
                 if (noticia != null)
                 {
                     noticia.Fecha = fecha.SelectedDate;
-                    noticia.Codigo = txtCodigo.Text;
-                    noticia.Titulo = txtTitulo.Text;
+                    noticia.Titulo = txtTitulo.Text.Trim();
                     noticia.Cuerpo = txtCuerpo.Text;
                     noticia.Pais = txtPais.Text;
                     noticia.Importancia = Convert.ToInt32(ddlImportancia.SelectedValue);

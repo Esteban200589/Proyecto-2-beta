@@ -113,7 +113,6 @@ namespace Presentacion
 
                 if (seccion != null)
                 {
-                    seccion.Codigo_secc = txtCodigo.Text.Trim();
                     seccion.Nombre_secc = txtNombre.Text.Trim();
 
                     FabricaLogica.getLogicaSecciones().ModificarSeccion(seccion);
