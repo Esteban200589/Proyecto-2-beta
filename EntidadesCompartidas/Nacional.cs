@@ -23,7 +23,7 @@ namespace EntidadesCompartidas
 
         public override string TipoNoticia
         {
-            get { return "Noticia Nacional"; }
+            get { return "Nacional"; }
         }
 
         public Nacional(Seccion pSecc, string pCode, DateTime pFecha, string pTitle, string pBody, 

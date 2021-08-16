@@ -11,14 +11,18 @@ using System.Drawing;
 
 namespace Presentacion
 {
-    public partial class consultar_noticia : System.Web.UI.Page
+    public partial class noticia : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Noticia n = (Noticia)Session["noticia_selected"];
-            n = FabricaLogica.getLogicaNoticias().BuscarNoticia(n.Codigo);
+            if (!IsPostBack)
+            {
+                Noticia n = (Noticia)Session["noticia_selected"];
 
-
+                txtFecha.Text = n.Fecha.ToString();
+                txtCodigo.Text = n.Codigo;
+                txtTitulo.Text = n.Titulo;
+            }
         }
     }
 }

@@ -37,11 +37,8 @@
                             <asp:ListItem></asp:ListItem>
                         </asp:DropDownList>
                     </div>
-                    <div id="pais" class="col-3">
-                        <asp:TextBox ID="txtPais" runat="server" Width="150px"></asp:TextBox>
-                    </div>
                 </td>
-                <td>
+                <td style="text-align:center;">
                     <div id="limpiar" class="col-3">
                         <asp:Button ID="btnLimpiarfiltros" runat="server" Text="Limpiar Filtros"  Width="150px" OnClick="btnLimpiarfiltros_Click"/>
                     </div>
@@ -55,9 +52,20 @@
 
         <div id="grilla">
             <asp:GridView ID="gvNoticias" runat="server" Width="85%" HorizontalAlign="Center" BackColor="White" BorderColor="#CCCCCC"
-                          BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black" GridLines="Horizontal">
+                          BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black" GridLines="Horizontal" AutoGenerateColumns="False" OnSelectedIndexChanged="gvNoticias_SelectedIndexChanged">
+                <Columns>
+                    <asp:BoundField DataField="Fecha" HeaderText="Fecha" HeaderStyle-BackColor="Black" ItemStyle-BackColor="White" ItemStyle-HorizontalAlign="Center" />
+                    <asp:BoundField DataField="Tipo" HeaderText="Tipo" HeaderStyle-BackColor="Black" ItemStyle-BackColor="White" ItemStyle-HorizontalAlign="Center"/>
+                    <asp:BoundField DataField="Titulo" HeaderText="Titulo" HeaderStyle-BackColor="Black" ItemStyle-BackColor="White" ItemStyle-HorizontalAlign="Center"/>
+                    <asp:CommandField ShowSelectButton="True" 
+                        AccessibleHeaderText="Ver" SelectText="Ver" >
+                        <ControlStyle BackColor="Transparent" ForeColor="Red" />
+                        <HeaderStyle BackColor="Black" />
+                        <ItemStyle BackColor="White" HorizontalAlign="Center" />
+                    </asp:CommandField>
+                </Columns>
                 <FooterStyle BackColor="#CCCC99" ForeColor="Black" />
-                <HeaderStyle BackColor="#333333" Font-Bold="True" ForeColor="White" />
+                <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />
                 <PagerStyle BackColor="White" ForeColor="Black" HorizontalAlign="Right" />
                 <SelectedRowStyle BackColor="#CC3333" Font-Bold="True" ForeColor="White" />
                 <SortedAscendingCellStyle BackColor="#F7F7F7" />
@@ -67,6 +75,8 @@
             </asp:GridView>
         </div><br/>
         
+        
+
         <div style="text-align:center;">                   
             <asp:Label id="lblMsj" for="exampleFormControlInput1" runat="server"></asp:Label>                  
         </div><br/>

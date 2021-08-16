@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using EntidadesCompartidas;
 using Persistencia;
+using System.Xml;
 
 namespace Logica
 {
@@ -23,7 +24,6 @@ namespace Logica
 
         static InterfazPersistenciaInternacionales FabricaInter = FabricaPersistencia.getPersistenciaInteracional();
         static InterfazPersistenciaNacionales FabricaNacionales = FabricaPersistencia.getPersistenciaNacional();
-
         
         public List<Noticia> noticias_ultimos_cinco_dias()
         {
@@ -40,37 +40,78 @@ namespace Logica
             return noticias_para_estadisticas;
         }
 
-
-        public void AgregarInternacional(Internacional n)
+        public void AgregarNoticia(Noticia n)
         {
             if (n.Fecha < DateTime.Now)
-                FabricaInter.AgregarInternacional(n);
-        }
-        public void ModificarInternacional(Internacional n)
+            {
+                if (n is Nacional)         
+                    FabricaNacionales.AgregarNacional((Nacional)n);
+                else
+                    FabricaInter.AgregarInternacional((Internacional)n);         
+            }
+            
+        }     
+        public void ModificarNoticia(Noticia n)
         {
             if (n.Fecha < DateTime.Now)
-                FabricaInter.ModificarInternacional(n);
-        }
-        public Internacional BuscarInternacional(string codigo)
+            {
+                if (n is Nacional)     
+                    FabricaNacionales.ModificarNacional((Nacional)n);
+                else
+                    FabricaInter.ModificarInternacional((Internacional)n);
+            }
+                
+        }  
+        public Noticia BuscarNoticia(string codigo)
         {
-            return FabricaInter.BuscarInternacional(codigo);
-        }
+            Noticia n = null;
+            if (n == null)      
+                n = FabricaNacionales.BuscarNacional(codigo);
+            if (n == null)
+                n = FabricaInter.BuscarInternacional(codigo);
+            return n;
+        }  
+        
+        public XmlDocument ListadoNoticiasXML()
+        {
+            //obtengo datos
+            List<Noticia> listado = FabricaLogica.getLogicaNoticias().noticias_ultimos_cinco_dias();
 
-        public void AgregarNacional(Nacional n)
-        {
-            if (n.Fecha < DateTime.Now)
-                FabricaNacionales.AgregarNacional(n);
-        }
+            //convierto a xml
+            XmlDocument documento = new XmlDocument();
+            documento.LoadXml("<?xml version='1.0' encoding='utf-8' ?> <Root> </Root>");
+            XmlNode root = documento.DocumentElement;
 
-        public void ModificarNacional(Nacional n)
-        {
-            if (n.Fecha < DateTime.Now)
-                FabricaNacionales.ModificarNacional(n);
-        }
+            //recorro la lista para crear los nodos
+            foreach (Noticia n in listado)
+            {
+                XmlElement nodo = documento.CreateElement("Noticia");
 
-        public Nacional BuscarNacional(string codigo)
-        {
-            return FabricaNacionales.BuscarNacional(codigo);
+                XmlElement codigo = documento.CreateElement("Código");
+                codigo.InnerText = n.Codigo.ToString();
+                nodo.AppendChild(codigo);
+
+                XmlElement fecha = documento.CreateElement("Fecha");
+                fecha.InnerText = n.Fecha.ToString("yyyyMMdd");
+                nodo.AppendChild(fecha);
+
+                XmlElement tipo = documento.CreateElement("Tipo");
+                tipo.InnerText = n.TipoNoticia.ToString();
+                nodo.AppendChild(tipo);
+
+                XmlElement titulo = documento.CreateElement("Titulo");
+                titulo.InnerText = n.Titulo.ToString();
+                nodo.AppendChild(titulo);
+
+                XmlElement importancia = documento.CreateElement("Importancia");
+                importancia.InnerText = n.Importancia.ToString();
+                nodo.AppendChild(importancia);
+
+                root.AppendChild(nodo);
+
+            }
+
+            return documento;
         }
     }
 }

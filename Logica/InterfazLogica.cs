@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using EntidadesCompartidas;
+using System.Xml;
 
 namespace Logica
 {
@@ -41,12 +42,10 @@ namespace Logica
         List<Noticia> noticias_ultimos_cinco_dias();
         List<Noticia> noticias_para_estadisticas();
 
-        void AgregarInternacional(Internacional n);
-        void ModificarInternacional(Internacional n);
-        Internacional BuscarInternacional(string codigo);
+        void AgregarNoticia(Noticia n);
+        void ModificarNoticia(Noticia n);
+        Noticia BuscarNoticia(string codigo);
 
-        void AgregarNacional(Nacional n);
-        void ModificarNacional(Nacional n);
-        Nacional BuscarNacional(string codigo);
+        XmlDocument ListadoNoticiasXML();
     }
 }

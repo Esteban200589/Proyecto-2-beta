@@ -20,25 +20,22 @@ namespace Presentacion
             cargar_secciones();
             cargar_datos(tipo);
 
-            txtPais.Enabled = false;
             ddlSeccion.Enabled = false;
             btnBuscar.Enabled = false;
             ddlSeccion.SelectedItem.Text = "";
-        }
 
-       
+            Session["noticia_selected"] = null;
+        }
+    
         protected void btnLimpiarfiltros_Click(object sender, EventArgs e)
         {
             lblMsj.Text = "";
-            txtPais.Text = "";
-            txtPais.Enabled = false;
             ddlSeccion.Enabled = false;
             ddlSeccion.SelectedItem.Text = ""; 
             tipo = "todas";
             cargar_datos(tipo);
             rblNoticias.ClearSelection();
         }
-
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
             try
@@ -53,7 +50,6 @@ namespace Presentacion
                 lblMsj.ForeColor = Color.Red;
             }
         }
-
         protected void btnSelect_Click(object sender, EventArgs e)
         {
             //this.Response.Write(rblNoticias.SelectedValue);
@@ -69,35 +65,50 @@ namespace Presentacion
 
                 if (tipo == "nacionales")
                 {
-                    txtPais.Enabled = false;
-                    txtPais.Text = "";
                     ddlSeccion.Enabled = true;
                     lblMsj.Text = "Puede elegir una seccion";
                 }
                 else if (tipo == "internacionales")
                 {
-                    txtPais.Enabled = true;
                     ddlSeccion.SelectedItem.Text = "";
                     ddlSeccion.Enabled = false;
                     lblMsj.Text = "Puede elegir un pais";
                 }
                 else
                 {
-                    txtPais.Enabled = false;
                     ddlSeccion.SelectedItem.Text = "";
                     ddlSeccion.Enabled = false;
                     lblMsj.Text = "";
                 }
             }
         }
-
         protected void rblNoticias_SelectedIndexChanged(object sender, EventArgs e)
         {
             string valor = rblNoticias.SelectedItem.Value.ToString();
             tipo = valor;
         }
+        protected void gvNoticias_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            seleccionar();
+        }
 
+        private void seleccionar()
+        {
+            try
+            {
+                Noticia noticia = ((List<Noticia>)Session["TodasLasNoticias"])[gvNoticias.SelectedIndex];
 
+                if (noticia != null)
+                {
+                    Session["noticia_selected"] = noticia;
+                    Response.Redirect("noticia.aspx");
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Response.Write("error al seleccionar!" + ex);
+            }
+        }
         protected void cargar_secciones()
         {
             List<Seccion> secciones = FabricaLogica.getLogicaSecciones().ListarSecciones();
@@ -107,13 +118,13 @@ namespace Presentacion
             ddlSeccion.DataValueField = "Codigo_secc";
             ddlSeccion.DataBind();
         }
-
         protected void cargar_datos(string tipo, string secc = "", string pais = "")
         {
             try
             {
                 List<Noticia> noticias = null;
                 noticias = FabricaLogica.getLogicaNoticias().noticias_ultimos_cinco_dias();
+                Session["TodasLasNoticias"] = noticias;
 
                 if (tipo == "todas")
                 {
@@ -133,7 +144,7 @@ namespace Presentacion
                     if (tipo == "nacionales" && secc != "")
                     {
                         List<object> listado = (from n in noticias
-                                                where (n.TipoNoticia == "Noticia Nacional")
+                                                where (n.TipoNoticia == "Nacional")
                                                 select new
                                                 {   Fecha = n._fecha,
                                                     Tipo = n.TipoNoticia,
@@ -150,10 +161,10 @@ namespace Presentacion
                         lblMsj.ForeColor = Color.DarkOrange;
                     }
 
-                    if (tipo == "internacionales" && pais != "")
+                    if (tipo == "internacionales")
                     {
                         List<object> listado = (from n in noticias
-                                                where (n.TipoNoticia == "Noticia Internacional")
+                                                where (n.TipoNoticia == "Internacional")
                                                 select new
                                                 {   Fecha = n._fecha,
                                                     Tipo = n.TipoNoticia,
@@ -164,11 +175,7 @@ namespace Presentacion
                         gvNoticias.DataSource = listado;
                         gvNoticias.DataBind();
                     }
-                    else
-                    {
-                        lblMsj.Text = "Debe elegir un pais";
-                        lblMsj.ForeColor = Color.DarkOrange;
-                    }
+                    
                 }
                 
             }

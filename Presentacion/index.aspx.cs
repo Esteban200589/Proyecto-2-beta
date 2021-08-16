@@ -11,8 +11,8 @@ namespace Presentacion
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            gvNoticias.DataSource = Session["TodasLasNoticias"];
-            gvNoticias.DataBind();
+            //gvNoticias.DataSource = Session["TodasLasNoticias"];
+            //gvNoticias.DataBind();
         }
     }
 }

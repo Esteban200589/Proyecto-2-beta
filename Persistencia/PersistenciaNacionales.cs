@@ -242,7 +242,7 @@ namespace Persistencia
 
                 SqlCommand cmd = new SqlCommand("noticia_individual", cnn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("tipo", 1);
+                cmd.Parameters.AddWithValue("tipo", 0);
                 cmd.Parameters.AddWithValue("codigo", codigo);
                 SqlDataReader dr = cmd.ExecuteReader();
 
@@ -254,6 +254,8 @@ namespace Persistencia
                     secc = IntSecc.BuscarSeccionActiva(dr["codigo_secc"].ToString());
 
                     InterfazPersistenciaUsuarios IntUser = FabricaPersistencia.getPersistenciaUsuario();
+                    user = IntUser.BuscarUsuario(dr["username"].ToString());
+
                     noticia = new Nacional(secc, dr["codigo"].ToString(), Convert.ToDateTime(dr["fecha"]),
                                            dr["titulo"].ToString(), dr["cuerpo"].ToString(), Convert.ToInt32(dr["importancia"]),
                                            ptas, user);

@@ -25,7 +25,7 @@ namespace EntidadesCompartidas
 
         public override string TipoNoticia
         {
-            get { return "Noticia Internacional"; }
+            get { return "Internacional"; }
         }
 
         public Internacional(string pPais, string pCode, DateTime pFecha, string pTitle, 
