@@ -117,7 +117,7 @@ namespace Presentacion
 
                     List<object> listado = new List<object>();
 
-                    if (seccion != null)
+                    if (seccion != "")
                     {
                         listado = (from n in noticias
                                    join m in list_aux on n.Codigo equals m.Codigo
