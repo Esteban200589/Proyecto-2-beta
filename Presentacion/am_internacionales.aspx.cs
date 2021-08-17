@@ -19,7 +19,7 @@ namespace Presentacion
             if (!IsPostBack)
             {
                 Session["Internacional"] = null;
-                limpiar();
+                cargar_periodistas();
             }
         }
 
@@ -39,6 +39,26 @@ namespace Presentacion
         {
             limpiar();
         }
+        protected void gvPeriodistasSeleccion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                Periodista periodista = ((List<Periodista>)Session["listaPaquetes"])[gvPeriodistasSeleccion.SelectedIndex];
+                Session["periodista_selected"] = periodista;
+                //principal.Attributes.Add("style", "display:block;");
+
+                if (periodista != null)
+                {
+                    //gvPeriodistasElegidos.
+                }
+            }
+            catch (Exception ex)
+            {
+                lblMsj.Text = ex.Message;
+                lblMsj.ForeColor = Color.Red;
+                //this.Response.Write("error al seleccionar!" + ex);
+            }
+        }
 
         protected void buscar()
         {
@@ -47,16 +67,13 @@ namespace Presentacion
                 Internacional noticia = null;
                 Noticia n = FabricaLogica.getLogicaNoticias().BuscarNoticia(txtCodigo.Text);
 
-                if (n.TipoNoticia != "Internacional")
+                if (n != null && n.TipoNoticia != "Internacional")
                     throw new Exception("La noticia no es Internacional");
 
                 noticia = (Internacional)n;
 
                 if (txtCodigo.Text == string.Empty)
                     throw new Exception("Debe ingresar un codigo");
-
-                if (noticia.TipoNoticia != "Internacional")
-                    throw new Exception("La noticia es Nacional");
 
                 if (noticia == null)
                 {
@@ -69,7 +86,7 @@ namespace Presentacion
                     btnModificar.Enabled = true;
 
                     txtCodigo.Text = noticia.Codigo;
-                    fecha.SelectedDate = 
+                    txtfecha.Text = noticia.Fecha.ToString();
                     txtTitulo.Text = noticia.Titulo;
                     txtCuerpo.Text = noticia.Cuerpo;
                     ddlImportancia.SelectedItem.Text = noticia.Importancia.ToString();
@@ -93,12 +110,13 @@ namespace Presentacion
             try
             {
                 Usuario user = (Usuario)Session["user"];
-                DateTime date = fecha.SelectedDate;
+                DateTime date = Convert.ToDateTime(txtfecha.Text);
                 string code = txtCodigo.Text;
                 string title = txtTitulo.Text;
                 string body = txtCuerpo.Text;
                 string pais = txtPais.Text;
                 int imp = Convert.ToInt32(ddlImportancia.SelectedValue);
+
                 List<Periodista> ptas = null;
                 foreach (DataGridItem item in gvPeriodistasElegidos.Rows)
                 {
@@ -128,6 +146,7 @@ namespace Presentacion
             }
             catch (Exception ex)
             {
+                btnGuardar.Enabled = true;
                 lblMsj.Text = ex.Message;
                 lblMsj.ForeColor = Color.Red;
             }
@@ -142,7 +161,7 @@ namespace Presentacion
 
                 if (noticia != null)
                 {
-                    noticia.Fecha = fecha.SelectedDate;
+                    noticia.Fecha = Convert.ToDateTime(txtfecha.Text);
                     noticia.Titulo = txtTitulo.Text.Trim();
                     noticia.Cuerpo = txtCuerpo.Text;
                     noticia.Pais = txtPais.Text;
@@ -165,6 +184,7 @@ namespace Presentacion
             }
             catch (Exception ex)
             {
+                btnGuardar.Enabled = true;
                 lblMsj.Text = ex.Message;
                 lblMsj.ForeColor = Color.Red;
             }
@@ -182,5 +202,12 @@ namespace Presentacion
             btnGuardar.Enabled = false;
             btnLimpiar.Enabled = false;
         }
+
+        protected void cargar_periodistas()
+        {
+            gvPeriodistasSeleccion.DataSource = (List<Periodista>)Session["periodistas_todos"];
+            gvPeriodistasSeleccion.DataBind();
+        }
+
     }
 }

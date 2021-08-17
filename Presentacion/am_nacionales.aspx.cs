@@ -20,6 +20,7 @@ namespace Presentacion
             {
                 Session["Nacional"] = null;
                 cargar_secciones();
+                cargar_periodistas();
             }
         }
 
@@ -39,6 +40,19 @@ namespace Presentacion
         {
 
         }
+        protected void gvPeriodistasSeleccion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                lblMsj.Text = ex.Message;
+                lblMsj.ForeColor = Color.Red;
+                //this.Response.Write("error al seleccionar!" + ex);
+            }
+        }
 
         protected void buscar()
         {
@@ -47,7 +61,7 @@ namespace Presentacion
                 Nacional noticia = null;
                 Noticia n = FabricaLogica.getLogicaNoticias().BuscarNoticia(txtCodigo.Text);
 
-                if (n.TipoNoticia != "Nacional")
+                if (n != null && n.TipoNoticia != "Nacional")
                     throw new Exception("La noticia no es Nacional");
 
                 noticia = (Nacional)n;
@@ -89,7 +103,7 @@ namespace Presentacion
             try
             {
                 Usuario user = (Usuario)Session["user"];
-                DateTime date = fecha.SelectedDate;
+                DateTime date = Convert.ToDateTime(txtfecha.Text);
                 string code = txtCodigo.Text;
                 string title = txtTitulo.Text;
                 string body = txtCuerpo.Text;
@@ -124,6 +138,7 @@ namespace Presentacion
             }
             catch (Exception ex)
             {
+                btnGuardar.Enabled = true;
                 lblMsj.Text = ex.Message;
                 lblMsj.ForeColor = Color.Red;
             }
@@ -138,7 +153,7 @@ namespace Presentacion
 
                 if (noticia != null)
                 {
-                    noticia.Fecha = fecha.SelectedDate;
+                    noticia.Fecha = Convert.ToDateTime(txtfecha.Text);
                     noticia.Titulo = txtTitulo.Text.Trim();
                     noticia.Cuerpo = txtCuerpo.Text;              
                     noticia.Importancia = Convert.ToInt32(ddlImportancia.SelectedValue);
@@ -159,6 +174,7 @@ namespace Presentacion
             }
             catch (Exception ex)
             {
+                btnGuardar.Enabled = true;
                 lblMsj.Text = ex.Message;
                 lblMsj.ForeColor = Color.Red;
             }
@@ -188,5 +204,12 @@ namespace Presentacion
             ddlSecciones.DataValueField = "Codigo_secc";
             ddlSecciones.DataBind();
         }
+        protected void cargar_periodistas()
+        {
+            gvPeriodistasSeleccion.DataSource = (List<Periodista>)Session["periodistas_todos"];
+            gvPeriodistasSeleccion.DataBind();
+        }
+
+        
     }
 }

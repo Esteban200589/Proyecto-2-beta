@@ -13,15 +13,7 @@
             <tr>
                 <td class="style3">Fecha de Publicación: </td>
                 <td class="style1">                
-                    <asp:Calendar ID="fecha" runat="server" BackColor="White" BorderColor="White" BorderWidth="1px" Font-Names="Verdana" 
-                                  Font-Size="9pt" ForeColor="Black" Height="100px" NextPrevFormat="FullMonth" Width="350px">
-                        <DayHeaderStyle Font-Bold="True" Font-Size="8pt" />
-                        <NextPrevStyle Font-Bold="True" Font-Size="8pt" ForeColor="#333333" VerticalAlign="Bottom" />
-                        <OtherMonthDayStyle ForeColor="#999999" />
-                        <SelectedDayStyle BackColor="#333399" ForeColor="White" />
-                        <TitleStyle BackColor="White" BorderColor="Black" BorderWidth="4px" Font-Bold="True" Font-Size="12pt" ForeColor="#333399" />
-                        <TodayDayStyle BackColor="#CCCCCC" />
-                    </asp:Calendar>
+                    <asp:TextBox ID="txtfecha" runat="server" TextMode="Date"></asp:TextBox>
                 </td>
                 <td> Codigo: </br>
                     <asp:TextBox  ID="txtCodigo" class="form-control" runat="server" Width="100px" 
@@ -75,7 +67,7 @@
                 <td class="style1">
                     <div style="width:100%;display:flex;justify-content:space-between;">
                         <asp:GridView ID="gvPeriodistasSeleccion" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" 
-                                      CellPadding="1" ForeColor="Black" GridLines="Vertical" Width="40%" AutoGenerateColumns="False">
+                                      CellPadding="1" ForeColor="Black" GridLines="Vertical" Width="40%" AutoGenerateColumns="False" OnSelectedIndexChanged="gvPeriodistasSeleccion_SelectedIndexChanged">
                             <AlternatingRowStyle BackColor="#CCCCCC" />
                             <Columns>
                                 <asp:BoundField HeaderText="Periodista" />

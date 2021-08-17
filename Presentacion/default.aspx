@@ -18,19 +18,21 @@
         Filtros de Busqueda:
         <table style="width: 100%;">
             <tr>
-                <td>
+                <td style="text-align:right;">
                     <div id="tipos" class="col-3">
-                        <asp:RadioButtonList ID="rblNoticias" runat="server" OnSelectedIndexChanged="rblNoticias_SelectedIndexChanged">
-                            <asp:ListItem Value="nacionales">Nacionales</asp:ListItem>
-                            <asp:ListItem Value="internacionales">Internacionales</asp:ListItem>
-                        </asp:RadioButtonList>
+                        <asp:DropDownList ID="ddlTipo" runat="server" Width="150px">
+                            <asp:ListItem Value="0">Seleccionar</asp:ListItem>
+                            <asp:ListItem Value="1">Todas</asp:ListItem>
+                            <asp:ListItem Value="2">Nacionales</asp:ListItem>
+                            <asp:ListItem Value="3">Internacionales</asp:ListItem>
+                        </asp:DropDownList>
                     </div>
                 </td>
-                <td style="text-align:center;">
+                <%--<td style="text-align:center;">
                     <div id="select" class="col-3">
                         <asp:Button ID="btnSelect" runat="server" Text="Seleccionar" Width="100px" OnClick="btnSelect_Click" />
                     </div>
-                </td>
+                </td>--%>
                 <td style="text-align:center;">
                     <div id="seccion" class="col-3">
                         <asp:DropDownList ID="ddlSeccion" runat="server" Width="150px">
@@ -38,12 +40,12 @@
                         </asp:DropDownList>
                     </div>
                 </td>
-                <td style="text-align:center;">
-                    <div id="limpiar" class="col-3">
+                <td style="text-align:left;">
+                    <%--<div id="limpiar" class="col-3">
                         <asp:Button ID="btnLimpiarfiltros" runat="server" Text="Limpiar Filtros"  Width="150px" OnClick="btnLimpiarfiltros_Click"/>
-                    </div>
+                    </div>--%>
                     <div id="buscar" class="col-3">
-                        <asp:Button ID="btnBuscar" runat="server" Text="Buscar" Width="150px" OnClick="btnBuscar_Click" />
+                        <asp:Button ID="btnBuscar" runat="server" Text="Filtrar" Width="150px" OnClick="btnBuscar_Click" />
                     </div>
                 </td>
             </tr>
