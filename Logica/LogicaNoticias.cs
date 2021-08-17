@@ -24,14 +24,14 @@ namespace Logica
 
         static InterfazPersistenciaInternacionales FabricaInter = FabricaPersistencia.getPersistenciaInteracional();
         static InterfazPersistenciaNacionales FabricaNacionales = FabricaPersistencia.getPersistenciaNacional();
-        
+
         public List<Noticia> noticias_ultimos_cinco_dias()
         {
             List<Noticia> noticias_ultimos_cinco_dias = new List<Noticia>();
             noticias_ultimos_cinco_dias.AddRange(FabricaNacionales.UltimasCincoNacionales());
             noticias_ultimos_cinco_dias.AddRange(FabricaInter.UltimasCincoInternacionales());
             return noticias_ultimos_cinco_dias;
-        }  
+        }
         public List<Noticia> noticias_para_estadisticas()
         {
             List<Noticia> noticias_para_estadisticas = new List<Noticia>();
@@ -44,31 +44,39 @@ namespace Logica
         {
             if (n.Fecha < DateTime.Now)
             {
-                if (n is Nacional)         
+                if (n is Nacional)
                     FabricaNacionales.AgregarNacional((Nacional)n);
                 else
-                    FabricaInter.AgregarInternacional((Internacional)n);         
+                    FabricaInter.AgregarInternacional((Internacional)n);
             }
-            
-        }     
+
+        }
         public void ModificarNoticia(Noticia n)
         {
             if (n.Fecha < DateTime.Now)
             {
-                if (n is Nacional)     
+                if (n is Nacional)
                     FabricaNacionales.ModificarNacional((Nacional)n);
                 else
                     FabricaInter.ModificarInternacional((Internacional)n);
             }
-                
-        }  
+            else
+                throw new Exception("Fecha incorrecta.");
+
+        }
         public Noticia BuscarNoticia(string codigo)
         {
             Noticia n = null;
-            if (n == null)      
-                n = FabricaNacionales.BuscarNacional(codigo);
             if (n == null)
+            {
+                n = FabricaNacionales.BuscarNacional(codigo);
+            }    
+                       
+            if (n == null)
+            {
                 n = FabricaInter.BuscarInternacional(codigo);
+            }
+                
             return n;
         }  
         

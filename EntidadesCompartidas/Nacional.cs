@@ -26,6 +26,7 @@ namespace EntidadesCompartidas
             get { return "Nacional"; }
         }
 
+
         public Nacional(Seccion pSecc, string pCode, DateTime pFecha, string pTitle, string pBody, 
             int pImp, List<Periodista> pPer, Usuario pUser) 
         : base(pCode, pFecha, pTitle, pBody, pImp, pPer, pUser)

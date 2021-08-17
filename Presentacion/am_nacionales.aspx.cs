@@ -45,7 +45,12 @@ namespace Presentacion
             try
             {
                 Nacional noticia = null;
-                noticia = (Nacional)FabricaLogica.getLogicaNoticias().BuscarNoticia(txtCodigo.Text);
+                Noticia n = FabricaLogica.getLogicaNoticias().BuscarNoticia(txtCodigo.Text);
+
+                if (n.TipoNoticia != "Nacional")
+                    throw new Exception("La noticia no es Nacional");
+
+                noticia = (Nacional)n;
 
                 if (txtCodigo.Text == string.Empty)
                     throw new Exception("Debe ingresar un codigo");

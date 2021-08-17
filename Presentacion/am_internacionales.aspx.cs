@@ -45,10 +45,18 @@ namespace Presentacion
             try
             {
                 Internacional noticia = null;
-                noticia = (Internacional)FabricaLogica.getLogicaNoticias().BuscarNoticia(txtCodigo.Text);
+                Noticia n = FabricaLogica.getLogicaNoticias().BuscarNoticia(txtCodigo.Text);
+
+                if (n.TipoNoticia != "Internacional")
+                    throw new Exception("La noticia no es Internacional");
+
+                noticia = (Internacional)n;
 
                 if (txtCodigo.Text == string.Empty)
                     throw new Exception("Debe ingresar un codigo");
+
+                if (noticia.TipoNoticia != "Internacional")
+                    throw new Exception("La noticia es Nacional");
 
                 if (noticia == null)
                 {
@@ -61,6 +69,7 @@ namespace Presentacion
                     btnModificar.Enabled = true;
 
                     txtCodigo.Text = noticia.Codigo;
+                    fecha.SelectedDate = 
                     txtTitulo.Text = noticia.Titulo;
                     txtCuerpo.Text = noticia.Cuerpo;
                     ddlImportancia.SelectedItem.Text = noticia.Importancia.ToString();

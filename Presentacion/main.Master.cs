@@ -14,22 +14,22 @@ namespace Presentacion
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            try
-            {
-                if (Session["user"] == null)
-                    Response.Redirect("Login.aspx");
-                else
-                {
-                    Usuario user = (Usuario)Session["user"];
-                    lblUsername.Text = user.Username;
-                    lblUsername.ForeColor = Color.Blue;
-                }
-            }
-            catch (Exception ex)
-            {
-                lblMsj.Text = ex.Message;
-                lblMsj.ForeColor = Color.Red;
-            } 
+            //try
+            //{
+            //    if (Session["user"] == null)
+            //        Response.Redirect("Login.aspx");
+            //    else
+            //    {
+            //        Usuario user = (Usuario)Session["user"];
+            //        lblUsername.Text = user.Username;
+            //        lblUsername.ForeColor = Color.Blue;
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    lblMsj.Text = ex.Message;
+            //    lblMsj.ForeColor = Color.Red;
+            //} 
         }
 
         protected void logout_Click(object sender, EventArgs e)

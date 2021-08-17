@@ -515,26 +515,29 @@ go
 		-- NOTICIAS -- Consulta Individual de Noticia
 -----------------------------------------------------------------------------------------------------------
 
-if exists (select * from sysobjects where name = 'noticia_individual')
-	drop proc noticia_individual
+if exists (select * from sysobjects where name = 'buscar_nacional')
+	drop proc buscar_nacional
 go
-create proc noticia_individual
-	@tipo int,
+create proc buscar_nacional
 	@codigo varchar(6)
 as
 begin
-	if(@tipo = 0)
-	begin 
-		select * from noticias w
-		join nacionales n on n.codigo = w.codigo
-		where w.codigo = @codigo
-	end
-	else
-	begin
-		select * from noticias w
-		join internacionales i on i.codigo = w.codigo
-		where w.codigo = @codigo
-	end
+	select * from noticias w
+	join nacionales n on n.codigo = w.codigo
+	where w.codigo = @codigo
+end
+go
+
+if exists (select * from sysobjects where name = 'buscar_internacional')
+	drop proc buscar_internacional
+go
+create proc buscar_internacional
+	@codigo varchar(6)
+as
+begin
+	select * from noticias w
+	join internacionales i on i.codigo = w.codigo
+	where w.codigo = @codigo
 end
 go
 

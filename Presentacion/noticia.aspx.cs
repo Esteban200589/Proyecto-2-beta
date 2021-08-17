@@ -18,10 +18,14 @@ namespace Presentacion
             if (!IsPostBack)
             {
                 Noticia n = (Noticia)Session["noticia_selected"];
-
-                txtFecha.Text = n.Fecha.ToString();
+                txtFecha.Text = n.Fecha.ToString("aaaa-mm-dd");
                 txtCodigo.Text = n.Codigo;
                 txtTitulo.Text = n.Titulo;
+                txtCuerpo.Text = n.Cuerpo;
+                txtImportancia.Text = n.Importancia.ToString();
+                gvPeriodistas.DataSource = n.Periodistas;
+                gvPeriodistas.DataBind();
+                txtUsuario.Text = n.Usuario.Username;
             }
         }
     }

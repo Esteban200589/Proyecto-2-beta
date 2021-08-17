@@ -51,6 +51,15 @@ namespace Presentacion
         protected global::System.Web.UI.WebControls.TextBox txtTitulo;
 
         /// <summary>
+        /// Control txtCuerpo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCuerpo;
+
+        /// <summary>
         /// Control txtImportancia.
         /// </summary>
         /// <remarks>
@@ -60,13 +69,22 @@ namespace Presentacion
         protected global::System.Web.UI.WebControls.TextBox txtImportancia;
 
         /// <summary>
-        /// Control txtCuerpo.
+        /// Control gvPeriodistas.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCuerpo;
+        protected global::System.Web.UI.WebControls.GridView gvPeriodistas;
+
+        /// <summary>
+        /// Control txtUsuario.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtUsuario;
 
         /// <summary>
         /// Control lblMsj.

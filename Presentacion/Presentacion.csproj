@@ -72,7 +72,6 @@
     <Content Include="alta_empleado.aspx" />
     <Content Include="am_internacionales.aspx" />
     <Content Include="am_nacionales.aspx" />
-    <Content Include="consultar_noticia.aspx" />
     <Content Include="default.aspx" />
     <Content Include="estadisticas.aspx" />
     <Content Include="index.aspx" />
@@ -115,13 +114,6 @@
     </Compile>
     <Compile Include="am_nacionales.aspx.designer.cs">
       <DependentUpon>am_nacionales.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="consultar_noticia.aspx.cs">
-      <DependentUpon>consultar_noticia.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="consultar_noticia.aspx.designer.cs">
-      <DependentUpon>consultar_noticia.aspx</DependentUpon>
     </Compile>
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>

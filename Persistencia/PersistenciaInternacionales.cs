@@ -232,12 +232,10 @@ namespace Persistencia
             {
                 cnn.Open();
 
-                SqlCommand cmd = new SqlCommand("noticia_individual", cnn);
+                SqlCommand cmd = new SqlCommand("buscar_internacional", cnn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("tipo", 0);
                 cmd.Parameters.AddWithValue("codigo", codigo);
                 SqlDataReader dr = cmd.ExecuteReader();
-    
 
                 if (dr.Read())
                 {

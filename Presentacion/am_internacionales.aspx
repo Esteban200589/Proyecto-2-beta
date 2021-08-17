@@ -7,9 +7,7 @@
 <body>
     <div id="principal" align="center">
         <h2 style="margin:1px;">ALTA Y MODIFICACION DE NOTICIA INTERNACIONAL</h2><br/>
-
-        <table id="tabla_internacional" style="width:800px;margin:auto;" align="center">
-          
+        <table id="tabla_internacional" style="width:800px;margin:auto;" align="center">       
             <tr>
                 <td class="style3">Fecha de Publicación: </td>
                 <td class="style1">                

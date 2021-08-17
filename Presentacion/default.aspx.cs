@@ -66,13 +66,11 @@ namespace Presentacion
                 if (tipo == "nacionales")
                 {
                     ddlSeccion.Enabled = true;
-                    lblMsj.Text = "Puede elegir una seccion";
                 }
                 else if (tipo == "internacionales")
                 {
                     ddlSeccion.SelectedItem.Text = "";
                     ddlSeccion.Enabled = false;
-                    lblMsj.Text = "Puede elegir un pais";
                 }
                 else
                 {
@@ -139,6 +137,22 @@ namespace Presentacion
                     gvNoticias.DataSource = listado;
                     gvNoticias.DataBind();
                 }
+                else if (tipo == "internacionales")
+                {
+                    List<object> listado = (from n in noticias
+                                            where (n.TipoNoticia == "Internacional")
+                                            select new
+                                            {
+                                                Fecha = n._fecha,
+                                                Tipo = n.TipoNoticia,
+                                                Titulo = n.Titulo
+                                            }).ToList<object>();
+
+                    Session[tipo] = listado;
+                    gvNoticias.DataSource = listado;
+                    gvNoticias.DataBind();             
+                }
+
                 else
                 {
                     if (tipo == "nacionales" && secc != "")
@@ -160,22 +174,7 @@ namespace Presentacion
                         lblMsj.Text = "Debe elegir una seccion";
                         lblMsj.ForeColor = Color.DarkOrange;
                     }
-
-                    if (tipo == "internacionales")
-                    {
-                        List<object> listado = (from n in noticias
-                                                where (n.TipoNoticia == "Internacional")
-                                                select new
-                                                {   Fecha = n._fecha,
-                                                    Tipo = n.TipoNoticia,
-                                                    Titulo = n.Titulo
-                                                }).ToList<object>();
-
-                        Session[tipo] = listado;
-                        gvNoticias.DataSource = listado;
-                        gvNoticias.DataBind();
-                    }
-                    
+ 
                 }
                 
             }
