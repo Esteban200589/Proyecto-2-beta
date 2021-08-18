@@ -17,7 +17,7 @@
         <div>
             <div id="navbar">
                 <ul>
-                    <li><a href="default.aspx">Inicio</a></li>
+                    <li><a href="index.aspx">Inicio</a></li>
                     <li><a href="alta_empleado.aspx">Alta de Empleado</a></li>
                     <li><a href="abm_periodistas.aspx">Mantenimiento de Periodistas</a></li>
                     <li><a href="abm_secciones.aspx">Mantenimiento de Secciones</a></li>
@@ -39,6 +39,7 @@
                 <span>Contacto</span>
                 <span>Terminos</span>
                 <span>Creadores</span>
+                <span>Fecha: <asp:Label ID="lblFecha" runat="server" Text="Label"></asp:Label></span>
             </div>
 
         </div><br/>

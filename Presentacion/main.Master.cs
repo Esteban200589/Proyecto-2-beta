@@ -14,16 +14,18 @@ namespace Presentacion
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            lblFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
+
             try
             {
-                if (Session["user"] == null)
-                    Response.Redirect("Login.aspx");
-                else
-                {
-                    Usuario user = (Usuario)Session["user"];
-                    lblUsername.Text = user.Username;
-                    lblUsername.ForeColor = Color.Blue;
-                }
+                //if (Session["user"] == null)
+                //    Response.Redirect("Login.aspx");
+                //else
+                //{
+                //    Usuario user = (Usuario)Session["user"];
+                //    lblUsername.Text = user.Username;
+                //    lblUsername.ForeColor = Color.Blue;
+                //}
             }
             catch (Exception ex)
             {

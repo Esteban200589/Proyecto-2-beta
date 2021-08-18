@@ -17,15 +17,84 @@ namespace Presentacion
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            try
             {
-                //obtengo el xml desde el WS
-                XmlDocument docu = FabricaLogica.getLogicaNoticias().ListadoNoticiasXML();
-                //de la logica viene un xml document
-                //creo y cargo con los datos el documento q me devolvio el WS- formato para Linq
-                XElement documento = XElement.Parse(docu.OuterXml);
-                Session["Documento"] = documento;
+                if (!IsPostBack)
+                {
+                    XmlDocument docu = FabricaLogica.getLogicaNoticias().ListadoNoticiasXML();   
+                    XElement documento = XElement.Parse(docu.OuterXml);
+                    Session["Documento"] = documento;
+                }
             }
+            catch (Exception ex)
+            {
+                lblMsj.Text = ex.Message;
+                lblMsj.ForeColor = Color.Red;
+            }
+            
+        }
+
+        protected void btnCantAnual_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                XElement docu = (XElement)Session["Documento"];
+
+                if (ddlTipo.SelectedIndex == -1)
+                {
+                    lblMsj.Text = "Debe seleccionar un tipo";
+                }
+                else if (ddlTipo.SelectedIndex == 0)
+                {
+                    lblMsj.Text = "Debe seleccionar un tipo";
+                }
+                else if (ddlTipo.SelectedIndex == 1)
+                {
+                    XmlListar.DocumentContent = docu.ToString();
+                }
+                else if (ddlTipo.SelectedIndex == 2)
+                {
+                    var result = (from nodo in docu.Elements("Noticia")
+                                  where nodo.Element("Tipo").Equals("Nacional")
+                                  select nodo);
+
+                    string _res = "<Root>";
+                    foreach (var nodo in result)
+                    {
+                        _res += nodo.ToString();
+                    }
+                    _res += "</Root>";
+                    XmlListar.DocumentContent = _res;
+                }
+                else if (ddlTipo.SelectedIndex == 3)
+                {
+                    var result = (from nodo in docu.Elements("Noticia")
+                                  where nodo.Element("Tipo").Equals("Internacional")
+                                  select nodo);
+
+                    string _res = "<Root>";
+                    foreach (var nodo in result)
+                    {
+                        _res += nodo.ToString();
+                    }
+                    _res += "</Root>";
+                    XmlListar.DocumentContent = _res;
+                }
+
+                
+
+            }
+            catch (Exception ex)
+            {
+                lblMsj.Text = ex.Message;
+            }
+        }
+
+        protected void btnLimpiarfiltros_Click(object sender, EventArgs e)
+        {
+            ddlTipo.ClearSelection();
+         
+
         }
     }
 }

@@ -8,6 +8,8 @@ using System.Web.UI.WebControls;
 using EntidadesCompartidas;
 using Logica;
 using System.Drawing;
+using System.Windows.Forms;
+using 
 
 namespace Presentacion
 {
@@ -43,13 +45,13 @@ namespace Presentacion
         {
             try
             {
-                Periodista periodista = ((List<Periodista>)Session["listaPaquetes"])[gvPeriodistasSeleccion.SelectedIndex];
+                Periodista periodista = ((List<Periodista>)Session["Peropdistas"])[gvPeriodistasSeleccion.SelectedIndex];
                 Session["periodista_selected"] = periodista;
-                //principal.Attributes.Add("style", "display:block;");
+                //gvPeriodistasSeleccion.C
 
                 if (periodista != null)
                 {
-                    //gvPeriodistasElegidos.
+                    //gvPeriodistasElegidos.Rows.
                 }
             }
             catch (Exception ex)
@@ -58,6 +60,25 @@ namespace Presentacion
                 lblMsj.ForeColor = Color.Red;
                 //this.Response.Write("error al seleccionar!" + ex);
             }
+
+
+            //try
+            //{
+            //    foreach (DataGridViewRow row in gvPeriodistasSeleccion.Rows)
+            //    {
+            //        if (Convert.ToBoolean(row.Cells[1].Value))
+            //        {
+            //            DataGridViewRow fila = new DataGridViewRow();
+            //            fila.Cells[0].Value = row.Cells[0].Value;
+            //            gvPeriodistasElegidos.Rows.Add(fila);
+                        
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.ToString(), " ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
 
         protected void buscar()
@@ -68,7 +89,11 @@ namespace Presentacion
                 Noticia n = FabricaLogica.getLogicaNoticias().BuscarNoticia(txtCodigo.Text);
 
                 if (n != null && n.TipoNoticia != "Internacional")
+                {
+                    limpiar();
                     throw new Exception("La noticia no es Internacional");
+                }
+                    
 
                 noticia = (Internacional)n;
 
@@ -86,7 +111,10 @@ namespace Presentacion
                     btnModificar.Enabled = true;
 
                     txtCodigo.Text = noticia.Codigo;
-                    txtfecha.Text = noticia.Fecha.ToString();
+                    this.Response.Write(noticia.Fecha);
+                    //txtfecha.Text = noticia.Fecha.ToString("dd/mm/aaaa");
+                    txtfecha.Text = noticia.Fecha.ToString("dd/MM/yyyy");
+                    this.Response.Write("<br>"+txtfecha.Text);
                     txtTitulo.Text = noticia.Titulo;
                     txtCuerpo.Text = noticia.Cuerpo;
                     ddlImportancia.SelectedItem.Text = noticia.Importancia.ToString();

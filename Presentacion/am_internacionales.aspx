@@ -61,15 +61,15 @@
             </tr>
 
             <tr>
-                <td> Periodistas: </td>
-                <td>
+                <td>  </td>
+                <td style="text-align:left;">
                     <div style="width:100%;display:flex;justify-content:space-between;">
                         <asp:GridView ID="gvPeriodistasSeleccion" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" 
-                                      CellPadding="1" ForeColor="Black" GridLines="Vertical" Width="40%" AutoGenerateColumns="False" OnSelectedIndexChanged="gvPeriodistasSeleccion_SelectedIndexChanged">
+                                      CellPadding="1" ForeColor="Black" GridLines="Vertical" Width="65%" AutoGenerateColumns="False" OnSelectedIndexChanged="gvPeriodistasSeleccion_SelectedIndexChanged">
                             <AlternatingRowStyle BackColor="#CCCCCC" />
                             <Columns>
-                                <asp:BoundField HeaderText="Periodista" DataField="nombre" />
-                                <asp:CommandField ShowSelectButton="True" />
+                                <asp:BoundField HeaderText="Periodistas disponibles" DataField="nombre"/>
+                                <asp:CommandField ShowSelectButton="True" SelectText="Elegir"/>
                             </Columns>
                             <FooterStyle BackColor="#CCCCCC" />
                             <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />
@@ -82,13 +82,14 @@
                         </asp:GridView>
                     </div>
                 </td>
-                <td >
+                <td style="text-align:left;">
                     <div style="width:100%;display:flex;justify-content:space-between;">
                         <asp:GridView ID="gvPeriodistasElegidos" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" 
-                                      CellPadding="1" ForeColor="Black" GridLines="Vertical" Width="40%" AutoGenerateColumns="False">
+                                      CellPadding="1" ForeColor="Black" GridLines="Vertical" Width="65%" AutoGenerateColumns="False">
                             <AlternatingRowStyle BackColor="#CCCCCC" />
                             <Columns>
-                                <asp:BoundField HeaderText="Elegidos" />
+                                <asp:BoundField HeaderText="Seleccionados" />
+                                <asp:CommandField ShowSelectButton="True" SelectText="Quitar"/>
                             </Columns>
                             <FooterStyle BackColor="#CCCCCC" />
                             <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />
@@ -132,7 +133,7 @@
         </div><br/>
 
         <br/>
-        <a href="default.aspx">Volver</a>
+        <a href="index.aspx">Volver</a>
     </div>
 
 </body>

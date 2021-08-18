@@ -62,7 +62,10 @@ namespace Presentacion
                 Noticia n = FabricaLogica.getLogicaNoticias().BuscarNoticia(txtCodigo.Text);
 
                 if (n != null && n.TipoNoticia != "Nacional")
+                {
+                    limpiar();
                     throw new Exception("La noticia no es Nacional");
+                }
 
                 noticia = (Nacional)n;
 

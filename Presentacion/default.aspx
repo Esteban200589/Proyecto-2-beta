@@ -10,8 +10,11 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <p>PAGINA INICIAL (CONSULTA DE NOTICIAS)<b> Default</b> <a href="login.aspx" 
-                style="float:right;position:absolute;right:10%;">LOGIN</a></p>
+            <p>PAGINA INICIAL (CONSULTA DE NOTICIAS)<b> Default</b> 
+                <a href="login.aspx" style="float:right;position:absolute;right:10%;">LOGIN</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Fecha de hoy: <asp:Label ID="lblFecha" runat="server" Text="Label"></asp:Label>
+            </p>
         </div>
         <br />
 
@@ -20,6 +23,7 @@
             <tr>
                 <td style="text-align:right;">
                     <div id="tipos" class="col-3">
+                        Tipo:
                         <asp:DropDownList ID="ddlTipo" runat="server" Width="150px">
                             <asp:ListItem Value="0">Seleccionar</asp:ListItem>
                             <asp:ListItem Value="1">Todas</asp:ListItem>
@@ -35,9 +39,15 @@
                 </td>--%>
                 <td style="text-align:center;">
                     <div id="seccion" class="col-3">
+                        Sección:
                         <asp:DropDownList ID="ddlSeccion" runat="server" Width="150px">
                             <asp:ListItem></asp:ListItem>
                         </asp:DropDownList>
+                    </div>
+                </td>
+                <td style="text-align:center;">
+                    <div id="fecha" class="col-3">
+                        Fecha: <asp:TextBox ID="txtfecha" runat="server" TextMode="Date"></asp:TextBox>
                     </div>
                 </td>
                 <td style="text-align:left;">
