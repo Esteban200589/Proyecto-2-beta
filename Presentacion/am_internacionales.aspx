@@ -7,6 +7,7 @@
 <body>
     <div id="principal" align="center">
         <h2 style="margin:1px;">ALTA Y MODIFICACION DE NOTICIA INTERNACIONAL</h2><br/>
+
         <table id="tabla_internacional" style="width:800px;margin:auto;" align="center">       
             <tr>
                 <td class="style3">Fecha de Publicación: </td>
@@ -88,7 +89,7 @@
                                       CellPadding="1" ForeColor="Black" GridLines="Vertical" Width="65%" AutoGenerateColumns="False" OnSelectedIndexChanged="gvPeriodistasElegidos_SelectedIndexChanged">
                             <AlternatingRowStyle BackColor="#CCCCCC" />
                             <Columns>
-                                <asp:BoundField HeaderText="Seleccionados" />
+                                <asp:BoundField HeaderText="Periodistas noticia" />
                                 <asp:CommandField ShowSelectButton="True" SelectText="Quitar"/>
                             </Columns>
                             <FooterStyle BackColor="#CCCCCC" />

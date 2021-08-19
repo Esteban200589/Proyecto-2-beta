@@ -51,8 +51,11 @@ namespace Presentacion
                 }
                 else if (ddlTipo.SelectedIndex == 1)
                 {
-                    // grilla
-                    //XmlListar.DocumentContent = docu.ToString();
+                    var result = (from nodo in docu.Elements("Noticia")
+                                  select nodo);
+
+                    gvNoticias.DataSource = result;
+                    gvNoticias.DataBind();
                 }
                 else if (ddlTipo.SelectedIndex == 2)
                 {
@@ -60,13 +63,8 @@ namespace Presentacion
                                   where nodo.Element("Tipo").Equals("Nacional")
                                   select nodo);
 
-                    string _res = "<Root>";
-                    foreach (var nodo in result)
-                    {
-                        _res += nodo.ToString();
-                    }
-                    _res += "</Root>";
-                    //XmlListar.DocumentContent = _res;
+                    gvNoticias.DataSource = result;
+                    gvNoticias.DataBind();
                 }
                 else if (ddlTipo.SelectedIndex == 3)
                 {
@@ -74,13 +72,8 @@ namespace Presentacion
                                   where nodo.Element("Tipo").Equals("Internacional")
                                   select nodo);
 
-                    string _res = "<Root>";
-                    foreach (var nodo in result)
-                    {
-                        _res += nodo.ToString();
-                    }
-                    _res += "</Root>";
-                    XmlListar.DocumentContent = _res;
+                    gvNoticias.DataSource = result;
+                    gvNoticias.DataBind();
                 }
 
                 
@@ -101,7 +94,50 @@ namespace Presentacion
 
         protected void ddlTipo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // 2 filtro por tipo (Nacionales e Internacioinales)
+            try
+            {
+                XElement docu = (XElement)Session["Documento"];
+
+                if (ddlTipo.SelectedIndex == -1)
+                {
+                    lblMsj.Text = "Debe seleccionar un tipo";
+                }
+                else if (ddlTipo.SelectedIndex == 0)
+                {
+                    lblMsj.Text = "Debe seleccionar un tipo";
+                }
+                else if (ddlTipo.SelectedIndex == 1)
+                {
+                    var result = (from nodo in docu.Elements("Noticia")
+                                  select nodo);
+
+                    gvNoticias.DataSource = result;
+                    gvNoticias.DataBind();
+                }
+                else if (ddlTipo.SelectedIndex == 2)
+                {
+                    var result = (from nodo in docu.Elements("Noticia")
+                                  where nodo.Element("Tipo").Equals("Nacional")
+                                  select nodo);
+
+                    gvNoticias.DataSource = result;
+                    gvNoticias.DataBind();
+                }
+                else if (ddlTipo.SelectedIndex == 3)
+                {
+                    var result = (from nodo in docu.Elements("Noticia")
+                                  where nodo.Element("Tipo").Equals("Internacional")
+                                  select nodo);
+
+                    gvNoticias.DataSource = result;
+                    gvNoticias.DataBind();
+                }
+            }
+            catch (Exception ex)
+            {
+                lblMsj.Text = ex.Message;
+                lblMsj.ForeColor = Color.Red;
+            }
         }
     }
 }

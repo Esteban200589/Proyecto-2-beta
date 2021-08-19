@@ -15,34 +15,43 @@ namespace Presentacion
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(!IsPostBack)
-                cargar_noticias_todas();
-            
-            cargar_secciones();
-            cargar_periodistas();
-            
+            if (!IsPostBack)
+            {
+                filtro();
+                cargar_secciones();
+            }
+                
             ddlSeccion.Enabled = false;
-            //btnBuscar.Enabled = false;
-
-            Session["noticia_selected"] = null;
-
             lblFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            //txtfecha.Text = DateTime.Now.ToString();
         }
-    
+
+        protected void btnBuscar_Click(object sender, EventArgs e)
+        {
+            //filtro();
+        }
         protected void btnLimpiarfiltros_Click(object sender, EventArgs e)
         {
             lblMsj.Text = "";
             ddlSeccion.Enabled = false;
             ddlTipo.ClearSelection();
             ddlSeccion.ClearSelection();
-        }
-        protected void btnBuscar_Click(object sender, EventArgs e)
-        {
-            filtro();
-        }
+        }   
         protected void gvNoticias_SelectedIndexChanged(object sender, EventArgs e)
         {
             seleccionar();
+        }
+        protected void ddlTipo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            filtro();
+        }
+        protected void txtfecha_TextChanged(object sender, EventArgs e)
+        {
+            filtro();
+        }
+        protected void ddlSeccion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            filtro();
         }
 
         protected void seleccionar()
@@ -78,75 +87,29 @@ namespace Presentacion
                 lblMsj.Text = ex.Message;
                 lblMsj.ForeColor = Color.Red;
             }
-        }
-        protected void cargar_periodistas()
-        {
-            List<Periodista> periodistas = FabricaLogica.getLogicaPeriodistas().ListarPeriodistas();
-            Session["periodistas_todos"] = periodistas;
-        }//sacar de aca
+        }   
         
         protected void filtro()
         {
-            List<Noticia> noticias = (List<Noticia>)Session["TodasLasNoticias"];
+            List<Noticia> noticias = FabricaLogica.getLogicaNoticias().noticias_ultimos_cinco_dias();
+            Session["TodasLasNoticias"] = noticias;
 
             try
             {
-                DateTime fecha = Convert.ToDateTime(txtfecha.Text);
+                string fecha = txtfecha.Text;
                 this.Response.Write(fecha);
-
-                if (fecha == null)
+      
+                // todas
+                if (ddlTipo.SelectedIndex == 0)
                 {
-                    // sin seleccion
-                    if (ddlTipo.SelectedIndex == -1)
-                    {
-                        lblMsj.Text = "Debe seleccionar un tipo";
-                    }
-                    // seleccionar
-                    else if (ddlTipo.SelectedIndex == 0)
-                    {
-                        lblMsj.Text = "Debe seleccionar un tipo";
-                    }
-                    // todas las noticias
-                    else if (ddlTipo.SelectedIndex == 1)
-                    {
-                        lblMsj.Text = "";
-                        ddlSeccion.Enabled = false;
-                        ddlSeccion.ClearSelection();
-                        cargar_noticias_todas();
-                    }
-                    // nacionales
-                    else if (ddlTipo.SelectedIndex == 2)
-                    {
-                        string seccion = ddlSeccion.SelectedValue;
-                        ddlSeccion.Enabled = true;
-                        //this.Response.Write(seccion);
+                    lblMsj.Text = "";
+                    ddlSeccion.Enabled = false;
+                    ddlSeccion.ClearSelection();
 
-                        lblMsj.Text = "";
-                        if (seccion != "")
-                        {
-                            List<object> listado = (from n in noticias
-                                                    where (n is Nacional) && ((Nacional)n).Seccion.Codigo_secc == seccion
-                                                    orderby n.Fecha
-                                                    select new
-                                                    {
-                                                        Fecha = n._fecha,
-                                                        Tipo = n.TipoNoticia,
-                                                        Titulo = n.Titulo
-                                                    }
-                            ).ToList<object>();
-                            gvNoticias.DataSource = listado;
-                            gvNoticias.DataBind();
-                        }
-                    }
-                    // internacionales
-                    else if (ddlTipo.SelectedIndex == 3)
+                    if (fecha != "")
                     {
-                        ddlSeccion.Enabled = false;
-                        ddlSeccion.ClearSelection();
-
-                        lblMsj.Text = "";
                         List<object> listado = (from n in noticias
-                                                where (n.TipoNoticia == "Internacional")
+                                                where n._fecha == fecha
                                                 orderby n.Fecha
                                                 select new
                                                 {
@@ -158,67 +121,34 @@ namespace Presentacion
                         gvNoticias.DataSource = listado;
                         gvNoticias.DataBind();
                     }
-                    // fail
                     else
                     {
-                        this.Response.Write("error de filtro");
+                        List<object> listado = (from n in noticias
+                                                orderby n.Fecha
+                                                select new
+                                                {
+                                                    Fecha = n._fecha,
+                                                    Tipo = n.TipoNoticia,
+                                                    Titulo = n.Titulo
+                                                }
+                                           ).ToList<object>();
+                        gvNoticias.DataSource = listado;
+                        gvNoticias.DataBind();
                     }
+                   
                 }
-                else
+                // nacionales
+                else if (ddlTipo.SelectedIndex == 1)
                 {
-                    // sin seleccion
-                    if (ddlTipo.SelectedIndex == -1)
+                    ddlSeccion.Enabled = true;
+                    string seccion = ddlSeccion.SelectedValue;
+                    
+                    lblMsj.Text = "";
+                    if (fecha != "")
                     {
-                        lblMsj.Text = "Debe seleccionar un tipo";
-                    }
-                    // seleccionar
-                    else if (ddlTipo.SelectedIndex == 0)
-                    {
-                        lblMsj.Text = "Debe seleccionar un tipo";
-                    }
-                    // todas las noticias
-                    else if (ddlTipo.SelectedIndex == 1)
-                    {
-                        lblMsj.Text = "";
-                        ddlSeccion.Enabled = false;
-                        ddlSeccion.ClearSelection();
-                        cargar_noticias_todas();
-                    }
-                    // nacionales
-                    else if (ddlTipo.SelectedIndex == 2)
-                    {
-                        string seccion = ddlSeccion.SelectedValue;
-                        ddlSeccion.Enabled = true;
-                        //this.Response.Write(seccion);
-
-                        lblMsj.Text = "";
-                        if (seccion != "")
-                        {
-                            List<object> listado = (from n in noticias
-                                                    where (n is Nacional) && ((Nacional)n).Seccion.Codigo_secc == seccion
-                                                    orderby n.Fecha
-                                                    select new
-                                                    {
-                                                        Fecha = n._fecha,
-                                                        Tipo = n.TipoNoticia,
-                                                        Titulo = n.Titulo
-                                                    }
-                            ).ToList<object>();
-                            gvNoticias.DataSource = listado;
-                            gvNoticias.DataBind();
-                        }
-                    }
-                    // internacionales
-                    else if (ddlTipo.SelectedIndex == 3)
-                    {
-                        ddlSeccion.Enabled = false;
-                        ddlSeccion.ClearSelection();
-
-                        lblMsj.Text = "";
                         List<object> listado = (from n in noticias
-                                                where (n.TipoNoticia == "Internacional"
-                                                    && n.Fecha == fecha)
-                                                
+                                                where (n is Nacional) && ((Nacional)n).Seccion.Codigo_secc == seccion
+                                                    && (n._fecha == fecha)
                                                 orderby n.Fecha
                                                 select new
                                                 {
@@ -230,13 +160,68 @@ namespace Presentacion
                         gvNoticias.DataSource = listado;
                         gvNoticias.DataBind();
                     }
-                    // fail
                     else
                     {
-                        this.Response.Write("error de filtro");
+                        List<object> listado = (from n in noticias
+                                                where (n is Nacional) && ((Nacional)n).Seccion.Codigo_secc == seccion
+                                                orderby n.Fecha
+                                                select new
+                                                {
+                                                    Fecha = n._fecha,
+                                                    Tipo = n.TipoNoticia,
+                                                    Titulo = n.Titulo
+                                                }
+                        ).ToList<object>();
+                        gvNoticias.DataSource = listado;
+                        gvNoticias.DataBind();
+                        }
+                    
+                }
+                // internacionales
+                else if (ddlTipo.SelectedIndex == 2)
+                {
+                    ddlSeccion.Enabled = false;
+                    ddlSeccion.ClearSelection();
+
+                    lblMsj.Text = "";
+                    if (fecha != "")
+                    {
+                        List<object> listado = (from n in noticias
+                                                where n.TipoNoticia == "Internacional" && n._fecha == fecha
+                                                orderby n.Fecha
+                                                select new
+                                                {
+                                                    Fecha = n._fecha,
+                                                    Tipo = n.TipoNoticia,
+                                                    Titulo = n.Titulo
+                                                }
+                        ).ToList<object>();
+                        gvNoticias.DataSource = listado;
+                        gvNoticias.DataBind();
+                    }
+                    else
+                    {
+                        List<object> listado = (from n in noticias
+                                                where n.TipoNoticia == "Internacional"
+                                                orderby n.Fecha
+                                                select new
+                                                {
+                                                    Fecha = n._fecha,
+                                                    Tipo = n.TipoNoticia,
+                                                    Titulo = n.Titulo
+                                                }
+                        ).ToList<object>();
+                        gvNoticias.DataSource = listado;
+                        gvNoticias.DataBind();
                     }
                     
                 }
+                // fail
+                else
+                {
+                    this.Response.Write("error de filtro");
+                }  
+                
             }
             catch (Exception ex)
             {
@@ -297,5 +282,6 @@ namespace Presentacion
             }
             
         }
+
     }
 }

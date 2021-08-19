@@ -6,10 +6,9 @@
 <html>
 <body>
     <div id="principal" align="center">
-        <h2 style="margin:1px;">ALTA Y MODIFICACION DE NOTICIA INTERNACIONAL</h2><br/>
+        <h2 style="margin:1px;">ALTA Y MODIFICACION DE NOTICIA NACIONAL</h2><br/>
 
         <table id="tabla_internacional" style="width:800px;margin:auto;" align="center">
-          
             <tr>
                 <td class="style3">Fecha de Publicación: </td>
                 <td class="style1">                
@@ -63,14 +62,14 @@
             </tr>
 
             <tr>
-                <td class="style3"> Periodistas: </td>
+                <td class="style3"></td>
                 <td class="style1">
                     <div style="width:100%;display:flex;justify-content:space-between;">
                         <asp:GridView ID="gvPeriodistasSeleccion" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" 
                                       CellPadding="1" ForeColor="Black" GridLines="Vertical" Width="40%" AutoGenerateColumns="False" OnSelectedIndexChanged="gvPeriodistasSeleccion_SelectedIndexChanged">
                             <AlternatingRowStyle BackColor="#CCCCCC" />
                             <Columns>
-                                <asp:BoundField HeaderText="Periodista" />
+                                <asp:BoundField HeaderText="Periodista disponibles" DataField="nombre"/>
                                 <asp:CommandField ShowSelectButton="True" />
                             </Columns>
                             <FooterStyle BackColor="#CCCCCC" />
@@ -88,10 +87,11 @@
                 <td >
                     <div style="width:100%;display:flex;justify-content:space-between;">
                         <asp:GridView ID="gvPeriodistasElegidos" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" 
-                                      CellPadding="1" ForeColor="Black" GridLines="Vertical" Width="40%" AutoGenerateColumns="False">
+                                      CellPadding="1" ForeColor="Black" GridLines="Vertical" Width="40%" AutoGenerateColumns="False" OnSelectedIndexChanged="gvPeriodistasElegidos_SelectedIndexChanged">
                             <AlternatingRowStyle BackColor="#CCCCCC" />
                             <Columns>
-                                <asp:BoundField HeaderText="Elegidos" />
+                                <asp:BoundField HeaderText="Periodistas noticia" DataField="nombre"/>
+                                <asp:CommandField ShowSelectButton="True" SelectText="Quitar"/>
                             </Columns>
                             <FooterStyle BackColor="#CCCCCC" />
                             <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />

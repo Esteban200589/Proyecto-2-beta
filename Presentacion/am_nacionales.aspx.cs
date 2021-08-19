@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using EntidadesCompartidas;
 using Logica;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Presentacion
 {
@@ -26,16 +27,17 @@ namespace Presentacion
 
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
-
-        }
-        protected void btnModificar_Click(object sender, EventArgs e)
-        {
-
+            buscar();
         }
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
-
+            guardar();
         }
+        protected void btnModificar_Click(object sender, EventArgs e)
+        {
+            modificar();
+        }
+        
         protected void btnLimpiar_Click(object sender, EventArgs e)
         {
 
@@ -44,7 +46,13 @@ namespace Presentacion
         {
             try
             {
+                Periodista periodista = ((List<Periodista>)Session["Periodistas"])[gvPeriodistasSeleccion.SelectedIndex];
 
+                List<Periodista> periodistas_seleccionados = new List<Periodista>();
+                periodistas_seleccionados.Add(periodista);
+                Session["periodistas_seleccionados"] = periodistas_seleccionados;
+                gvPeriodistasElegidos.DataSource = Session["periodistas_seleccionados"];
+                gvPeriodistasElegidos.DataBind();
             }
             catch (Exception ex)
             {
@@ -83,12 +91,14 @@ namespace Presentacion
                     btnModificar.Enabled = true;
 
                     txtCodigo.Text = noticia.Codigo;
+                    txtfecha.Text = noticia.Fecha.Date.ToString();
                     txtTitulo.Text = noticia.Titulo;
                     txtCuerpo.Text = noticia.Cuerpo;
                     ddlImportancia.SelectedItem.Text = noticia.Importancia.ToString();
                     ddlSecciones.SelectedValue = noticia.Seccion.Codigo_secc;
-                    gvPeriodistasSeleccion.DataSource = noticia.Periodistas;
-                    gvPeriodistasSeleccion.DataBind();
+                    gvPeriodistasElegidos.DataSource = noticia.Periodistas;
+                    Session["periodistas_seleccionados"] = noticia.Periodistas;
+                    gvPeriodistasElegidos.DataBind();
                     Session["Nacional"] = noticia;
 
                     lblMsj.Text = "Noticia Encontrada";
@@ -202,17 +212,36 @@ namespace Presentacion
 
         protected void cargar_secciones()
         {
-            ddlSecciones.DataSource = Session["secciones"];
-            ddlSecciones.DataTextField = "Nombre_secc";
-            ddlSecciones.DataValueField = "Codigo_secc";
-            ddlSecciones.DataBind();
+            try
+            {
+                ddlSecciones.DataSource = Session["secciones"];
+                ddlSecciones.DataTextField = "Nombre_secc";
+                ddlSecciones.DataValueField = "Codigo_secc";
+                ddlSecciones.DataBind();
+            }
+            catch (Exception ex)
+            {
+                lblMsj.Text = ex.Message;
+            }
         }
         protected void cargar_periodistas()
         {
-            gvPeriodistasSeleccion.DataSource = (List<Periodista>)Session["periodistas_todos"];
-            gvPeriodistasSeleccion.DataBind();
+            try
+            {
+                List<Periodista> periodistas = FabricaLogica.getLogicaPeriodistas().ListarPeriodistas();
+                Session["Periodistas"] = periodistas;
+                gvPeriodistasSeleccion.DataSource = periodistas;
+                gvPeriodistasSeleccion.DataBind();
+            }
+            catch (Exception ex)
+            {
+                lblMsj.Text = ex.Message;
+            }
         }
 
-        
+        protected void gvPeriodistasElegidos_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

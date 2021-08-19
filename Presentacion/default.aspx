@@ -24,9 +24,8 @@
                 <td style="text-align:right;">
                     <div id="tipos" class="col-3">
                         Tipo:
-                        <asp:DropDownList ID="ddlTipo" runat="server" Width="150px" AutoPostBack="True">
-                            <asp:ListItem Value="0">Seleccionar</asp:ListItem>
-                            <asp:ListItem Value="1">Todas</asp:ListItem>
+                        <asp:DropDownList ID="ddlTipo" runat="server" Width="150px" AutoPostBack="True" OnSelectedIndexChanged="ddlTipo_SelectedIndexChanged">
+                            <asp:ListItem Value="1">Sin Filtros</asp:ListItem>
                             <asp:ListItem Value="2">Nacionales</asp:ListItem>
                             <asp:ListItem Value="3">Internacionales</asp:ListItem>
                         </asp:DropDownList>
@@ -40,23 +39,23 @@
                 <td style="text-align:center;">
                     <div id="seccion" class="col-3">
                         Sección:
-                        <asp:DropDownList ID="ddlSeccion" runat="server" Width="150px" AutoPostBack="True">
+                        <asp:DropDownList ID="ddlSeccion" runat="server" Width="150px" AutoPostBack="False" OnSelectedIndexChanged="ddlSeccion_SelectedIndexChanged">
                             <asp:ListItem></asp:ListItem>
                         </asp:DropDownList>
                     </div>
                 </td>
-                <td style="text-align:center;">
+                <td style="text-align:left;">
                     <div id="fecha" class="col-3">
-                        Fecha: <asp:TextBox ID="txtfecha" runat="server" TextMode="Date"></asp:TextBox>
+                        Fecha: <asp:TextBox ID="txtfecha" runat="server" TextMode="Date" AutoPostBack="True" OnTextChanged="txtfecha_TextChanged"></asp:TextBox>
                     </div>
                 </td>
                 <td style="text-align:left;">
                     <%--<div id="limpiar" class="col-3">
                         <asp:Button ID="btnLimpiarfiltros" runat="server" Text="Limpiar Filtros"  Width="150px" OnClick="btnLimpiarfiltros_Click"/>
                     </div>--%>
-                    <div id="buscar" class="col-3">
+                    <%--<div id="buscar" class="col-3">
                         <asp:Button ID="btnBuscar" runat="server" Text="Filtrar" Width="150px" OnClick="btnBuscar_Click" />
-                    </div>
+                    </div>--%>
                 </td>
             </tr>
         </table>
