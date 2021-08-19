@@ -42,13 +42,13 @@ namespace Presentacion
         protected global::System.Web.UI.WebControls.Button btnLimpiarfiltros;
 
         /// <summary>
-        /// Control XmlListar.
+        /// Control gvNoticias.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Xml XmlListar;
+        protected global::System.Web.UI.WebControls.GridView gvNoticias;
 
         /// <summary>
         /// Control lblMsj.

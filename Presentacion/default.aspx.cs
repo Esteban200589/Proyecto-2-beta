@@ -83,7 +83,7 @@ namespace Presentacion
         {
             List<Periodista> periodistas = FabricaLogica.getLogicaPeriodistas().ListarPeriodistas();
             Session["periodistas_todos"] = periodistas;
-        }
+        }//sacar de aca
         
         protected void filtro()
         {
@@ -125,8 +125,7 @@ namespace Presentacion
                         if (seccion != "")
                         {
                             List<object> listado = (from n in noticias
-                                                    where (n.TipoNoticia == "Nacional")
-                                                    //where (n.Seccion.Codigo_secc == ddlSeccion.SelectedValue)
+                                                    where (n is Nacional) && ((Nacional)n).Seccion.Codigo_secc == seccion
                                                     orderby n.Fecha
                                                     select new
                                                     {
@@ -196,9 +195,7 @@ namespace Presentacion
                         if (seccion != "")
                         {
                             List<object> listado = (from n in noticias
-                                                    where (n.TipoNoticia == "Nacional"
-                                                        && n.Fecha == fecha)
-                                                    // (n.Seccion.Codigo_secc == ddlSeccion.SelectedValue)
+                                                    where (n is Nacional) && ((Nacional)n).Seccion.Codigo_secc == seccion
                                                     orderby n.Fecha
                                                     select new
                                                     {

@@ -24,6 +24,7 @@ namespace Presentacion
                     XmlDocument docu = FabricaLogica.getLogicaNoticias().ListadoNoticiasXML();   
                     XElement documento = XElement.Parse(docu.OuterXml);
                     Session["Documento"] = documento;
+                    //falta mostrar LinqToXML para mostrar en la grilla
                 }
             }
             catch (Exception ex)
@@ -50,7 +51,8 @@ namespace Presentacion
                 }
                 else if (ddlTipo.SelectedIndex == 1)
                 {
-                    XmlListar.DocumentContent = docu.ToString();
+                    // grilla
+                    //XmlListar.DocumentContent = docu.ToString();
                 }
                 else if (ddlTipo.SelectedIndex == 2)
                 {
@@ -64,7 +66,7 @@ namespace Presentacion
                         _res += nodo.ToString();
                     }
                     _res += "</Root>";
-                    XmlListar.DocumentContent = _res;
+                    //XmlListar.DocumentContent = _res;
                 }
                 else if (ddlTipo.SelectedIndex == 3)
                 {
@@ -95,6 +97,11 @@ namespace Presentacion
             ddlTipo.ClearSelection();
          
 
+        }
+
+        protected void ddlTipo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // 2 filtro por tipo (Nacionales e Internacioinales)
         }
     }
 }

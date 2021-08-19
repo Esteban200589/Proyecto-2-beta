@@ -4,11 +4,11 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <body>
-    <div id="principal" align="center"><h2>ESTADISTICAS DE NOTICIAS</h2><br/>
+    <dESTADISTICAS DE NOTICIAS</h2><br/>
 
         <div id="filtros">
             <div id="tipos" class="col-3">
-                <asp:DropDownList ID="ddlTipo" runat="server" Width="150px">
+                <asp:DropDownList ID="ddlTipo" runat="server" Width="150px" AutoPostBack="True" OnSelectedIndexChanged="ddlTipo_SelectedIndexChanged">
                     <asp:ListItem Value="0">Seleccionar</asp:ListItem>
                     <asp:ListItem Value="1">Todas</asp:ListItem>
                     <asp:ListItem Value="2">Nacionales</asp:ListItem>
@@ -20,7 +20,8 @@
         </div></br>
 
         <div id="grilla">
-            <asp:Xml ID="XmlListar" runat="server" TransformSource="~/App_Code/estadisticas.xslt"></asp:Xml>
+            <asp:GridView ID="gvNoticias" runat="server"></asp:GridView>
+            <%--<asp:Xml ID="XmlListar" runat="server" TransformSource="~/App_Code/estadisticas.xslt"></asp:Xml>--%>
             
             <%--<asp:GridView ID="gvNoticias" runat="server" Width="85%" HorizontalAlign="Center" BackColor="White" BorderColor="#CCCCCC"
                           BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black" GridLines="Horizontal">
@@ -38,7 +39,7 @@
         <div style="text-align:center;">                   
             <asp:Label id="lblMsj" for="exampleFormControlInput1" runat="server"></asp:Label> 
             <br/><br/>
-            <a href="index.aspx">Volver</a>
+            <a href="index.aspx">Volver          <a href="index.aspx">Volver</a>
         </div><br/>
     </div>
 

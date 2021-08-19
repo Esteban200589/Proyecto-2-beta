@@ -45,14 +45,10 @@ namespace Presentacion
         {
             try
             {
-                Periodista periodista = ((List<Periodista>)Session["Peropdistas"])[gvPeriodistasSeleccion.SelectedIndex];
-                Session["periodista_selected"] = periodista;
-                //gvPeriodistasSeleccion.C
-
-                if (periodista != null)
-                {
-                    //gvPeriodistasElegidos.Rows.
-                }
+                Periodista periodista = ((List<Periodista>)Session["Periodistas"])[gvPeriodistasSeleccion.SelectedIndex];
+                ((List<Periodista>)Session["periodistas_seleccionados"]).Add(periodista);
+                gvPeriodistasElegidos.DataSource = Session["periodistas_seleccionados"];
+                gvPeriodistasElegidos.DataBind();
             }
             catch (Exception ex)
             {
@@ -61,24 +57,6 @@ namespace Presentacion
                 //this.Response.Write("error al seleccionar!" + ex);
             }
 
-
-            //try
-            //{
-            //    foreach (DataGridViewRow row in gvPeriodistasSeleccion.Rows)
-            //    {
-            //        if (Convert.ToBoolean(row.Cells[1].Value))
-            //        {
-            //            DataGridViewRow fila = new DataGridViewRow();
-            //            fila.Cells[0].Value = row.Cells[0].Value;
-            //            gvPeriodistasElegidos.Rows.Add(fila);
-                        
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.ToString(), " ", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
         }
 
         protected void buscar()
@@ -105,21 +83,20 @@ namespace Presentacion
                     btnGuardar.Enabled = true;
                     lblMsj.Text = "No se encontró la noticia. Puede agregarla.";
                     lblMsj.ForeColor = Color.DarkOrange;
+                    Session["periodistas_seleccionados"] = new List<Periodista>();
                 }
                 else
                 {
                     btnModificar.Enabled = true;
 
                     txtCodigo.Text = noticia.Codigo;
-                    this.Response.Write(noticia.Fecha);
-                    //txtfecha.Text = noticia.Fecha.ToString("dd/mm/aaaa");
-                    txtfecha.Text = noticia.Fecha.ToString("dd/MM/yyyy");
-                    this.Response.Write("<br>"+txtfecha.Text);
+                    txtfecha.Text = noticia.Fecha.Date.ToString();
                     txtTitulo.Text = noticia.Titulo;
                     txtCuerpo.Text = noticia.Cuerpo;
                     ddlImportancia.SelectedItem.Text = noticia.Importancia.ToString();
                     txtPais.Text = noticia.Pais;
                     gvPeriodistasSeleccion.DataSource = noticia.Periodistas;
+                    Session["periodistas_seleccionados"] = noticia.Periodistas;
                     gvPeriodistasSeleccion.DataBind();
                     Session["internacional"] = noticia;
 
@@ -145,12 +122,7 @@ namespace Presentacion
                 string pais = txtPais.Text;
                 int imp = Convert.ToInt32(ddlImportancia.SelectedValue);
 
-                List<Periodista> ptas = null;
-                foreach (DataGridItem item in gvPeriodistasElegidos.Rows)
-                {
-                    Periodista p = FabricaLogica.getLogicaPeriodistas().BuscarPeriodistaActivo(item.Cells[0].ToString());
-                    ptas.Add(p);
-                }
+                // coleccion de memoria Periodistas
 
                 Internacional noticia = new Internacional(pais, code, date, title, body, imp, ptas, user);
 
@@ -237,5 +209,20 @@ namespace Presentacion
             gvPeriodistasSeleccion.DataBind();
         }
 
+        protected void gvPeriodistasElegidos_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                ((List<Periodista>)Session["periodistas_seleccionados"]).RemoveAt(gvPeriodistasElegidos.SelectedIndex);
+                gvPeriodistasElegidos.DataSource = Session["periodistas_seleccionados"];
+                gvPeriodistasElegidos.DataBind();
+            }
+            catch (Exception ex)
+            {
+                lblMsj.Text = ex.Message;
+                lblMsj.ForeColor = Color.Red;
+                //this.Response.Write("error al seleccionar!" + ex);
+            }
+        }
     }
 }

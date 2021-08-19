@@ -24,7 +24,7 @@
                 <td style="text-align:right;">
                     <div id="tipos" class="col-3">
                         Tipo:
-                        <asp:DropDownList ID="ddlTipo" runat="server" Width="150px">
+                        <asp:DropDownList ID="ddlTipo" runat="server" Width="150px" AutoPostBack="True">
                             <asp:ListItem Value="0">Seleccionar</asp:ListItem>
                             <asp:ListItem Value="1">Todas</asp:ListItem>
                             <asp:ListItem Value="2">Nacionales</asp:ListItem>
@@ -40,7 +40,7 @@
                 <td style="text-align:center;">
                     <div id="seccion" class="col-3">
                         Sección:
-                        <asp:DropDownList ID="ddlSeccion" runat="server" Width="150px">
+                        <asp:DropDownList ID="ddlSeccion" runat="server" Width="150px" AutoPostBack="True">
                             <asp:ListItem></asp:ListItem>
                         </asp:DropDownList>
                     </div>

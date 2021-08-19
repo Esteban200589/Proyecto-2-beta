@@ -85,7 +85,7 @@
                 <td style="text-align:left;">
                     <div style="width:100%;display:flex;justify-content:space-between;">
                         <asp:GridView ID="gvPeriodistasElegidos" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" 
-                                      CellPadding="1" ForeColor="Black" GridLines="Vertical" Width="65%" AutoGenerateColumns="False">
+                                      CellPadding="1" ForeColor="Black" GridLines="Vertical" Width="65%" AutoGenerateColumns="False" OnSelectedIndexChanged="gvPeriodistasElegidos_SelectedIndexChanged">
                             <AlternatingRowStyle BackColor="#CCCCCC" />
                             <Columns>
                                 <asp:BoundField HeaderText="Seleccionados" />
