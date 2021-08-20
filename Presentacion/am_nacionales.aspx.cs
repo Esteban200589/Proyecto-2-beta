@@ -19,7 +19,6 @@ namespace Presentacion
             botones_inicio();
             if (!IsPostBack)
             {
-                Session["Nacional"] = null;
                 cargar_secciones();
                 cargar_periodistas();
             }
@@ -36,32 +35,12 @@ namespace Presentacion
         protected void btnModificar_Click(object sender, EventArgs e)
         {
             modificar();
-        }
-        
+        }  
         protected void btnLimpiar_Click(object sender, EventArgs e)
         {
 
         }
-        protected void gvPeriodistasSeleccion_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                Periodista periodista = ((List<Periodista>)Session["Periodistas"])[gvPeriodistasSeleccion.SelectedIndex];
-
-                List<Periodista> periodistas_seleccionados = new List<Periodista>();
-                periodistas_seleccionados.Add(periodista);
-                Session["periodistas_seleccionados"] = periodistas_seleccionados;
-                gvPeriodistasElegidos.DataSource = Session["periodistas_seleccionados"];
-                gvPeriodistasElegidos.DataBind();
-            }
-            catch (Exception ex)
-            {
-                lblMsj.Text = ex.Message;
-                lblMsj.ForeColor = Color.Red;
-                //this.Response.Write("error al seleccionar!" + ex);
-            }
-        }
-
+        
         protected void buscar()
         {
             try
@@ -85,22 +64,31 @@ namespace Presentacion
                     btnGuardar.Enabled = true;
                     lblMsj.Text = "No se encontró la noticia. Puede agregarla.";
                     lblMsj.ForeColor = Color.DarkOrange;
+                    Session["periodistas_seleccionados"] = new List<Periodista>();
                 }
                 else
                 {
                     btnModificar.Enabled = true;
 
                     txtCodigo.Text = noticia.Codigo;
-                    txtfecha.Text = noticia.Fecha.Date.ToString();
+                    txtfecha.Text = noticia.Fecha.Date.ToString("dd/MM/yyyy");
                     txtTitulo.Text = noticia.Titulo;
                     txtCuerpo.Text = noticia.Cuerpo;
                     ddlImportancia.SelectedItem.Text = noticia.Importancia.ToString();
                     ddlSecciones.SelectedValue = noticia.Seccion.Codigo_secc;
-                    gvPeriodistasElegidos.DataSource = noticia.Periodistas;
-                    Session["periodistas_seleccionados"] = noticia.Periodistas;
-                    gvPeriodistasElegidos.DataBind();
-                    Session["Nacional"] = noticia;
 
+                    string[] nombres = null;
+                    Periodista[] periodistas = noticia.Periodistas.ToArray();
+                    for (int i = 0; i < periodistas.Length; i++)
+                    {
+                        nombres[i] = periodistas[i].Nombre;
+                    }
+                    lbPeriodistasNoticia.DataSource = nombres;
+                    lbPeriodistasNoticia.DataBind();
+
+                    Session["periodistas_noticia"] = noticia.Periodistas;
+
+                    Session["Nacional"] = noticia;
                     lblMsj.Text = "Noticia Encontrada";
                     lblMsj.ForeColor = Color.Green;
                 }
@@ -123,11 +111,11 @@ namespace Presentacion
                 Seccion secc = FabricaLogica.getLogicaSecciones().BuscarSeccion(ddlSecciones.SelectedValue);
                 int imp = Convert.ToInt32(ddlImportancia.SelectedValue);
                 List<Periodista> ptas = null;
-                foreach (DataGridItem item in gvPeriodistasElegidos.Rows)
-                {
-                    Periodista p = FabricaLogica.getLogicaPeriodistas().BuscarPeriodistaActivo(item.Cells[0].ToString());
-                    ptas.Add(p);
-                }
+                //foreach (DataGridItem item in gvPeriodistasElegidos.Rows)
+                //{
+                //    Periodista p = FabricaLogica.getLogicaPeriodistas().BuscarPeriodistaActivo(item.Cells[0].ToString());
+                //    ptas.Add(p);
+                //}
 
                 Nacional noticia = new Nacional(secc, code, date, title, body, imp, ptas, user);
 
@@ -193,28 +181,29 @@ namespace Presentacion
             }
         }
 
-        private void limpiar()
+        protected void limpiar()
         {
             txtCodigo.Text = "";
             txtTitulo.Text = "";
             txtCuerpo.Text = "";
             //fecha.SelectedDate.Date.ti = "00010101";
-            gvPeriodistasElegidos = null;
             //ddlImportancia.
             //ddlSecciones.
         }
-        private void botones_inicio()
+        protected void botones_inicio()
         {
-            btnGuardar.Enabled = true;
+            btnBuscar.Enabled = true;
             btnModificar.Enabled = false;
-            btnLimpiar.Enabled = true;
+            btnGuardar.Enabled = false;
+            btnLimpiar.Enabled = false;
         }
 
         protected void cargar_secciones()
         {
             try
             {
-                ddlSecciones.DataSource = Session["secciones"];
+                List<Seccion> secciones = FabricaLogica.getLogicaSecciones().ListarSecciones();
+                ddlSecciones.DataSource = secciones;
                 ddlSecciones.DataTextField = "Nombre_secc";
                 ddlSecciones.DataValueField = "Codigo_secc";
                 ddlSecciones.DataBind();
@@ -229,9 +218,11 @@ namespace Presentacion
             try
             {
                 List<Periodista> periodistas = FabricaLogica.getLogicaPeriodistas().ListarPeriodistas();
-                Session["Periodistas"] = periodistas;
-                gvPeriodistasSeleccion.DataSource = periodistas;
-                gvPeriodistasSeleccion.DataBind();
+                Session["periodistas_disponibles"] = periodistas;
+                ddlPeriodistasDisponibles.DataSource = periodistas;
+                ddlPeriodistasDisponibles.DataTextField = "nombre";
+                ddlPeriodistasDisponibles.DataValueField = "cedula";
+                ddlPeriodistasDisponibles.DataBind();
             }
             catch (Exception ex)
             {
@@ -239,9 +230,46 @@ namespace Presentacion
             }
         }
 
-        protected void gvPeriodistasElegidos_SelectedIndexChanged(object sender, EventArgs e)
+        protected void btnAgregar_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (ddlPeriodistasDisponibles.Text.Trim().Length > 0)
+                {
+                    object existe = lbPeriodistasNoticia.Items.FindByText(ddlPeriodistasDisponibles.SelectedItem.Text);
 
+                    if (existe != null)
+                    {
+                        lblMsj.Text = "Ya está elegido ese Periodista";
+                    }
+                    else
+                    {
+                        lbPeriodistasNoticia.Items.Add(ddlPeriodistasDisponibles.SelectedItem.Text.Trim());
+                    }
+                }
+                else
+                    lblMsj.Text = "Seleccione un periodista";
+            }
+            catch (Exception ex)
+            {
+                lblMsj.Text = ex.Message;
+            }
+        }
+        protected void btnQuitar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (ddlPeriodistasDisponibles.Text.Trim().Length > 0)
+                {
+                    lbPeriodistasNoticia.Items.Remove(lbPeriodistasNoticia.SelectedItem);
+                }
+                else
+                    lblMsj.Text = "Seleccione un periodista lista";
+            }
+            catch (Exception ex)
+            {
+                lblMsj.Text = ex.Message;
+            }
         }
     }
 }

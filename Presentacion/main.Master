@@ -8,9 +8,11 @@
     <title>Pagina Principal</title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
-
-    <%--<link href="style/estilos.css" rel="stylesheet"/>--%>
-
+    <link href="style/estilos.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="javascript" src="style/bootstrap.min.js"></script>
+    <script type="javascript" src="style/popper.js"></script>
+    <script type="javascript" src="style/jquery-3.0.0-vsdoc.js"></script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -28,17 +30,17 @@
             </div>
 
             <div id="perfil">
-                <asp:Button ID="logout" Text="Logout" runat="server" OnClick="logout_Click" />
+                <asp:Button ID="logout" class="btn btn-secondary" Text="Logout" runat="server" OnClick="logout_Click" />
                 Usuario: <asp:Label ID="lblUsername" runat="server"></asp:Label>
             </div>
 
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>
 
-            <div id="footer">
-                <span>Contacto</span>
+            <div id="footer" style="text-align:center;">
+                <%--<span>Contacto</span>
                 <span>Terminos</span>
-                <span>Creadores</span>
+                <span>Creadores</span>--%>
                 <span>Fecha: <asp:Label ID="lblFecha" runat="server" Text="Label"></asp:Label></span>
             </div>
 

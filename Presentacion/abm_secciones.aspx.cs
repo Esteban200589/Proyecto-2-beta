@@ -141,7 +141,30 @@ namespace Presentacion
         }   
         protected void eliminar()
         {
+            try
+            {
+                Seccion seccion = (Seccion)Session["Seccion"];
 
+                if (seccion != null)
+                {
+                    FabricaLogica.getLogicaSecciones().EliminarSeccion(seccion);
+                    lblMsj.Text = "Sección Eliminada";
+                    lblMsj.ForeColor = Color.Green;
+                }
+                else
+                {
+                    lblMsj.Text = "No se puede elimiinar la Sección";
+                    lblMsj.ForeColor = Color.DarkOrange;
+                }
+            }
+            catch (Exception ex)
+            {
+                lblMsj.Text = ex.Message;
+                lblMsj.ForeColor = Color.Red;
+            }
+
+            limpiar();
+            botones_inicio();
         }
         
         protected void limpiar()

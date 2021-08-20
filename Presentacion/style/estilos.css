@@ -1,0 +1,92 @@
+﻿/*IMPORTS*/
+
+/*@import url(iconos.css);*/
+@import url(bootstrap-grid.css);
+@import url(bootstrap-grid.css.map);
+@import url(bootstrap-grid.min.css);
+@import url(bootstrap-grid.min.css.map);
+@import url(bootstrap-reboot.css);
+@import url(bootstrap-reboot.css.map);
+@import url(bootstrap-reboot.min.css);
+@import url(bootstrap-reboot.min.css.map);
+@import url(bootstrap.css);
+@import url(bootstrap.min.css);
+@import url(bootstrap.css.map);
+@import url(bootstrap.min.css.map);
+
+
+/*GENERAL*/
+
+
+/*#menu_div
+{
+    width:100%;
+    height:10%;
+    display:inline-flex;
+    flex-direction:horizontal;
+    background-color:CadetBlue;
+}
+
+#perfil
+{
+    position:absolute;
+    top:2px;
+    right:6px;
+    width:200px;
+    height:5%;
+    float:right;     
+}
+
+p 
+{
+    color: White;
+}
+
+#aviso
+{
+    font-size:large;
+    color:White;
+}
+
+#titulo_default
+{
+    width:100%; 
+    padding-bottom:1%; 
+    line-height:21px; 
+    font-weight:900; 
+    color:#7d2e16b8;
+}
+
+#titulo_inicio
+{
+    font-size:x-large; 
+    font-weight:900; 
+    color:Black; 
+    font-family: monospace; 
+    font-size:5em; 
+    background-color:Gray; 
+    opacity:80%;
+    animation-duration: 1s;
+    animation-name: fromLeft;
+}
+
+#titulo_inicio:hover
+{
+    color:white;
+}
+
+@keyframes fromLeft
+{
+	from 
+	{   
+        left: 0%;*/
+		/*right: 280px;*/
+		/*opacity: 10%;
+	}
+	to 
+	{
+		left: 30%;*/
+		/*right: 20px;*/
+        /*opacity: 100%;
+	}
+}*/

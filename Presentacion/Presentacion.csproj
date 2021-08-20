@@ -79,6 +79,27 @@
     <Content Include="index.aspx" />
     <Content Include="login.aspx" />
     <Content Include="noticia.aspx" />
+    <Content Include="style\bootstrap-grid.css" />
+    <Content Include="style\bootstrap-grid.min.css" />
+    <Content Include="style\bootstrap-reboot.css" />
+    <Content Include="style\bootstrap-reboot.min.css" />
+    <Content Include="style\bootstrap.bundle.js" />
+    <Content Include="style\bootstrap.bundle.min.js" />
+    <Content Include="style\bootstrap.css" />
+    <Content Include="style\bootstrap.js" />
+    <Content Include="style\bootstrap.min.css" />
+    <Content Include="style\bootstrap.min.js" />
+    <Content Include="style\estilos.css" />
+    <Content Include="style\iconos.css" />
+    <None Include="style\jquery-3.0.0-vsdoc.js" />
+    <Content Include="style\jquery-3.0.0.js" />
+    <Content Include="style\jquery-3.0.0.min.js" />
+    <Content Include="style\jquery-3.0.0.slim.js" />
+    <Content Include="style\jquery-3.0.0.slim.min.js" />
+    <Content Include="style\popper-utils.js" />
+    <Content Include="style\popper-utils.min.js" />
+    <Content Include="style\popper.js" />
+    <Content Include="style\popper.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +185,22 @@
   <ItemGroup>
     <Content Include="main.Master" />
     <None Include="packages.config" />
+    <Content Include="style\bootstrap-grid.css.map" />
+    <Content Include="style\bootstrap-grid.min.css.map" />
+    <Content Include="style\bootstrap-reboot.css.map" />
+    <Content Include="style\bootstrap-reboot.min.css.map" />
+    <Content Include="style\bootstrap.bundle.js.map" />
+    <Content Include="style\bootstrap.bundle.min.js.map" />
+    <Content Include="style\bootstrap.css.map" />
+    <Content Include="style\bootstrap.js.map" />
+    <Content Include="style\bootstrap.min.css.map" />
+    <Content Include="style\bootstrap.min.js.map" />
+    <Content Include="style\jquery-3.0.0.min.map" />
+    <Content Include="style\jquery-3.0.0.slim.min.map" />
+    <Content Include="style\popper-utils.js.map" />
+    <Content Include="style\popper-utils.min.js.map" />
+    <Content Include="style\popper.js.map" />
+    <Content Include="style\popper.min.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -161,7 +161,7 @@ namespace Presentacion
                 else
                 {
                     lblMsj.Text = "No se puede elimiinar el Periodista";
-                    lblMsj.ForeColor = Color.Green;
+                    lblMsj.ForeColor = Color.DarkOrange;
                 }
             }
             catch (Exception ex)

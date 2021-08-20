@@ -226,7 +226,7 @@ go
 create proc listar_periodistas
 as
 begin
-	select * from periodistas where deleted = 0
+	select * from periodistas where deleted = 0 order by nombre
 end
 go
 
