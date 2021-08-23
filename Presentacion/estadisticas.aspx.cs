@@ -21,10 +21,11 @@ namespace Presentacion
             {
                 if (!IsPostBack)
                 {
-                    XmlDocument docu = FabricaLogica.getLogicaNoticias().ListadoNoticiasXML();   
+                    XmlDocument docu = FabricaLogica.getLogicaNoticias().ListadoNoticiasXML();
                     XElement documento = XElement.Parse(docu.OuterXml);
                     Session["Documento"] = documento;
-                    //falta mostrar LinqToXML para mostrar en la grilla
+
+                    noticias_todas(documento);
                 }
             }
             catch (Exception ex)
@@ -32,105 +33,43 @@ namespace Presentacion
                 lblMsj.Text = ex.Message;
                 lblMsj.ForeColor = Color.Red;
             }
-            
+
         }
 
         protected void btnCantAnual_Click(object sender, EventArgs e)
         {
             try
             {
-                XElement docu = (XElement)Session["Documento"];
+                XElement documento = (XElement)Session["Documento"];
 
-                if (ddlTipo.SelectedIndex == -1)
-                {
-                    lblMsj.Text = "Debe seleccionar un tipo";
-                }
-                else if (ddlTipo.SelectedIndex == 0)
-                {
-                    lblMsj.Text = "Debe seleccionar un tipo";
-                }
-                else if (ddlTipo.SelectedIndex == 1)
-                {
-                    var result = (from nodo in docu.Elements("Noticia")
-                                  select nodo);
-
-                    gvNoticias.DataSource = result;
-                    gvNoticias.DataBind();
-                }
-                else if (ddlTipo.SelectedIndex == 2)
-                {
-                    var result = (from nodo in docu.Elements("Noticia")
-                                  where nodo.Element("Tipo").Equals("Nacional")
-                                  select nodo);
-
-                    gvNoticias.DataSource = result;
-                    gvNoticias.DataBind();
-                }
-                else if (ddlTipo.SelectedIndex == 3)
-                {
-                    var result = (from nodo in docu.Elements("Noticia")
-                                  where nodo.Element("Tipo").Equals("Internacional")
-                                  select nodo);
-
-                    gvNoticias.DataSource = result;
-                    gvNoticias.DataBind();
-                }
-
-                
-
+                noticias_cantidades(documento);
             }
             catch (Exception ex)
             {
                 lblMsj.Text = ex.Message;
             }
         }
-
         protected void btnLimpiarfiltros_Click(object sender, EventArgs e)
         {
-            ddlTipo.ClearSelection();
-         
-
+            noticias_todas((XElement)Session["Documento"]);
         }
-
         protected void ddlTipo_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
                 XElement docu = (XElement)Session["Documento"];
 
-                if (ddlTipo.SelectedIndex == -1)
+                if (ddlTipo.SelectedIndex == 0)
                 {
-                    lblMsj.Text = "Debe seleccionar un tipo";
-                }
-                else if (ddlTipo.SelectedIndex == 0)
-                {
-                    lblMsj.Text = "Debe seleccionar un tipo";
+                    noticias_todas(docu);
                 }
                 else if (ddlTipo.SelectedIndex == 1)
                 {
-                    var result = (from nodo in docu.Elements("Noticia")
-                                  select nodo);
-
-                    gvNoticias.DataSource = result;
-                    gvNoticias.DataBind();
+                    noticias_nacionales(docu);
                 }
                 else if (ddlTipo.SelectedIndex == 2)
                 {
-                    var result = (from nodo in docu.Elements("Noticia")
-                                  where nodo.Element("Tipo").Equals("Nacional")
-                                  select nodo);
-
-                    gvNoticias.DataSource = result;
-                    gvNoticias.DataBind();
-                }
-                else if (ddlTipo.SelectedIndex == 3)
-                {
-                    var result = (from nodo in docu.Elements("Noticia")
-                                  where nodo.Element("Tipo").Equals("Internacional")
-                                  select nodo);
-
-                    gvNoticias.DataSource = result;
-                    gvNoticias.DataBind();
+                    noticias_internacionales(docu);
                 }
             }
             catch (Exception ex)
@@ -138,6 +77,75 @@ namespace Presentacion
                 lblMsj.Text = ex.Message;
                 lblMsj.ForeColor = Color.Red;
             }
+        }
+
+        protected void noticias_todas(XElement documento)
+        {
+            List<object> result = (from nodo in documento.Elements("Noticia")
+                                   select new
+                                   {
+                                       Codigo = nodo.Element("Codigo").Value,
+                                       Fecha = nodo.Element("Fecha").Value,
+                                       Tipo = nodo.Element("Tipo").Value,
+                                       Titulo = nodo.Element("Titulo").Value,
+                                       Importancia = nodo.Element("Importancia").Value
+                                   }).ToList<object>();
+
+            gvNoticias.DataSource = result;
+            gvNoticias.DataBind();
+        }
+        protected void noticias_nacionales(XElement documento)
+        {
+            List<object> result = (from nodo in documento.Elements("Noticia")
+                                   where (string)nodo.Element("Tipo") == "Nacional"
+                                   select new
+                                   {
+                                       Codigo = nodo.Element("Codigo").Value,
+                                       Fecha = nodo.Element("Fecha").Value,
+                                       Tipo = nodo.Element("Tipo").Value,
+                                       Titulo = nodo.Element("Titulo").Value,
+                                       Importancia = nodo.Element("Importancia").Value
+                                   }).ToList<object>();
+
+            gvNoticias.DataSource = result;
+            gvNoticias.DataBind();
+        }
+        protected void noticias_internacionales(XElement documento)
+        {
+            List<object> result = (from nodo in documento.Elements("Noticia")
+                                   where (string)nodo.Element("Tipo") == "Internacional"
+                                   select new
+                                   {
+                                       Codigo = nodo.Element("Codigo").Value,
+                                       Fecha = nodo.Element("Fecha").Value,
+                                       Tipo = nodo.Element("Tipo").Value,
+                                       Titulo = nodo.Element("Titulo").Value,
+                                       Importancia = nodo.Element("Importancia").Value
+                                   }).ToList<object>();
+
+            gvNoticias.DataSource = result;
+            gvNoticias.DataBind();
+        }
+
+        protected void noticias_cantidades(XElement documento)
+        {
+
+            var result = from x in documento.Elements()
+                         group x by new
+                         {
+                             Tipo = (string)x.Element("Tipo"),
+                             Año = (string)x.Element("Anio")
+                         } 
+                         into g
+                         select new
+                         {
+                             Tipo = g.Key.Tipo,
+                             Año = g.Key.Año,
+                             Cantidad = g.Count()
+                         };
+
+            gvNoticias.DataSource = result;
+            gvNoticias.DataBind();
         }
     }
 }

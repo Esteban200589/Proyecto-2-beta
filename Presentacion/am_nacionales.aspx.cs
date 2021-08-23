@@ -8,7 +8,6 @@ using System.Web.UI.WebControls;
 using EntidadesCompartidas;
 using Logica;
 using System.Drawing;
-using System.Windows.Forms;
 
 namespace Presentacion
 {
@@ -16,9 +15,9 @@ namespace Presentacion
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            botones_inicio();
             if (!IsPostBack)
             {
+                botones_inicio();
                 cargar_secciones();
                 cargar_periodistas();
             }
@@ -38,7 +37,7 @@ namespace Presentacion
         }  
         protected void btnLimpiar_Click(object sender, EventArgs e)
         {
-
+            limpiar();
         }
         
         protected void buscar()
@@ -62,33 +61,31 @@ namespace Presentacion
                 if (noticia == null)
                 {
                     btnGuardar.Enabled = true;
+
                     lblMsj.Text = "No se encontró la noticia. Puede agregarla.";
                     lblMsj.ForeColor = Color.DarkOrange;
-                    Session["periodistas_seleccionados"] = new List<Periodista>();
+                    //Session["periodistas_noticia"] = new List<Periodista>();
                 }
                 else
                 {
                     btnModificar.Enabled = true;
+                    btnLimpiar.Enabled = true;
 
                     txtCodigo.Text = noticia.Codigo;
-                    txtfecha.Text = noticia.Fecha.Date.ToString("dd/MM/yyyy");
+                    txtfecha.Text = noticia.Fecha.Date.ToString("yyyy-MM-dd");
                     txtTitulo.Text = noticia.Titulo;
                     txtCuerpo.Text = noticia.Cuerpo;
                     ddlImportancia.SelectedItem.Text = noticia.Importancia.ToString();
                     ddlSecciones.SelectedValue = noticia.Seccion.Codigo_secc;
 
-                    string[] nombres = null;
-                    Periodista[] periodistas = noticia.Periodistas.ToArray();
-                    for (int i = 0; i < periodistas.Length; i++)
-                    {
-                        nombres[i] = periodistas[i].Nombre;
-                    }
-                    lbPeriodistasNoticia.DataSource = nombres;
+                    lbPeriodistasNoticia.DataSource = noticia.Periodistas;
+                    lbPeriodistasNoticia.DataValueField = "cedula";
+                    lbPeriodistasNoticia.DataTextField = "nombre";
                     lbPeriodistasNoticia.DataBind();
 
-                    Session["periodistas_noticia"] = noticia.Periodistas;
+                    //Session["periodistas_noticia"] = noticia.Periodistas;
 
-                    Session["Nacional"] = noticia;
+                    Session["nacional"] = noticia;
                     lblMsj.Text = "Noticia Encontrada";
                     lblMsj.ForeColor = Color.Green;
                 }
@@ -110,12 +107,9 @@ namespace Presentacion
                 string body = txtCuerpo.Text;
                 Seccion secc = FabricaLogica.getLogicaSecciones().BuscarSeccion(ddlSecciones.SelectedValue);
                 int imp = Convert.ToInt32(ddlImportancia.SelectedValue);
-                List<Periodista> ptas = null;
-                //foreach (DataGridItem item in gvPeriodistasElegidos.Rows)
-                //{
-                //    Periodista p = FabricaLogica.getLogicaPeriodistas().BuscarPeriodistaActivo(item.Cells[0].ToString());
-                //    ptas.Add(p);
-                //}
+
+                // coleccion de memoria Periodistas
+                List<Periodista> ptas = (List<Periodista>)Session["periodistas_noticia"];
 
                 Nacional noticia = new Nacional(secc, code, date, title, body, imp, ptas, user);
 
@@ -175,7 +169,7 @@ namespace Presentacion
             }
             catch (Exception ex)
             {
-                btnGuardar.Enabled = true;
+                btnGuardar.Enabled = false;
                 lblMsj.Text = ex.Message;
                 lblMsj.ForeColor = Color.Red;
             }
@@ -186,9 +180,13 @@ namespace Presentacion
             txtCodigo.Text = "";
             txtTitulo.Text = "";
             txtCuerpo.Text = "";
-            //fecha.SelectedDate.Date.ti = "00010101";
-            //ddlImportancia.
-            //ddlSecciones.
+            //ddlSecciones.Items.Clear();
+            Session["periodistas_noticia"] = null;
+            lbPeriodistasNoticia.Items.Clear();
+            //ddlImportancia.Items.Clear();
+
+            btnModificar.Enabled = false;
+            btnGuardar.Enabled = false;
         }
         protected void botones_inicio()
         {
@@ -244,7 +242,34 @@ namespace Presentacion
                     }
                     else
                     {
-                        lbPeriodistasNoticia.Items.Add(ddlPeriodistasDisponibles.SelectedItem.Text.Trim());
+                        Noticia noticia = (Noticia)Session["nacional"];
+                        Periodista periodista = FabricaLogica.getLogicaPeriodistas().BuscarPeriodistaActivo(ddlPeriodistasDisponibles.SelectedValue);
+
+                        if (noticia == null)
+                        {
+                            List<Periodista> ptas = (List<Periodista>)Session["periodistas_noticia"];
+
+                            if (ptas == null)
+                            {
+                                ptas = new List<Periodista>();
+                            }
+
+                            ptas.Add(periodista);
+                            Session["periodistas_noticia"] = ptas;
+                            lbPeriodistasNoticia.DataSource = ptas;
+                            lbPeriodistasNoticia.DataValueField = "cedula";
+                            lbPeriodistasNoticia.DataTextField = "nombre";
+                            lbPeriodistasNoticia.DataBind();
+                        }
+                        else
+                        {
+                            noticia.Periodistas.Add(periodista);
+
+                            lbPeriodistasNoticia.DataSource = noticia.Periodistas;
+                            lbPeriodistasNoticia.DataValueField = "cedula";
+                            lbPeriodistasNoticia.DataTextField = "nombre";
+                            lbPeriodistasNoticia.DataBind();
+                        }
                     }
                 }
                 else
@@ -261,7 +286,13 @@ namespace Presentacion
             {
                 if (ddlPeriodistasDisponibles.Text.Trim().Length > 0)
                 {
-                    lbPeriodistasNoticia.Items.Remove(lbPeriodistasNoticia.SelectedItem);
+                    Noticia noticia = (Noticia)Session["nacional"];
+                    noticia.Periodistas.RemoveAt(lbPeriodistasNoticia.SelectedIndex);
+
+                    lbPeriodistasNoticia.DataSource = noticia.Periodistas;
+                    lbPeriodistasNoticia.DataValueField = "cedula";
+                    lbPeriodistasNoticia.DataTextField = "nombre";
+                    lbPeriodistasNoticia.DataBind();
                 }
                 else
                     lblMsj.Text = "Seleccione un periodista lista";

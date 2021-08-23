@@ -1,15 +1,15 @@
 USE master
 go
 
-IF exists(SELECT * FROM SysDataBases WHERE name='Obligatorio_BIOS_News')
+IF exists(SELECT * FROM SysDataBases WHERE name='BIOS_News')
 BEGIN
-    DROP DATABASE Obligatorio_BIOS_News
+    DROP DATABASE BIOS_News
 END
 go
 
-CREATE DATABASE Obligatorio_BIOS_News
+CREATE DATABASE BIOS_News
 go
-use Obligatorio_BIOS_News
+use BIOS_News
 go
 
 
@@ -22,7 +22,7 @@ GO
 CREATE LOGIN [IIS APPPOOL\DefaultAppPool] FROM WINDOWS 
 GO
 
-USE Obligatorio_BIOS_News
+USE BIOS_News
 GO
 
 CREATE USER [IIS APPPOOL\DefaultAppPool] FOR LOGIN [IIS APPPOOL\DefaultAppPool]
@@ -126,7 +126,8 @@ insert secciones (codigo_secc,nombre_secc)
 		   ('wd45w', 'POLICIALES'),
 		   ('z8789', 'CLIMA'),
 		   ('opwo5', 'MUSICA'),
-		   ('w286j', 'ARTE')
+		   ('w286j', 'ARTE'),
+		   ('wxx29', 'POLITICA')
 go
 
 insert noticias (codigo,fecha,titulo,cuerpo,importancia,username)
@@ -150,23 +151,23 @@ values ('abd123', '20210823', 'COPA AMERICA',
 		3,'dnmm88bios'),
 
 
-	   ('ppp666', '20210810', 'TEMA 1',
-		'CONTENIDO DE LA NOTICIA 763WEW', 
+	   ('ppp666', '20210821', 'Los videos de Fabiola',
+		'cuando la oposición se frotaba las manos, la TV Pública difundió las imágenes de la velada del escándalo. Nada como el fuego amigo para evitar las crisis política y controlar daños. ', 
 		4,'este89bios'),
-	   ('ggg000', '20210810', 'TEMA 2',
-	    'CONTENIDO DE LA NOTICIA 763WEW', 
+	   ('ggg000', '20210821', 'Expresidenta Jeanine Áñez',
+	    'Expresidenta boliviana Jeanine Áñez intentó quitarse la vida en prisión', 
 		5,'este89bios'),
-	   ('jhg456', '20210811', 'TEMA 3',
-		'CONTENIDO DE LA NOTICIA 763WEW', 
+	   ('jhg456', '20210822', 'Aerolíneas EEUU',
+		'EEUU ordena a aerolíneas comerciales asistir en la evacuación de los afganos. Estado Unidos activó la Flota Aérea de Reserva Civil, utilizada solo dos veces, para asistir al traslado de personas.', 
 		5,'este89bios'),
-	   ('kkk232', '20210811', 'TEMA 4',
-		'CONTENIDO DE LA NOTICIA 763WEW', 
+	   ('kkk232', '20210822', 'IMM controlará tránsito y fiestas',
+		'Los controles de espirometría comienzan el martes 24 a las 18 horas. Inspectores irán a fiestas para controlar protocolos y espacios públicos.', 
 		1,'este89bios'),
-	   ('rpo987', '20210812', 'TEMA 5',
-		'CONTENIDO DE LA NOTICIA 763WEW', 
+	   ('rpo987', '20210823', 'TEMA 5',
+		'CONTENIDO DE LA NOTICIA rpo987', 
 		5,'este89bios'),
-	   ('763wew', '20210813', 'TEMA 6',
-		'CONTENIDO DE LA NOTICIA 763WEW', 
+	   ('763wew', '20210823', 'TEMA 6',
+		'CONTENIDO DE LA NOTICIA 763wew', 
 		3,'este89bios')
 go
 
@@ -175,7 +176,7 @@ insert nacionales (codigo,codigo_secc)
 		   ('abC456', '123k6'),
 		   ('usi432', '7665d'),
 		   ('acf126', '87w8q'),
-		   ('kkk232', 'wd45w'),
+		   ('kkk232', 'wxx29'),
 		   ('rpo987', '7665d'),
 		   ('763wew', 'z8789')
 go
@@ -184,8 +185,8 @@ insert internacionales (codigo,pais)
 	values ('art456', 'MEXICO'),
 		   ('abd125', 'BRASIL'),
 		   ('ppp666', 'ARGENTINA'),
-		   ('ggg000', 'BRASIL'),
-		   ('jhg456', 'ESPAÑA')
+		   ('ggg000', 'BOLIVIA'),
+		   ('jhg456', 'EEUU')
 go
 
 insert escriben (codigo,cedula)
@@ -211,6 +212,24 @@ insert escriben (codigo,cedula)
 		   ('763wew', '47326453')   
 go
 
+-- NOTICIAS VIEJAS PARA PROBAR LOS FILTROS:
+
+insert noticias (codigo,fecha,titulo,cuerpo,importancia,username)
+values ('abx789', '20190823', 'Copa Española',
+		'Comienza la liga española. Ya estan definidos los grupos de serie.', 
+		3,'este89bios'),
+	   ('abx700', '20200520', 'Tzunami',
+		'Tzunami azota la costa de Tailandia.', 
+		2,'este89bios')
+		
+insert internacionales (codigo,pais)
+	values ('abx789', 'ESPAÑA'),
+		   ('abx700', 'TAILANDIA')
+	
+insert escriben (codigo,cedula)
+	values ('abx789', '22884504'),
+		   ('abx700', '22884504')
+	
 
 -----------------------------------------------------------------------------------------------------------
 					/*/*/*/*/*/*/*/*/*/*	 PROCEDIMIENTOS		*/*/*/*/*/*/*/*/*/*/
@@ -803,25 +822,13 @@ go
 -----------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------
 
---if exists (select * from sysobjects where name = 'buscar_noticia')
---	drop proc buscar_seccion
---go
---create proc buscar_seccion	
---	@tipo int
---as
---begin
---	if(@tipo = 0)
---	begin 
---		select * from noticias w
---		join nacionales n on n.codigo = w.codigo
---		where w.codigo = @codigo
---	end
---	else
---	begin
---		select * from noticias w
---		join internacionales i on i.codigo = w.codigo
---		where w.codigo = @codigo
---	end
---	select * from secciones where codigo_secc = @codigo_secc
---end
---go
+--select n.codigo, n.fecha, n.titulo, s.codigo_secc, 
+--	   n.username, n.cuerpo
+--from noticias n, nacionales m, secciones s
+--where n.codigo = m.codigo
+--and m.codigo_secc = s.codigo_secc
+
+--select n.codigo, n.fecha, n.titulo, i.pais, 
+--	   n.username, n.cuerpo
+--from noticias n, internacionales i
+--where n.codigo = i.codigo

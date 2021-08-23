@@ -5,17 +5,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <body>
     <div style="text-align:center;">
-        <h2>ESTADISTICAS DE NOTICIAS</h2><br/>
+        <h2>ESTADISTICAS DE NOTICIAS PUBLICADAS HASTA HOY</h2><br/>
         <div id="filtros">
-            <asp:DropDownList ID="ddlTipo" runat="server" Width="150px" AutoPostBack="True" OnSelectedIndexChanged="ddlTipo_SelectedIndexChanged">
-                <asp:ListItem Value="0">Seleccionar</asp:ListItem>
-                <asp:ListItem Value="1">Todas</asp:ListItem>
-                <asp:ListItem Value="2">Nacionales</asp:ListItem>
-                <asp:ListItem Value="3">Internacionales</asp:ListItem>
+            <asp:DropDownList ID="ddlTipo" runat="server" Width="150px" AutoPostBack="True" OnSelectedIndexChanged="ddlTipo_SelectedIndexChanged">        
+                <asp:ListItem Value="0">Todas</asp:ListItem>
+                <asp:ListItem Value="1">Nacionales</asp:ListItem>
+                <asp:ListItem Value="2">Internacionales</asp:ListItem>
             </asp:DropDownList>
+            &nbsp;&nbsp;
             <asp:Button ID="btnCantAnual" runat="server" Text="Cantidad Anual" OnClick="btnCantAnual_Click" />
-            <asp:Button ID="btnLimpiarfiltros" runat="server" Text="Limpiar Filtros"  Width="150px"/>     
-        </div></br>
+            <asp:Button ID="btnLimpiarfiltros" runat="server" Text="Limpiar Filtros"  OnClick="btnLimpiarfiltros_Click"  Width="150px"/>
+        </div><br/>
 
         <div id="grilla">
             <%--<asp:Xml ID="XmlListar" runat="server" TransformSource="~/App_Code/estadisticas.xslt"></asp:Xml>--%>

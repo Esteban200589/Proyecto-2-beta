@@ -27,7 +27,7 @@ namespace Persistencia
         {
             SqlConnection cnn = new SqlConnection(Conexion.Cnn);
 
-            SqlCommand cmd = new SqlCommand("agregar_internacional", cnn);
+            SqlCommand cmd = new SqlCommand("agregar_nacional", cnn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("codigo", n.Codigo);
             cmd.Parameters.AddWithValue("fecha", n.Fecha);
@@ -81,7 +81,7 @@ namespace Persistencia
         {
             SqlConnection cnn = new SqlConnection(Conexion.Cnn);
 
-            SqlCommand cmd = new SqlCommand("modificar_internacional", cnn);
+            SqlCommand cmd = new SqlCommand("modificar_nacional", cnn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("codigo", n.Codigo);
             cmd.Parameters.AddWithValue("fecha", n.Fecha);

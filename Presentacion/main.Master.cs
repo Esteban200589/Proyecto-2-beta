@@ -18,14 +18,14 @@ namespace Presentacion
 
             try
             {
-                //if (Session["user"] == null)
-                //    Response.Redirect("Login.aspx");
-                //else
-                //{
-                //    Usuario user = (Usuario)Session["user"];
-                //    lblUsername.Text = user.Username;
-                //    lblUsername.ForeColor = Color.Blue;
-                //}
+                if (Session["user"] == null)
+                    Response.Redirect("Login.aspx");
+                else
+                {
+                    Usuario user = (Usuario)Session["user"];
+                    lblUsername.Text = user.Username;
+                    lblUsername.ForeColor = Color.Blue;
+                }
             }
             catch (Exception ex)
             {

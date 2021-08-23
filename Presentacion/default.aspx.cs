@@ -17,19 +17,14 @@ namespace Presentacion
         {
             if (!IsPostBack)
             {
-                filtro();
+                lblFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
+                cargar_noticias_todas();
                 cargar_secciones();
-            }
                 
-            ddlSeccion.Enabled = false;
-            lblFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
-            //txtfecha.Text = DateTime.Now.ToString();
+                ddlSeccion.Enabled = false;
+            }
         }
 
-        protected void btnBuscar_Click(object sender, EventArgs e)
-        {
-            //filtro();
-        }
         protected void btnLimpiarfiltros_Click(object sender, EventArgs e)
         {
             lblMsj.Text = "";
@@ -45,20 +40,17 @@ namespace Presentacion
         {
             filtro();
         }
-        protected void txtfecha_TextChanged(object sender, EventArgs e)
-        {
-            filtro();
-        }
         protected void ddlSeccion_SelectedIndexChanged(object sender, EventArgs e)
         {
-            filtro();
+            filtro_seccion();
         }
 
         protected void seleccionar()
         {
             try
             {
-                Noticia noticia = ((List<Noticia>)Session["TodasLasNoticias"])[gvNoticias.SelectedIndex];
+                string codigo = gvNoticias.SelectedRow.Cells[0].Text;
+                Noticia noticia = FabricaLogica.getLogicaNoticias().BuscarNoticia(codigo);
 
                 if (noticia != null)
                 {
@@ -66,9 +58,10 @@ namespace Presentacion
                     Response.Redirect("noticia.aspx");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                this.Response.Write("error al seleccionar!" + ex);
+                //lblMsj.Text = ex.Message;
+                //this.Response.Write("error al seleccionar!" + ex);
             }
         }
         protected void cargar_secciones()
@@ -91,130 +84,72 @@ namespace Presentacion
         
         protected void filtro()
         {
-            List<Noticia> noticias = FabricaLogica.getLogicaNoticias().noticias_ultimos_cinco_dias();
-            Session["TodasLasNoticias"] = noticias;
-
             try
             {
-                string fecha = txtfecha.Text;
-                this.Response.Write(fecha);
-      
+
+                //DateTime fecha = DateTime.Now;
+                //try
+                //{
+                //    fecha = Convert.ToDateTime(txtfecha.Text);
+                //}
+                //catch (Exception)
+                //{
+                //}
+                    
                 // todas
                 if (ddlTipo.SelectedIndex == 0)
                 {
+                    List<Noticia> noticias = FabricaLogica.getLogicaNoticias().noticias_ultimos_cinco_dias();
+                    Session["TodasLasNoticias"] = noticias;
+
                     lblMsj.Text = "";
                     ddlSeccion.Enabled = false;
                     ddlSeccion.ClearSelection();
 
-                    if (fecha != "")
-                    {
-                        List<object> listado = (from n in noticias
-                                                where n._fecha == fecha
-                                                orderby n.Fecha
-                                                select new
-                                                {
-                                                    Fecha = n._fecha,
-                                                    Tipo = n.TipoNoticia,
-                                                    Titulo = n.Titulo
-                                                }
-                        ).ToList<object>();
-                        gvNoticias.DataSource = listado;
-                        gvNoticias.DataBind();
-                    }
-                    else
-                    {
-                        List<object> listado = (from n in noticias
-                                                orderby n.Fecha
-                                                select new
-                                                {
-                                                    Fecha = n._fecha,
-                                                    Tipo = n.TipoNoticia,
-                                                    Titulo = n.Titulo
-                                                }
-                                           ).ToList<object>();
-                        gvNoticias.DataSource = listado;
-                        gvNoticias.DataBind();
-                    }
-                   
+                    List<object> listado = (from n in noticias
+                                            orderby n.Fecha
+                                            select new
+                                            {
+                                                Codigo = n.Codigo,
+                                                Fecha = n._fecha,
+                                                Tipo = n.TipoNoticia,
+                                                Titulo = n.Titulo
+                                            }
+                    ).ToList<object>();
+                    gvNoticias.DataSource = listado;
+                    gvNoticias.DataBind();
+
                 }
                 // nacionales
                 else if (ddlTipo.SelectedIndex == 1)
                 {
                     ddlSeccion.Enabled = true;
-                    string seccion = ddlSeccion.SelectedValue;
-                    
-                    lblMsj.Text = "";
-                    if (fecha != "")
-                    {
-                        List<object> listado = (from n in noticias
-                                                where (n is Nacional) && ((Nacional)n).Seccion.Codigo_secc == seccion
-                                                    && (n._fecha == fecha)
-                                                orderby n.Fecha
-                                                select new
-                                                {
-                                                    Fecha = n._fecha,
-                                                    Tipo = n.TipoNoticia,
-                                                    Titulo = n.Titulo
-                                                }
-                        ).ToList<object>();
-                        gvNoticias.DataSource = listado;
-                        gvNoticias.DataBind();
-                    }
-                    else
-                    {
-                        List<object> listado = (from n in noticias
-                                                where (n is Nacional) && ((Nacional)n).Seccion.Codigo_secc == seccion
-                                                orderby n.Fecha
-                                                select new
-                                                {
-                                                    Fecha = n._fecha,
-                                                    Tipo = n.TipoNoticia,
-                                                    Titulo = n.Titulo
-                                                }
-                        ).ToList<object>();
-                        gvNoticias.DataSource = listado;
-                        gvNoticias.DataBind();
-                        }
-                    
+                    filtro_seccion();
                 }
                 // internacionales
                 else if (ddlTipo.SelectedIndex == 2)
                 {
+                    List<Noticia> noticias = FabricaLogica.getLogicaNoticias().noticias_ultimos_cinco_dias();
+                    Session["TodasLasNoticias"] = noticias;
+
                     ddlSeccion.Enabled = false;
                     ddlSeccion.ClearSelection();
 
                     lblMsj.Text = "";
-                    if (fecha != "")
-                    {
-                        List<object> listado = (from n in noticias
-                                                where n.TipoNoticia == "Internacional" && n._fecha == fecha
-                                                orderby n.Fecha
-                                                select new
-                                                {
-                                                    Fecha = n._fecha,
-                                                    Tipo = n.TipoNoticia,
-                                                    Titulo = n.Titulo
-                                                }
-                        ).ToList<object>();
-                        gvNoticias.DataSource = listado;
-                        gvNoticias.DataBind();
-                    }
-                    else
-                    {
-                        List<object> listado = (from n in noticias
-                                                where n.TipoNoticia == "Internacional"
-                                                orderby n.Fecha
-                                                select new
-                                                {
-                                                    Fecha = n._fecha,
-                                                    Tipo = n.TipoNoticia,
-                                                    Titulo = n.Titulo
-                                                }
-                        ).ToList<object>();
-                        gvNoticias.DataSource = listado;
-                        gvNoticias.DataBind();
-                    }
-                    
+                    List<object> listado = (from n in noticias
+                                            where n.TipoNoticia == "Internacional"
+                                            orderby n.Fecha
+                                            select new
+                                            {
+                                                Codigo = n.Codigo,
+                                                Fecha = n._fecha,
+                                                Tipo = n.TipoNoticia,
+                                                Titulo = n.Titulo
+                                            }
+                    ).ToList<object>();
+                    gvNoticias.DataSource = listado;
+                    gvNoticias.DataBind();
+
                 }
                 // fail
                 else
@@ -231,49 +166,53 @@ namespace Presentacion
             }
 
         }
+        protected void filtro_seccion()
+        {
+            List<Noticia> noticias = FabricaLogica.getLogicaNoticias().noticias_ultimos_cinco_dias();
+            Session["TodasLasNoticias"] = noticias;
+
+            string seccion = ddlSeccion.SelectedValue;
+
+            lblMsj.Text = "";
+            List<object> listado = (from n in noticias
+                                    where (n is Nacional) && ((Nacional)n).Seccion.Codigo_secc == seccion
+                                    orderby n.Fecha
+                                    select new
+                                    {
+                                        Codigo = n.Codigo,
+                                        Fecha = n._fecha,
+                                        Tipo = n.TipoNoticia,
+                                        Titulo = n.Titulo
+                                    }
+            ).ToList<object>();
+            gvNoticias.DataSource = listado;
+            gvNoticias.DataBind();
+        }
 
         protected void cargar_noticias_todas()
         {
             try
             {
-                txtfecha.Text = "20210818";
-
-                //DateTime fecha = DateTime.Now;
-                string fecha = null;
-
-                List<Noticia> noticias = null;
-                noticias = FabricaLogica.getLogicaNoticias().noticias_ultimos_cinco_dias();
+                List<Noticia> noticias = FabricaLogica.getLogicaNoticias().noticias_ultimos_cinco_dias();
                 Session["TodasLasNoticias"] = noticias;
 
-                if (fecha == null)
-                {
-                    List<object> listado = (from n in noticias
-                                            orderby n.Fecha
-                                            select new
-                                            {
-                                                Fecha = n._fecha,
-                                                Tipo = n.TipoNoticia,
-                                                Titulo = n.Titulo
-                                            }
-                    ).ToList<object>();
-                    gvNoticias.DataSource = listado;
-                    gvNoticias.DataBind();
-                }
-                else
-                {
-                    List<object> listado = (from n in noticias
-                                            //where (n.Fecha == fecha)
-                                            orderby n.Fecha
-                                            select new
-                                            {
-                                                Fecha = n._fecha,
-                                                Tipo = n.TipoNoticia,
-                                                Titulo = n.Titulo
-                                            }
-                    ).ToList<object>();
-                    gvNoticias.DataSource = listado;
-                    gvNoticias.DataBind();
-                }
+                lblMsj.Text = "";
+                ddlSeccion.Enabled = false;
+                ddlSeccion.ClearSelection();
+
+                List<object> listado = (from n in noticias
+                                        orderby n.Fecha
+                                        select new
+                                        {
+                                            Codigo = n.Codigo,
+                                            Fecha = n._fecha,
+                                            Tipo = n.TipoNoticia,
+                                            Titulo = n.Titulo
+                                        }
+                ).ToList<object>();
+                gvNoticias.DataSource = listado;
+                gvNoticias.DataBind();
+                
             }
             catch (Exception ex)
             {

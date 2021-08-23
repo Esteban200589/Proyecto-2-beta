@@ -6,7 +6,7 @@
 <html>
 <body>
     <div id="principal" style="text-align:center;">
-        <h2 style="margin:1px;">ALTA Y MODIFICACION DE NOTICIA INTERNACIONAL</h2><br/>
+        <h2 style="margin:1px;">ALTA Y MODIFICACION DE NOTICIA NACIONAL</h2><br/>
 
         <table id="tabla_internacional" style="width:800px;margin:auto;text-align:center;">       
             <tr>
@@ -47,7 +47,7 @@
                     <asp:TextBox ID="txtCuerpo" class="form-control" runat="server" Width="400px" Height="100px" TextMode="MultiLine" ToolTip="Introduzca el cuerpo de la noticia"/>
                 </td>
                 <td style="text-align:center;"> Importancia: <br/>
-                    <asp:DropDownList ID="ddlImportancia" class="btn btn-default" runat="server" Width="50px">
+                    <asp:DropDownList ID="ddlImportancia" class="btn btn-default" runat="server" Width="80px">
                         <asp:ListItem Value="1">1</asp:ListItem>
                         <asp:ListItem Value="2">2</asp:ListItem>
                         <asp:ListItem Value="3">3</asp:ListItem>

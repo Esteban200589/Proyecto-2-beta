@@ -7,8 +7,7 @@ using System.Web.UI.WebControls;
 
 using EntidadesCompartidas;
 using Logica;
-using System.Drawing;
-using System.Windows.Forms; 
+using System.Drawing; 
 
 namespace Presentacion
 {
@@ -16,9 +15,9 @@ namespace Presentacion
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            botones_inicio();
             if (!IsPostBack)
             {
+                botones_inicio();
                 cargar_periodistas();
             }
         }
@@ -53,7 +52,6 @@ namespace Presentacion
                     throw new Exception("La noticia no es Internacional");
                 }
                     
-
                 noticia = (Internacional)n;
 
                 if (txtCodigo.Text == string.Empty)
@@ -62,31 +60,29 @@ namespace Presentacion
                 if (noticia == null)
                 {
                     btnGuardar.Enabled = true;
+
                     lblMsj.Text = "No se encontró la noticia. Puede agregarla.";
                     lblMsj.ForeColor = Color.DarkOrange;
-                    Session["periodistas_seleccionados"] = new List<Periodista>();
+                    //Session["periodistas_noticia"] = new List<Periodista>();
                 }
                 else
                 {
                     btnModificar.Enabled = true;
+                    btnLimpiar.Enabled = true;
 
                     txtCodigo.Text = noticia.Codigo;
-                    txtfecha.Text = noticia.Fecha.Date.ToString("dd/MM/yyyy");
+                    txtfecha.Text = noticia.Fecha.Date.ToString("yyyy-MM-dd");
                     txtTitulo.Text = noticia.Titulo;
                     txtCuerpo.Text = noticia.Cuerpo;
-                    ddlImportancia.SelectedItem.Text = noticia.Importancia.ToString();
+                    ddlImportancia.SelectedValue = noticia.Importancia.ToString();
                     txtPais.Text = noticia.Pais;
 
-                    string[] nombres = null;
-                    Periodista[] periodistas = noticia.Periodistas.ToArray();
-                    for (int i = 0; i < periodistas.Length; i++)
-                    {
-                        nombres[i] = periodistas[i].Nombre;
-                    }
-                    lbPeriodistasNoticia.DataSource = nombres;
+                    lbPeriodistasNoticia.DataSource = noticia.Periodistas;
+                    lbPeriodistasNoticia.DataValueField = "cedula";
+                    lbPeriodistasNoticia.DataTextField = "nombre";
                     lbPeriodistasNoticia.DataBind();
 
-                    Session["periodistas_noticia"] = noticia.Periodistas;
+                    //Session["periodistas_noticia"] = noticia.Periodistas;
                     
                     Session["internacional"] = noticia;
                     lblMsj.Text = "Noticia Encontrada";
@@ -112,7 +108,7 @@ namespace Presentacion
                 int imp = Convert.ToInt32(ddlImportancia.SelectedValue);
 
                 // coleccion de memoria Periodistas
-                List<Periodista> ptas = (List<Periodista>)Session[""];
+                List<Periodista> ptas = (List<Periodista>)Session["periodistas_noticia"];
 
                 Internacional noticia = new Internacional(pais, code, date, title, body, imp, ptas, user);
 
@@ -174,7 +170,7 @@ namespace Presentacion
             }
             catch (Exception ex)
             {
-                btnGuardar.Enabled = true;
+                btnGuardar.Enabled = false;
                 lblMsj.Text = ex.Message;
                 lblMsj.ForeColor = Color.Red;
             }
@@ -184,6 +180,14 @@ namespace Presentacion
         {
             txtCodigo.Text = "";
             txtTitulo.Text = "";
+            txtCuerpo.Text = "";
+            txtPais.Text = "";
+            Session["periodistas_noticia"] = null;
+            lbPeriodistasNoticia.Items.Clear();
+            //ddlImportancia.Items.Clear();
+
+            btnModificar.Enabled = false;
+            btnGuardar.Enabled = false;
         } 
         protected void botones_inicio()
         {
@@ -224,7 +228,36 @@ namespace Presentacion
                     }
                     else
                     {
-                        lbPeriodistasNoticia.Items.Add(ddlPeriodistasDisponibles.SelectedItem.Text.Trim());
+                        Noticia noticia = (Noticia)Session["internacional"];
+                        Periodista periodista = FabricaLogica.getLogicaPeriodistas().BuscarPeriodistaActivo(ddlPeriodistasDisponibles.SelectedValue);
+
+                        if (noticia == null)
+                        {
+                            List<Periodista> ptas = (List<Periodista>)Session["periodistas_noticia"];
+
+                            if (ptas == null)
+                            {
+                                ptas = new List<Periodista>();
+                            }
+
+                            ptas.Add(periodista);
+                            Session["periodistas_noticia"] = ptas;
+                            lbPeriodistasNoticia.DataSource = ptas;
+                            lbPeriodistasNoticia.DataValueField = "cedula";
+                            lbPeriodistasNoticia.DataTextField = "nombre";
+                            lbPeriodistasNoticia.DataBind();
+                        }
+                        else
+                        {
+                            noticia.Periodistas.Add(periodista);
+
+                            lbPeriodistasNoticia.DataSource = noticia.Periodistas;
+                            lbPeriodistasNoticia.DataValueField = "cedula";
+                            lbPeriodistasNoticia.DataTextField = "nombre";
+                            lbPeriodistasNoticia.DataBind();
+                        }
+                        
+                        
                     }
                 }
                 else
@@ -239,12 +272,18 @@ namespace Presentacion
         {
             try
             {
-                if (ddlPeriodistasDisponibles.Text.Trim().Length > 0)
+                if (lbPeriodistasNoticia.Items.Count > 0)
                 {
-                    lbPeriodistasNoticia.Items.Remove(lbPeriodistasNoticia.SelectedItem);
+                    Noticia noticia = (Noticia)Session["internacional"];
+                    noticia.Periodistas.RemoveAt(lbPeriodistasNoticia.SelectedIndex);
+
+                    lbPeriodistasNoticia.DataSource = noticia.Periodistas;
+                    lbPeriodistasNoticia.DataValueField = "cedula";
+                    lbPeriodistasNoticia.DataTextField = "nombre";
+                    lbPeriodistasNoticia.DataBind();
                 }
                 else
-                    lblMsj.Text = "Seleccione un periodista lista";
+                    lblMsj.Text = "Seleccione un periodista de la lista";
             }
             catch (Exception ex)
             {

@@ -28,14 +28,15 @@
             <div class="row detail-view-row">
                 <div class="col-xs-12 col-sm-4 label col-1-label">Titulo</div>
                 <div class="col-xs-12 col-sm-4 edit-view-field">
-                    <asp:TextBox ID="txtTitulo" runat="server" ReadOnly="True"></asp:TextBox>
+                    <asp:TextBox ID="txtTitulo" runat="server" ReadOnly="True" Width="397px"></asp:TextBox>
                 </div>
             </div> 
 
             <div class="row detail-view-row">
                 <div class="col-xs-12 col-sm-4 label col-1-label">Cuerpo</div>
                 <div class="col-xs-12 col-sm-4 edit-view-field">
-                    <asp:TextBox ID="txtCuerpo" runat="server" ReadOnly="True"></asp:TextBox>
+                    <asp:TextBox ID="txtCuerpo" runat="server" ReadOnly="True" Height="138px" TextMode="MultiLine" Width="405px"></asp:TextBox>
+                    <br />
                 </div>
             </div> 
 
@@ -43,6 +44,8 @@
                 <div class="col-xs-12 col-sm-4 label col-1-label">Importancia</div>
                 <div class="col-xs-12 col-sm-4 edit-view-field">
                     <asp:TextBox ID="txtImportancia" runat="server" ReadOnly="True"></asp:TextBox>
+                    <br />
+                    <br />
                 </div>
             </div> 
 
@@ -51,6 +54,8 @@
                 <div class="col-xs-12 col-sm-4 edit-view-field">
                     <asp:GridView ID="gvPeriodistas" runat="server"></asp:GridView>
                 </div>
+                <br />
+                <br />
             </div> 
 
             <div class="row detail-view-row">
@@ -58,6 +63,8 @@
                 <div class="col-xs-12 col-sm-4 edit-view-field">
                     <asp:TextBox ID="txtUsuario" runat="server" ReadOnly="True"></asp:TextBox>
                 </div>
+                <br />
+                <br />
             </div>
 
         </div>

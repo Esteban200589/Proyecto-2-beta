@@ -6,6 +6,11 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Pagina de Inicio</title>
+    <link href="style/estilos.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="javascript" src="style/bootstrap.min.js"></script>
+    <script type="javascript" src="style/popper.js"></script>
+    <script type="javascript" src="style/jquery-3.0.0-vsdoc.js"></script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -22,7 +27,7 @@
         <table style="width: 100%;">
             <tr>
                 <td style="text-align:right;">
-                    <div id="tipos" class="col-3">
+                    <div id="tipos">
                         Tipo:
                         <asp:DropDownList ID="ddlTipo" runat="server" Width="150px" AutoPostBack="True" OnSelectedIndexChanged="ddlTipo_SelectedIndexChanged">
                             <asp:ListItem Value="1">Sin Filtros</asp:ListItem>
@@ -37,17 +42,17 @@
                     </div>
                 </td>--%>
                 <td style="text-align:center;">
-                    <div id="seccion" class="col-3">
+                    <div id="seccion">
                         Sección:
-                        <asp:DropDownList ID="ddlSeccion" runat="server" Width="150px" AutoPostBack="False" OnSelectedIndexChanged="ddlSeccion_SelectedIndexChanged">
+                        <asp:DropDownList ID="ddlSeccion" runat="server" Width="150px" AutoPostBack="True" OnSelectedIndexChanged="ddlSeccion_SelectedIndexChanged">
                             <asp:ListItem></asp:ListItem>
                         </asp:DropDownList>
                     </div>
                 </td>
                 <td style="text-align:left;">
-                    <div id="fecha" class="col-3">
+                    <%--<div id="fecha" class="col-3">
                         Fecha: <asp:TextBox ID="txtfecha" runat="server" TextMode="Date" AutoPostBack="True" OnTextChanged="txtfecha_TextChanged"></asp:TextBox>
-                    </div>
+                    </div>--%>
                 </td>
                 <td style="text-align:left;">
                     <%--<div id="limpiar" class="col-3">
@@ -61,13 +66,31 @@
         </table>
         <br />
 
-        <div id="grilla">
+        <div id="grilla" style="text-align:center;">
             <asp:GridView ID="gvNoticias" runat="server" Width="85%" HorizontalAlign="Center" BackColor="White" BorderColor="#CCCCCC"
                           BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black" GridLines="Horizontal" AutoGenerateColumns="False" OnSelectedIndexChanged="gvNoticias_SelectedIndexChanged">
                 <Columns>
-                    <asp:BoundField DataField="Fecha" HeaderText="Fecha" HeaderStyle-BackColor="Black" ItemStyle-BackColor="White" ItemStyle-HorizontalAlign="Center" />
-                    <asp:BoundField DataField="Tipo" HeaderText="Tipo" HeaderStyle-BackColor="Black" ItemStyle-BackColor="White" ItemStyle-HorizontalAlign="Center"/>
-                    <asp:BoundField DataField="Titulo" HeaderText="Titulo" HeaderStyle-BackColor="Black" ItemStyle-BackColor="White" ItemStyle-HorizontalAlign="Center"/>
+                    <asp:BoundField DataField="Codigo" HeaderText="Codigo" HeaderStyle-BackColor="Black" ItemStyle-BackColor="White" ItemStyle-HorizontalAlign="Center" >
+                    <ControlStyle Width="0px" />
+                    <HeaderStyle BackColor="Black"></HeaderStyle>
+
+                    <ItemStyle HorizontalAlign="Center" BackColor="White"></ItemStyle>
+                    </asp:BoundField>
+                    <asp:BoundField DataField="Fecha" HeaderText="Fecha" HeaderStyle-BackColor="Black" ItemStyle-BackColor="White" ItemStyle-HorizontalAlign="Center" >
+                    <HeaderStyle BackColor="Black"></HeaderStyle>
+
+                    <ItemStyle HorizontalAlign="Center" BackColor="White"></ItemStyle>
+                    </asp:BoundField>
+                    <asp:BoundField DataField="Tipo" HeaderText="Tipo" HeaderStyle-BackColor="Black" ItemStyle-BackColor="White" ItemStyle-HorizontalAlign="Center">
+                    <HeaderStyle BackColor="Black"></HeaderStyle>
+
+                    <ItemStyle HorizontalAlign="Center" BackColor="White"></ItemStyle>
+                    </asp:BoundField>
+                    <asp:BoundField DataField="Titulo" HeaderText="Titulo" HeaderStyle-BackColor="Black" ItemStyle-BackColor="White" ItemStyle-HorizontalAlign="Center">
+                    <HeaderStyle BackColor="Black"></HeaderStyle>
+
+                    <ItemStyle HorizontalAlign="Center" BackColor="White"></ItemStyle>
+                    </asp:BoundField>
                     <asp:CommandField ShowSelectButton="True" 
                         AccessibleHeaderText="Ver" SelectText="Ver" >
                         <ControlStyle BackColor="Transparent" ForeColor="Red" />
@@ -98,5 +121,10 @@
 
         
     </form>
+
+    <script>
+        $("#gvNoticias > tbody > tr:nth-child(1) > th:nth-child(1)").css("display", "none");
+        $("#gvNoticias > tbody > tr > td:nth-child(1)").css("display", "none");
+    </script>
 </body>
 </html>

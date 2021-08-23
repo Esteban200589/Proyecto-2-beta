@@ -48,7 +48,7 @@
                         TextMode="MultiLine" ToolTip="Introduzca el cuerpo de la noticia"/>
                 </td>
                 <td style="text-align:center;"> Importancia: <br/>
-                    <asp:DropDownList ID="ddlImportancia" class="btn btn-default" runat="server" Width="50px">
+                    <asp:DropDownList ID="ddlImportancia" class="btn btn-default" runat="server" Width="80px">
                         <asp:ListItem Value="1">1</asp:ListItem>
                         <asp:ListItem Value="2">2</asp:ListItem>
                         <asp:ListItem Value="3">3</asp:ListItem>
